@@ -1,0 +1,519 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>How do I deploy my Symfony API - Part 5 - Conclusion -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-5-conclusion" />
+
+        <meta name="twitter:title" content="How do I deploy my Symfony API - Part 5 - Conclusion -Asmir Mustafic" />
+        <meta name="og:title" content="How do I deploy my Symfony API - Part 5 - Conclusion -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/deploy-5.jpg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/deploy-5.jpg" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "How do I deploy my Symfony API - Part 5 - Conclusion",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2017-10-18",
+         "dateModified": "2017-10-18",
+         "description": "This&#x20;is&#x20;the&#x20;fifth&#x20;and&#x20;last&#x20;article&#x20;from&#x20;a&#x20;series&#x20;of&#x20;blog&#x20;posts&#x20;on&#x20;how&#x20;to&#x20;deploy&#x20;a&#x20;symfony&#x20;PHP&#x20;based&#x20;application&#x20;to&#x20;a&#x20;docker&#x20;swarm&#x20;cluster&#x20;hosted&#x20;on&#x20;Amazon&#x20;EC2&#x20;instances.&#x0A;&#x20;This&#x20;post&#x20;is&#x20;a&#x20;conclusive&#x20;post.&#x20;Contains&#x20;a&#x20;summary&#x20;and&#x20;some&#x20;tips.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-5-conclusion"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-5-conclusion",
+              "name": "How do I deploy my Symfony API - Part 5 - Conclusion"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="This is the fifth and last article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.  This post is a conclusive post. Contains a summary and some tips.  ">
+        <meta name="twitter:description" content="This is the fifth and last article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.  This post is a conclusive post. Contains a summary and some tips.  ">
+        <meta name="og:description" content="This is the fifth and last article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.  This post is a conclusive post. Contains a summary and some tips.  ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,symfony,aws,deploy,symfony,api,docker,amazon,ec2,swarm,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>How do I deploy my Symfony API - Part 5 - Conclusion</i>
+        </div>
+        <header>
+            <h1>How do I deploy my Symfony API - Part 5 - Conclusion</h1>
+        </header>        <p class="subtitle">This is the fifth and last article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.
+ This post is a conclusive post. Contains a summary and some tips. 
+        </p>        <div class="col-md-5 hidden-xs related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/circle-ci-deploy/">Continuous integration with CircleCI</a></li>                                <li><a href="/shop/symfony-5-rest-api/">Symfony 5 REST API</a></li>                                <li><a href="/shop/puppet-cluster/">Puppet 6 cluster setup</a></li>                        </ul>
+                    </p>
+                </div>    <!--                -->
+                    <div class="related-posts_container">
+                        <h4>Related</h4>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-1-development/">How do I deploy my Symfony API - Part 1 - Development</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-2-build/">How do I deploy my Symfony API - Part 2 - Build</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-3-infrastructure/">How do I deploy my Symfony API - Part 3 - Infrastructure</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-4-deploy/">How do I deploy my Symfony API - Part 4 - Deploy</a>
+                        </div>                        <div class="related-posts_item">How do I deploy my Symfony API - Part 5 - Conclusion
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/deploy-5.jpg" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2017-10-18">
+                        <i class="fa fa-calendar"></i>2017-10-18                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p><strong>This is the fifth post from a series of posts that described the whole deploy process from development to production
+of a <a href="http://www.symfony.com">Symfony</a> API.</strong></p>
+
+<p>This series of blog posts had the aim to show a possible approach to build a continuous integration and 
+continuous delivery pipeline.</p>
+
+<p>The continuous integration and continuous delivery process reduces bugs and makes the development simper.</p>
+
+<p>The blog post story was divided into:</p>
+
+<ul>
+<li><p><a href="/blog/how-do-i-deploy-my-symfony-api-part-1-development/">Part 1 - Development</a>
+In this step was shown how to build the local development environment using Docker and Docker Compose.
+Considering some important details (as example: stateless application or share-nothing containers...), 
+the work in the next steps will be much easier.</p></li>
+<li><p><a href="/blog/how-do-i-deploy-my-symfony-api-part-2-build/">Part 2 - Build</a>
+This step was about "building" and "pushing" the artifacts (the docker images to the docker registry). 
+Docker images are ready-to-run applications containing almost everything necessary to be executed on a docker engine.
+This is one fundamental steps for the development flow. Here is also a great spot where introduce automated tests.</p></li>
+<li><p><a href="/blog/how-do-i-deploy-my-symfony-api-part-3-infrastructure/">Part 3 - Infrastructure</a>
+In order to run in a reliable way the application, is necessary to have a properly configured infrastructure
+(servers, services running on them, docker...).</p></li>
+<li><p><a href="/blog/how-do-i-deploy-my-symfony-api-part-4-deploy/">Part 4 - Deploy</a>
+When everything is ready we can finally deploy the application. The application has to stay up and running! Always!</p></li>
+</ul>
+
+<h2 id="improvements">Improvements</h2>
+
+<p>As always happen in software development, solutions are not perfect. There is always room for improvement.
+Here are few examples of what could have be done better. Obviously can be done better and this are not all the possible 
+improvements that can be done on the system.</p>
+
+<h3 id="migrations">Migrations</h3>
+
+<p>Running migrations (database changes as example) in between of deployments is a common use case.</p>
+
+<p>In an environment with multiple copies of the same application running in parallel
+(and probably having different versions), the application must be able to run without errors 
+with different database versions.
+To do that we need a to have backward-compatible migrations.</p>
+
+<p>Let's suppose we have an  <strong>application version:1</strong> running on <strong>database version:1</strong>
+and we have to run a migration that renames a database column from "old" to "new". We can do:</p>
+
+<ol>
+<li>Run <strong>migration 1</strong>
+
+<ol>
+<li>Add a "new" column (with the new name)</li>
+<li>Copy values from "old" to "new" column</li>
+<li>(now the database version is v2)</li>
+</ol></li>
+<li>Deploy <strong>application v2</strong> (this app must be able to work with both "new" and "old" column)
+
+<ol start="4">
+<li>Wait till all the copies of <strong>application v1</strong> are not in service anymore</li>
+</ol></li>
+<li>Run <strong>migration 2</strong>
+
+<ol>
+<li>Copy values from "old" to "new" column where the "new" values are still NULL (or something similar).<br>
+This is necessary because while the <strong>application v2</strong> was going up, <strong>application v1</strong> was still running and
+was using only the "old" column. </li>
+<li>(at the end of this migration the database version is still v2)</li>
+</ol></li>
+<li>Deploy <strong>application v3</strong> (knows only the "new" column)<br />
+
+<ol start="4">
+<li>Wait till all the copies of <strong>application v2</strong> are not in service anymore</li>
+</ol></li>
+<li>Run <strong>migration 3</strong>
+
+<ol start="2">
+<li>Drop "old" column</li>
+<li>(now the database version is v3)</li>
+</ol></li>
+</ol>
+
+<p>The "new" column can't be marked as "not null" in the first migration 
+(this because the first application version does not know about it), 
+only in the last migration can be set to eventually to "not null".
+If the "not null" constraint is a must, is necessary to specify a default.</p>
+
+<p>In a real world example, supposing we are using <a href="https://github.com/doctrine/migrations">Doctrine Migrations</a> and its 
+<a href="https://github.com/doctrine/DoctrineMigrationsBundle">DoctrineMigrationsBundle</a>, to run the migrations we can execute:</p>
+
+<pre><code class="bash">docker-compose run --rm -u www-data --no-deps php bin/console doctrine:migrations:migrate
+</code></pre>
+
+<h3 id="health-checks">Health checks</h3>
+
+<p>As of docker-compose 2.1 file format, is possible to specify container 
+<a href="https://docs.docker.com/compose/compose-file/#healthcheck">health checks</a> to ensure that our application 
+is ready to accept traffic. The docker swarm cluster routing mechanism will send traffic only to healthy containers.</p>
+
+<pre><code class="yaml"># docker-compose.live.yml
+version: '3.3'
+services:
+    php:
+        # php service definition...             
+    www:
+        # www service definition...             
+        healthcheck:
+          test: ["CMD", "curl", "-f", "http://localhost/check.php"]
+          interval: 30s
+          timeout: 10s
+          retries: 2            
+</code></pre>
+
+<p>This will try to download <code>http://localhost/check.php</code> from the container, in case of two or more not <code>200 OK</code> responses 
+will consider the container as not-healthy. Will also not send traffic to that container in case the container is part
+of a swarm cluster. Is is also possible to configure a <code>restart_policy</code> to decide what to do with an not-healthy container.</p>
+
+<p>Is possible to configure health checks not only at runtime via docker-compose but also via 
+<a href="https://docs.docker.com/engine/reference/builder/#healthcheck">HEALTHCHECK</a> in the Dockerfile.</p>
+
+<h3 id="container-placement">Container placement</h3>
+
+<p>An interesting feature of docker orchestrators is the ability to influence the container placement on the nodes part
+of a cluster. Using docker-swarm and docker-compose, 
+this is possible using the <a href="https://docs.docker.com/compose/compose-file/#placement"><code>placement</code></a> property.</p>
+
+<p>Each node part of a cluster has some "labels" (system or user defined); docker-compose services can 
+set as a requirement to place services having only specific labels.</p>
+
+<pre><code class="yaml">version: '3'
+services:
+  www:
+    # www service definition...             
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+          - engine.labels.operatingsystem != ubuntu 14.04
+</code></pre>
+
+<p>In the snippet before, we ask to place the "www" service only on worker nodes having 
+operating systems different from "ubuntu 14.04".</p>
+
+<p>This can be very useful if nodes have a specific configuration 
+(shared directories, log drivers or public IPs as example) and we want containers to be distributed on specific nodes.</p>
+
+<h3 id="php-and-nginx-together">PHP and Nginx together</h3>
+
+<p>The application shown in this series of post was using  two separate images, one for php and one for the web-server (nginx).
+It was also possible to create a single image having both php and nginx together and communicating over a socket instead
+of a TCP port.</p>
+
+<p>This is more a philosophical preference that has benefits and drawbacks, will let decide to the reader the one to prefer.
+Some advantages are: a single image for both components, performance (?); 
+on the other hand as disadvantages: we lose the single responsibility 
+principle and we have sometimes more complex and interdependent configurations.</p>
+
+<p>Currently there are no official images to do it using nginx as webserver 
+(for example apache + php is <a href="https://hub.docker.com/_/php/">available</a>), 
+so is necessary to use some images user-provided as <a href="https://hub.docker.com/r/richarvey/nginx-php-fpm/">richarvey/nginx-php-fpm</a>.</p>
+
+<h3 id="node-draining">Node draining</h3>
+
+<p>When we need to remove a node from a cluster, is necessary to stop sending 
+traffic to that node and to remove (or move) containers from that node to avoid service interruptions.
+Only when this operations are completed is safe to remove the node.</p>
+
+<p>Highly suggested to read <a href="https://github.com/miglen/aws/blob/master/ec2/run-script-on-ec2-instance-termination.md">this</a>
+article on possible ways to do it.</p>
+
+<h2 id="kubernetes">Kubernetes</h2>
+
+<p>Many of you probably already heard of <a href="https://kubernetes.io/">Kubernetes</a>.
+Kubernetes is an production-grade container orchestration. It is something similar
+to docker-swarm, just way more powerful.</p>
+
+<p>But from great power comes complexity and for me was an overkill for the application I was building.
+I also already had experience with docker swarm, so for me was a natural choice.
+From many point of views, Kubernetes looks way superior to Docker-Swarm and could have been a valid alternative.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I wanted to share my experience. While writing this series of post I learned many details and also had a chance to 
+improve my application.</p>
+
+<p>Hope you (reader) enjoyed the articles and as already said many times, feedback is welcome.</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>symfony</span>,                <span>aws</span>,                <span>deploy</span>,                <span>symfony</span>,                <span>api</span>,                <span>docker</span>,                <span>amazon</span>,                <span>ec2</span>,                <span>swarm</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/circle-ci-deploy/">Continuous integration with CircleCI</a></li>                                <li><a href="/shop/symfony-5-rest-api/">Symfony 5 REST API</a></li>                                <li><a href="/shop/puppet-cluster/">Puppet 6 cluster setup</a></li>                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-5-conclusion&text=I%27ve%20just%20read%20%22How%20do%20I%20deploy%20my%20Symfony%20API%20-%20Part%205%20-%20Conclusion%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-5-conclusion" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-5-conclusion&title=How%20do%20I%20deploy%20my%20Symfony%20API%20-%20Part%205%20-%20Conclusion%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-5-conclusion&title=How%20do%20I%20deploy%20my%20Symfony%20API%20-%20Part%205%20-%20Conclusion%20-Asmir%20Mustafic&summary=This%20is%20the%20fifth%20and%20last%20article%20from%20a%20series%20of%20blog%20posts%20on%20how%20to%20deploy%20a%20symfony%20PHP%20based%20application%20to%20a%20docker%20swarm%20cluster%20hosted%20on%20Amazon%20EC2%20instances.%0A%20This%20post%20is%20a%20conclusive%20post.%20Contains%20a%20summary%20and%20some%20tips.%20%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-5-conclusion" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/how-do-i-deploy-my-symfony-api-part-4-deploy" title="How do I deploy my Symfony API - Part 4 - Deploy">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">How do I deploy my Symfony API - Part 4 - Deploy</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/immobinet-at-ttg-2017-rimini" title="Immobinet at TTG 2017 Rimini">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">Immobinet at TTG 2017 Rimini</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">Do you need something similar for your company?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">Contact me now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

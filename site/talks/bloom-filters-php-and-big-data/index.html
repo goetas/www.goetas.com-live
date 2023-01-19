@@ -1,0 +1,303 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>Bloom-Filters, PHP and Big Data -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/talks/bloom-filters-php-and-big-data" />
+
+        <meta name="twitter:title" content="Bloom-Filters, PHP and Big Data -Asmir Mustafic" />
+        <meta name="og:title" content="Bloom-Filters, PHP and Big Data -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/talks/bloom-filters-berlin.jpg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/talks/bloom-filters-berlin.jpg" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/talks/",
+              "name": "Talks"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/talks/bloom-filters-php-and-big-data",
+              "name": "Bloom-Filters, PHP and Big Data"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="Discover what are Bloom-Filters and how can they be used for big data computation ">
+        <meta name="twitter:description" content="Discover what are Bloom-Filters and how can they be used for big data computation ">
+        <meta name="og:description" content="Discover what are Bloom-Filters and how can they be used for big data computation ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,big-data,bloom-filter,hashing,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/talks/" class="active">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Event",
+  "name": "Bloom-Filters, PHP and Big Data",
+    "location": {
+      "@type": "Place",
+      "name": "PHP User Group",
+      "url": "",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Berlin, Germany"
+      }
+    },
+  "startDate": "2019-02-05",
+  "endDate": "2019-02-05",
+  "url": "https://www.goetas.com/talks/bloom-filters-php-and-big-data","image": "https://www.goetas.com/img/talks/bloom-filters-berlin.jpg",  "description": "Talk&#x20;presented&#x20;at&#x20;the&#x20;Berlin&#x27;s&#x20;PHP&#x20;User&#x20;Group.&#x0A;&#x0A;Discover&#x20;what&#x20;are&#x20;Bloom-Filters&#x20;and&#x20;how&#x20;can&#x20;they&#x20;be&#x20;used&#x20;for&#x20;big&#x20;data&#x20;computation.",
+  "performer":  {
+      "@type": "Person",
+      "name": "Asmir Mustafic",
+      "url": "https://www.goetas.com",
+      "sameAs": [
+        "https://github.com/goetas",
+        "https://twitter.com/goetas_asmir",
+        "https://linkedin.com/in/goetas",
+        "https://www.facebook.com/goetas",
+        "https://www.facebook.com/goetasDev"
+      ]
+    }
+}
+</script>
+        <div class="breadcrumb">
+           <a href="/talks//">Talks</a> &raquo;
+            <i>Bloom-Filters, PHP and Big Data</i>
+        </div>
+        <header>
+            <h1>Bloom-Filters, PHP and Big Data</h1>
+        </header>        <p class="subtitle">Discover what are Bloom-Filters and how can they be used for big data computation
+        </p>        <img class="hidden-xs article-img" src="/img/talks/bloom-filters-berlin.jpg" alt="" />
+
+
+        <div class="m-top-20">                <div class="m-top-20">
+                    <i class="fa fa-location-arrow"></i>
+                    <strong>PHP User Group -Berlin, Germany</strong>
+                </div>
+                <div class="m-top-20">
+                    <time datetime="2019-2-5">
+                        <i class="fa fa-calendar"></i>2019-02-05                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p>Talk presented at the Berlin's PHP User Group.</p>
+
+<p>Discover what are Bloom-Filters and how can they be used for big data computation.</p>
+        </div>    <div class="business_btn roomy-40 row">
+        <div class="col-md-8">    <a title="Slides about:Bloom-Filters, PHP and Big Data" href="https://slides.com/goetas/bloom-filters-berlin-february-2019"  rel="nofollow" target="_blank" class="btn btn-default m-top-20"> <i class="fa fa-fw fa-file"></i> Get slides</a>    <a title="External resource for:Bloom-Filters, PHP and Big Data" rel="nofollow" href="https://www.meetup.com/Berlin-PHP-Usergroup/events/257834974/" target="_blank" class="btn btn-default m-top-20"> <i class="fa fa-fw fa-globe"></i> Visit</a>        </div>    </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>big-data</span>,                <span>bloom-filter</span>,                <span>hashing</span>            </p>        <div class="row m-top-40" style="border-top: 1px dotted lightgray">
+            <div class="col-md-4 col-md-offset-3" style="padding: 20px">
+                    See the tweet on
+                    <a href="https://twitter.com/bephpug/status/1092854216928968704" target="_blank">twitter.com</a> about this!
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Ftalks%2Fbloom-filters-php-and-big-data&text=I%27ve%20just%20read%20%22Bloom-Filters%2C%20PHP%20and%20Big%20Data%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Ftalks%2Fbloom-filters-php-and-big-data" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Ftalks%2Fbloom-filters-php-and-big-data&title=Bloom-Filters%2C%20PHP%20and%20Big%20Data%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Ftalks%2Fbloom-filters-php-and-big-data&title=Bloom-Filters%2C%20PHP%20and%20Big%20Data%20-Asmir%20Mustafic&summary=Discover%20what%20are%20Bloom-Filters%20and%20how%20can%20they%20be%20used%20for%20big%20data%20computation%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Ftalks%2Fbloom-filters-php-and-big-data" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

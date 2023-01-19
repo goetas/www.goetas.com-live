@@ -1,0 +1,653 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>Modular Application Architecture - Inheritance -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/modular-application-architecture-inheritance" />
+
+        <meta name="twitter:title" content="Modular Application Architecture - Inheritance -Asmir Mustafic" />
+        <meta name="og:title" content="Modular Application Architecture - Inheritance -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/plugin-based-architecture/classes.jpeg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/plugin-based-architecture/classes.jpeg" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "Modular Application Architecture - Inheritance",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2017-12-13",
+         "dateModified": "2017-12-13",
+         "description": "When&#x20;developing&#x20;software,&#x20;sometimes&#x20;we&#x20;need&#x20;to&#x20;allow&#x20;our&#x20;application&#x20;to&#x20;have&#x20;plug-ins&#x20;or&#x20;modules&#x20;&#x20;developed&#x20;by&#x20;third&#x20;parties.&#x20;&#x0A;In&#x20;this&#x20;post&#x20;we&#x20;will&#x20;see&#x20;how&#x20;&quot;inheritance&quot;&#x20;can&#x20;&#x20;help&#x20;us&#x20;to&#x20;build&#x20;a&#x20;plugin&#x20;system&#x20;for&#x20;our&#x20;application.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/modular-application-architecture-inheritance"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/modular-application-architecture-inheritance",
+              "name": "Modular Application Architecture - Inheritance"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  In this post we will see how &quot;inheritance&quot; can  help us to build a plugin system for our application.  ">
+        <meta name="twitter:description" content="When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  In this post we will see how &quot;inheritance&quot; can  help us to build a plugin system for our application.  ">
+        <meta name="og:description" content="When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  In this post we will see how &quot;inheritance&quot; can  help us to build a plugin system for our application.  ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,extensibility,plugins,inheritance,api,software-design,software-architecture,modules,twig,classes,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>Modular Application Architecture - Inheritance</i>
+        </div>
+        <header>
+            <h1>Modular Application Architecture - Inheritance</h1>
+        </header>        <p class="subtitle">When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties. 
+In this post we will see how &quot;inheritance&quot; can  help us to build a plugin system for our application. 
+        </p>        <div class="col-md-5 hidden-xs related-posts">    <!--                -->
+                    <div class="related-posts_container">
+                        <h4>Related</h4>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-intro/">Modular Application Architecture - Intro</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-events/">Modular Application Architecture - Events</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-pipelines/">Modular Application Architecture - Pipelines</a>
+                        </div>                        <div class="related-posts_item">Modular Application Architecture - Inheritance
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-considerations/">Modular Application Architecture - Considerations</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-static-assets/">Modular Application Architecture - Static assets</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/plugin-based-architecture/classes.jpeg" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2017-12-13">
+                        <i class="fa fa-calendar"></i>2017-12-13                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p><strong>This is the fourth post from a series of posts that will describe strategies to build 
+modular and extensible applications. In this post we will start looking how to use "inheritance" 
+to create a plugin based application.</strong></p>
+
+<p><a href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">Inheritance</a> is a characteristic offered
+by many class/object oriented languages and allows you to "inherit" some of the functionalities from a "parent" object 
+or class. The object that inherits those functionalities can eventually alter some of them but for the rest behave 
+as the inherited class.</p>
+
+<p>Being able to change the behaviour of the inherited class but "look" as the original 
+comes useful when building plugin systems that allows to change existing functionalities of the core.
+<br>
+Combined with a good plugin registration system (configurable or based on discovery) is possible to change almost every 
+aspect of an application without touching the application core code.</p>
+
+<div class="text-center">
+
+<p><img src="/img/posts/plugin-based-architecture/inheritance.png" alt="application and components" /></p>
+
+</div>
+
+<p>In the picture here above there is a "base page" that has some blocks defined (header, side, content and footer) and
+there is a "new page" that inherits earthing from the parent page and "overwrites" the content page.</p>
+
+<p>Possible use cases for this strategy are "themes" for the layout of a website. 
+By <a href="https://en.wikipedia.org/wiki/Method_overriding">overriding</a> the right portion of the original class is possible to 
+change, add, remove functionalities and/or look-and-feel.</p>
+
+<p>Most of the frameworks from the past 10 years were built on the idea of "extending" some parts of them 
+and replacing/implementing some other implementations. Many developers quickly started to 
+<a href="https://en.wikipedia.org/wiki/Method_overriding">override</a> any part of the framework (just because the programming 
+language was allowing them to do it). But the ability of being able to change everything comes with a price.<br />
+Being able to alter fully the behaviour of the application often was resulting that the "core" application could be broken 
+really easily by some "bad" plugin.</p>
+
+<h2 id="basic-example">Basic example</h2>
+
+<p>Implementing an "inheritance" based plugin architecture requires the following "things" to be in place:</p>
+
+<ol>
+<li>A "base" class that offers some functionalities.</li>
+<li>a "configurable" way to get an instance of that class (
+using just its name, a factory class or using dependency injection).</li>
+<li>A way to "run" that class.  </li>
+<li>A way to change the class to run.</li>
+</ol>
+
+<p>Let's make an example by looking at a simple example where plugins can change the homepage of a website:</p>
+
+<p>This could be our "base" class, the default homepage.</p>
+
+<pre><code class="php">&lt;?php
+class HomePage
+{
+    public function display()
+    {
+        return 'This is my homepage!';    
+    }  
+}
+</code></pre>
+
+<p>This could be our "application core".</p>
+
+<pre><code class="php">&lt;?php
+// this is the class able to "run" our base class
+class Website
+{
+    private static $pageName = 'HomePage';
+
+    public static function init($pageName)
+    {
+        self::$pageName = $pageName;
+    }
+
+    public static function run()
+    {        
+        $pageToRun = self::$pageName;
+        $page = new $pageToRun();
+        echo $page-&gt;display();
+    }
+}
+// run
+Website::run();
+</code></pre>
+
+<p><code>Website::run</code> is responsible to "run" our application while the method  <code>Website::init</code> is the method that allows
+to register the "page plugin".</p>
+
+<p>Now let's suppose we want to write a modified version of the homepage but adding the nome of the owner of the page.
+We can do something as:</p>
+
+<pre><code class="php">&lt;?php
+
+// this is our "base" class
+class NewHomePage extends HomePage
+{
+    public function display()
+    {
+        $original = parent::display();
+
+        $new = 'My name is tom. '. $original;
+
+        return $new;
+    }  
+}
+
+// change the "configuration"
+Website::init('NewHomePage');
+</code></pre>
+
+<p>As you can see from this very simple example, the <code>NewHomePage</code> class has full control over the <code>display</code> method. 
+Can decide to alter its result or even to not invoke the <em>parent</em> method at all.
+<br>
+The parent class (<code>HomePage</code>) can be arbitrary complex and have tens (or hundreds) of methods, is up to the developer to
+decide which one to override.</p>
+
+<p>Here the "plugin registration" is done by configuration, but can also be done by "discovery". The method <code>Website::init</code>
+could lookup for the class name directly from the database, from a predefined list of directories or any other place.</p>
+
+<p><strong>As it will be discussed more in detail at the end of this article, inheritance is a relatively dangerous feature and 
+can quickly go out of control. Having long hierarchies and fat-classes with many many methods used by few child classes, 
+ is a perfect recipe for failure.<br />
+Inheritance has its use cases too, but the hierarchy should be short and almost all the "parent" methods should be used 
+by child classes.</strong></p>
+
+<h2 id="a-more-concrete-example.">A more concrete example.</h2>
+
+<p>The previous example can be too much abstract and that pattern can be used to develop software in general.
+A better example could be done using <a href="https://twig.symfony.com/">Twig</a> to implement a configurable/theme-able layout system 
+for web pages.
+Twig offers an inheritance system very similar except that the "parents" can be decided at runtime.</p>
+
+<p>Let's suppose the following Twig template page (named <code>layout.html.twig</code>) that implements a common website layout 
+with "header", "side", "content" and "footer":</p>
+
+<div class="row">
+<div class="col-md-6">
+
+<p></p>
+
+<pre><code class="twig">{# layout.html.twig #}
+{% block html %}
+&lt;html&gt;
+    &lt;title&gt;Welcome to my website&lt;/title&gt;
+    {% block body %}
+        &lt;body&gt;
+            {% block header %}
+                &lt;div class="header"&gt;
+                    My homepage
+                &lt;/div&gt;
+            {% endblock %}
+            {% block content_wrapper %}
+                &lt;div class="content-wrapper"&gt;
+                    {% block sidebar %}
+                        &lt;div class="sidebar"&gt;
+                            Menu items here
+                        &lt;/div&gt;
+                    {% endblock %}
+
+                    {% block content %}
+                    {% endblock %}
+                &lt;/div&gt;
+            {% endblock %}
+            {% block footer %}
+                &lt;div class="footer"&gt;
+                    My copyright
+                &lt;/div&gt;
+            {% endblock %}
+        &lt;/body&gt;
+     {% endblock %)
+&lt;/html&gt;
+{% endblock %)
+</code></pre>
+
+<p></p>
+
+</div>
+
+<div class="col-md-6">
+
+<p></p>
+
+<pre><code class="html">&lt;!-- html equivalent --&gt;
+&lt;html&gt;
+    &lt;title&gt;Welcome to my website&lt;/title&gt;
+        &lt;body&gt;
+            &lt;div class="header"&gt;
+                My homepage
+            &lt;/div&gt;
+            &lt;div class="content-wrapper"&gt;
+                &lt;div class="sidebar"&gt;
+                   Menu items here
+                &lt;/div&gt;
+
+                &lt;!-- 
+                content section here 
+                &lt;div class="content"&gt;
+                    Lorem ipsum sploram
+                &lt;/div&gt;
+                --&gt;
+            &lt;/div&gt;
+
+            &lt;div class="footer"&gt;
+                My copyright
+            &lt;/div&gt;
+        &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+</div>
+</div>
+
+<p>This can be the general layout for our website, a more detailed page (the <code>homepage.html.twig</code>) can as example extend the 
+template and "implement" the homepage.</p>
+
+<p></p>
+
+<pre><code class="twig">{# homepage.html.twig #}
+{% extends layoutName %}   
+{% block content %}
+    &lt;h1&gt;Welcome to my homepage&lt;/h1&gt;
+{% endblock %}
+</code></pre>
+
+<p></p>
+
+<p>Here there are two important things to notice:</p>
+
+<ul>
+<li>First, the <code>{% block content %}</code> allows us to overwrite the default (empty) 
+implementation offered by the <code>layout.html.twig</code> template. 
+The resulting template is simple and focused on the homepage (as it should be). <code>homepage.html.twig</code> can override any 
+block defined in the parent template, changing virtually any part.</li>
+<li>Second and more important, the "parent" template name is not hardcoded in the template. 
+Is dynamic and defined at runtime ( by the <code>layoutName</code> variable) and can be changed (by a registered plugin as example). </li>
+</ul>
+
+<p>A code necessary to run our page can be:</p>
+
+<pre><code class="php">&lt;?php
+// this variable holds the layout template name
+$defaultLayout = 'layout.html.twig';
+
+$twig = new Twig_Environment(new Twig_Loader_Filesystem('/path/to/templates'));
+$twig-&gt;display('homepage.html.twig', array('layoutName' =&gt; $defaultLayout));
+</code></pre>
+
+<p>Let's suppose now we want to allow a plugin to change the layout but keeping the homepage content 
+(as example removing the sidebar). 
+We need only to allow the plugin to change the <code>$defaultLayout</code> value and provide its own layout implementation.</p>
+
+<p>Our new template can be just:</p>
+
+<p></p>
+
+<pre><code class="twig">{# plugins/pluginName/layout.html.twig #}
+{% block content_wrapper %}
+    &lt;div class="content-wrapper"&gt;
+        &lt;h1&gt;my plugin layout&lt;/h1&gt;        
+        {{ block('content') }}
+    &lt;/div&gt;
+{% endblock %}
+</code></pre>
+
+<p></p>
+
+<p><code>plugins/pluginName/layout.html.twig</code> is overriding the <code>content_wrapper</code> block and just calling the <code>content</code>
+block (not calling also the <code>sidebar</code> block as in the original layout).</p>
+
+<p>Obviously the plugin needs to be registered (via discovery or configuration) and being able
+to change the  <code>$defaultLayout</code> value. As example:</p>
+
+<pre><code class="php">&lt;?php
+// should be 'plugins/pluginName/layout.html.twig' as registered by our plugin
+$defaultLayout = PluginRegistry::getLayout(); 
+
+// this is identical as before
+$twig = new Twig_Environment(new Twig_Loader_Filesystem('/path/to/templates'));
+$twig-&gt;display('homepage.html.twig', array('layoutName' =&gt; $defaultLayout));
+</code></pre>
+
+<p>This strategy allows to use inheritance to change completely the layout without the supervision of the "application core".</p>
+
+<h2 id="other-strategies">Other strategies</h2>
+
+<p>In my experience I saw other implementations that were also allowing similar things in pure PHP code, by generating at
+runtime (or at deploy) "custom" PHP classes, renaming the original one and creating more complex inheritance schemes
+that are not available in PHP. Some examples were allowing to extend from two (or more) classes at the same time and
+other "esoteric" tricks.</p>
+
+<p>Nowadays PHP <a href="http://php.net/manual/en/language.oop5.traits.php">traits</a> can be used to achieve similar functionalities 
+in a much more clean and efficient way.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Personally I'm not a big fan of inheritance. When it comes to PHP applications I try to use as much as possible 
+<a href="https://en.wikipedia.org/wiki/Composition_over_inheritance">composition over inheritance</a> 
+(of course inheritance has its use cases too). On the other side, the "inheritance" model offered by twig is tailored 
+for layouts and works really well.</p>
+
+<p>Advantages:</p>
+
+<ul>
+<li>Allows plugins to alter almost any part of the application</li>
+<li>Does not require explicit "entrypoints"</li>
+<li>For some use cases works really well</li>
+</ul>
+
+<p>Disadvantages:</p>
+
+<ul>
+<li>Allowing to change "anything" increases the risk that a plugin breaks the application</li>
+<li>Difficult to document what a plugin can do  </li>
+<li>Difficult to control what a plugin can do</li>
+<li>Requires deeper knowledge of the "application core" compared to other plugin strategies.</li>
+<li>The plugin is tightly coupled with the application structure</li>
+<li>Changes to the application may require bigger changes to the plugin compared to other plugin strategies.</li>
+</ul>
+
+<p>Inheritance can go out of control very quickly compared to that other strategies, but when dealing with some
+particular requirements (as the necessity to allow changes to any part of the application or not limiting 
+the extensibility to specific extension points pre-defined by the application core), the inheritance-based 
+strategies are a good solution.</p>
+
+<p>Hope you enjoyed this article and if you have some feedback, do not hesitate to leave a comment.  In the next article 
+will discuss strategies that are based on conventions and have similar characteristics to what covered in this article.</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>extensibility</span>,                <span>plugins</span>,                <span>inheritance</span>,                <span>api</span>,                <span>software-design</span>,                <span>software-architecture</span>,                <span>modules</span>,                <span>twig</span>,                <span>classes</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-inheritance&text=I%27ve%20just%20read%20%22Modular%20Application%20Architecture%20-%20Inheritance%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-inheritance" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-inheritance&title=Modular%20Application%20Architecture%20-%20Inheritance%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-inheritance&title=Modular%20Application%20Architecture%20-%20Inheritance%20-Asmir%20Mustafic&summary=When%20developing%20software%2C%20sometimes%20we%20need%20to%20allow%20our%20application%20to%20have%20plug-ins%20or%20modules%20%20developed%20by%20third%20parties.%20%0AIn%20this%20post%20we%20will%20see%20how%20%22inheritance%22%20can%20%20help%20us%20to%20build%20a%20plugin%20system%20for%20our%20application.%20%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-inheritance" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/modular-application-architecture-pipelines" title="Modular Application Architecture - Pipelines">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">Modular Application Architecture - Pipelines</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/modular-application-architecture-considerations" title="Modular Application Architecture - Considerations">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">Modular Application Architecture - Considerations</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

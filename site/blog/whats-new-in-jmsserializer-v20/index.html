@@ -1,0 +1,646 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>What&#039;s new in jms/serializer v2.0 -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/whats-new-in-jmsserializer-v20" />
+
+        <meta name="twitter:title" content="What&#039;s new in jms/serializer v2.0 -Asmir Mustafic" />
+        <meta name="og:title" content="What&#039;s new in jms/serializer v2.0 -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/jms/logo.png" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/jms/logo.png" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "What&#039;s new in jms/serializer v2.0",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2018-09-12",
+         "dateModified": "2018-09-12",
+         "description": "After&#x20;more&#x20;than&#x20;a&#x20;two&#x20;years&#x20;of&#x20;work,&#x20;jms&#x2F;serializer&#x20;v2.0&#x20;is&#x20;going&#x20;to&#x20;see&#x20;the&#x20;light.&#x20;Here&#x20;a&#x20;preview&#x20;of&#x20;the&#x20;changes,&#x20;new&#x20;features&#x20;and&#x20;improvements&#x20;that&#x20;will&#x20;be&#x20;released&#x20;soon.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/whats-new-in-jmsserializer-v20"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/whats-new-in-jmsserializer-v20",
+              "name": "What&#039;s new in jms/serializer v2.0"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="After more than a two years of work, jms/serializer v2.0 is going to see the light. Here a preview of the changes, new features and improvements that will be released soon. ">
+        <meta name="twitter:description" content="After more than a two years of work, jms/serializer v2.0 is going to see the light. Here a preview of the changes, new features and improvements that will be released soon. ">
+        <meta name="og:description" content="After more than a two years of work, jms/serializer v2.0 is going to see the light. Here a preview of the changes, new features and improvements that will be released soon. ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,api,json,rest,serializer,xml,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>What&#039;s new in jms/serializer v2.0</i>
+        </div>
+        <header>
+            <h1>What&#039;s new in jms/serializer v2.0</h1>
+        </header>        <p class="subtitle">After more than a two years of work, jms/serializer v2.0 is going to see the light. Here a preview of the changes, new features and improvements that will be released soon.
+        </p>        <div class="col-md-5 hidden-xs related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/jms-serializer-error-codes/">Setup Custom error codes with jms/serializer and Symfony 5</a></li>                        </ul>
+                    </p>
+                </div>                    <div class="related-posts_container">
+                        <h4>More posts from the author</h4>                        <div class="related-posts_item">
+                            <a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30">-Multi-namespace migrations with doctrine/migrations 3.0</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/released-doctrinemigrations-30-alpha">-Released doctrine/migrations 3.0-alpha</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/make-the-difference-when-contributing-to-open-source">-Make the difference when contributing to open-source</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-to-use-external-services-with-the-symfony-validator">-How to use external services with the Symfony Validator</a>
+                        </div>
+                    </div>
+        </div>
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2018-9-12">
+                        <i class="fa fa-calendar"></i>2018-09-12                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p>After more than a two years of work (the <a href="https://github.com/goetas/serializer/pull/3/commits">first commit</a> 
+was on July 20 2016), <a href="https://github.com/schmittjoh/serializer">jms/serializer</a> <strong>v2.0</strong> is going to see the light.</p>
+
+<p><code>jms/serializer</code> is a popular library to serialize/deserialize objects from/to XML and JSON. 
+The installs counter on <a href="https://packagist.org/packages/jms/serializer/stats">packagist</a> has already passed 20 million downloads.</p>
+
+<p>The version 1.x works well but over the years has accumulated inconsistent behaviours 
+and even if is one of the fastest php serializers, I've realized that there is still room for improvements.
+The version v2.0 is not a big-bang release but is a improved version of what was available in the 
+previous 1.x series.</p>
+
+<p><strong>Upgrading from 1.x to 2.0 should be really simple and in some cases fully transparent.</strong>
+The metadata format is untouched and the user-api is almost identical.
+If you have implemented some more advanced features on top of the serializer by overriding core classes, 
+things might be more complicated but is mainly about adding PHP 7.2 type hints 
+(7.2 is the minimum PHP version for the 2.0 version).
+Here is the initial <a href="https://github.com/schmittjoh/serializer/blob/master/UPGRADING.md">UPGRADING</a> guide.</p>
+
+<p>Side note. Yes <code>jms/serializer</code> finally has a logo!</p>
+
+<div class="text-center">
+
+<p><img src="/img/posts/jms/logo.png" alt="jms/serializer logo" /></p>
+
+</div>
+
+<h2 id="license">License</h2>
+
+<p><code>jms/serializer</code> 2.0 is licensed under the permissive <a href="https://opensource.org/licenses/MIT">MIT</a> license
+ (and also the 1.x versions starting from 1.12.0).
+This solves some adoption issues of the serializer in other projects that have license incompatibilities with the 
+previous serializer license, the Apache-2.0 license.</p>
+
+<h2 id="improvements">Improvements</h2>
+
+<p>Here a quick list of improvements that are immediately noticeable when using the version 2.0.</p>
+
+<p><strong>1) Performance</strong></p>
+
+<p>The new serializer is approximately <strong>35% faster</strong> than the v1.x and consumes 3% less memory.</p>
+
+<p>Achieving this was possible by moving to  more information to compiled metadata, 
+by reducing the number of <code>context</code> accesses, by using simpler access strategies, by using a faster event dispatcher
+and few other tricks. 
+In most of the cases was about reducing the number of repetitive operations by moving them in a "place" where they 
+need to be invoked only one time per serialization call (instead of computing the operation for each object present in the 
+object graph).</p>
+
+<p>I did some benchmark by using a the <a href="https://github.com/egeloen/ivory-serializer-benchmark">ivory-serializer-benchmark</a>.
+The JMS serializer was configured to use the APCu cache for metadata and annotations (by default files are used), 
+the Symfony serializer was configured as in <a href="https://github.com/egeloen/ivory-serializer-benchmark/pull/8">this</a> PR 
+and the Ivory serializer was configured by the author of the original benchmark.</p>
+
+<p>The JMS serializer is the only serializer with complete Doctrine support out of the box. To make a more fair comparison, 
+there are two versions of the JMS benchmark, the standard one (with all the features enabled) and the minimal with Doctrine 
+support disabled.</p>
+
+<p><a href="https://github.com/goetas/ivory-serializer-benchmark/tree/failing-hoa">Here</a> is available the source code used for the 
+benchmark and <a href="https://travis-ci.org/goetas/ivory-serializer-benchmark/builds/393520712">here</a> are some results from 
+a recent TravisCi build (n.</p>
+
+<p><a href="https://docs.google.com/spreadsheets/d/1_ruZTW1_9AeBfxiT4mjpYRW6KCucMFJflLW4Pl1Sxtw">Here</a> a more detailed set 
+of benchmarks run on my laptop (Intel® Core™ i7-8550U 16GB RAM). 
+In all the benchmarks I've excluded the Symfony Object Normalizer benchmark, its performance are so bad that this graphs 
+will become unreadable if I had to fit also that in the graph area.
+The following graphs summarize the benchmark results (lower is better).</p>
+
+<div class="text-center benchmark-graphs">
+
+<p><img src="/img/posts/jms/100-100.png" alt="complex object graph" />
+<img src="/img/posts/jms/10-10.png" alt="mid-complex object graph" />
+<img src="/img/posts/jms/1-100.png" alt="mid-complex object graph" />
+<img src="/img/posts/jms/10-1.png" alt="simple object graph" />
+<img src="/img/posts/jms/1-10.png" alt="very simple object graph" />
+<img src="/img/posts/jms/1-1.png" alt="trivial object graph" /></p>
+
+</div>
+
+<p>Let's explain the meaning of this benchmark, horizontal and vertical complexity are characteristic of the 
+benchmarked object graph.</p>
+
+<ul>
+<li>Big values of <strong>horizontal</strong> complexity indicates a very "deep" object graph, with many objects having many child objects 
+(<code>horizontal=100</code> indicates an object with a chain of 200 nested objects)</li>
+<li>Big values of <strong>vertical</strong> complexity indicate objects that have many children, but those children have no more child objects
+(<code>vertical=100</code> indicates an object having 200 direct child objects)</li>
+<li>Big values of <strong>vertical</strong> and <strong>horizontal</strong> complexity indicates a very complex object graph with the combination of the previous two cases</li>
+<li>Small values of <strong>vertical</strong> and/or <strong>horizontal</strong> complexity indicates very simple object graphs with one, two of few nested objects</li>
+</ul>
+
+<p><em>Benchmark Conclusions</em>: what can be concluded from this benchmark is that the version 2.0 got ~30% better on not trivial 
+object graphs, but it got worse on very simple cases when compared to the 1.x.<br>
+A personal opinion on the results, is that on trivial cases we are talking about a difference of 
+300 micro-seconds when serializing a graph of less than 5-10 objects. Benchmarking such small workload makes no sense.
+The difference between v1 and v2 mostly is caused by a more complex internal structure as graph factories and visitor factories
+introduced in v2. Another conclusion is that this is a benchmark on big graphs with no database access, 
+if your application needs to serialize 5-50 objects then the performance impact is not that visible. Choose the serializer
+that has the features and DX you want/need.</p>
+
+<p><strong>2) Simpler context object</strong></p>
+
+<p>The v2.0 does not depend on the <code>phpcollection</code> library anymore, this means that "context attributes" now are a plain PHP
+array. This make the context API simple and intuitive.</p>
+
+<p>v1.x:</p>
+
+<pre><code class="php">&lt;?php
+$context = SerializationContext::create();
+$context-&gt;attributes-&gt;set("foo", "bar"); // set a value
+$holder = $context-&gt;attributes-&gt;get("foo"); 
+if ($holder instanceof Some) {
+    $value = $holder-&gt;get(); // get a value
+} else {
+    // value was not in the context attributes
+}
+</code></pre>
+
+<p>v2.x:</p>
+
+<pre><code class="php">&lt;?php
+$context = SerializationContext::create();
+$context-&gt;setAttribute("foo", "bar"); // set a value 
+if ($context-&gt;hasAttribute("foo")) {
+    $value = $context-&gt;getAttribute("foo"); // get a value
+} else {
+    // value was not in the context attributes
+}
+</code></pre>
+
+<p><strong>3) No more obsolete exclusion strategies</strong></p>
+
+<p>Another unexpected behaviour in the context object were "obsolete exclusion strategies".</p>
+
+<p>v1.x:</p>
+
+<pre><code class="php">&lt;?php
+$context = SerializationContext::create();
+$context-&gt;setGroups(["foo"]);
+$context-&gt;setGroups(["bar"]);
+
+// now the context has "foo" and "bar" as groups
+</code></pre>
+
+<p>v2.x:</p>
+
+<pre><code class="php">&lt;?php
+$context = SerializationContext::create();
+$context-&gt;setGroups(["foo"]);
+$context-&gt;setGroups(["bar"]);
+
+// now the context has only "bar"
+</code></pre>
+
+<p>The new behaviour is more consistent and in line with what is considered standard.</p>
+
+<p><strong>4) Recursive calls</strong></p>
+
+<p>The visitors are fully stateless now, so it is possible to use it in recursive contextes.</p>
+
+<p><strong>5) Metadata errors vs Runtime errors</strong></p>
+
+<p>In 2.0, all the "metadata-related" errors extend the <code>JMS\Serializer\Exception\InvalidMetadataException</code> exception.
+Thanks to this is possible to distinguish configuration errors from errors caused by invalid object state.</p>
+
+<h2 id="fixed-inconsistencies">Fixed inconsistencies</h2>
+
+<p>The number of improvements is pretty long, a full list can be found in the 
+<a href="https://github.com/schmittjoh/serializer/blob/master/CHANGELOG.md">CHANGELOG.md</a>.</p>
+
+<p>Here some of the most important.</p>
+
+<p><strong>1) Stateless JSON visitor</strong></p>
+
+<p>The old JSON visitor had a concept of a "root" node and the user has to take care of it. The user had to make sure 
+the root was always present and to not overwrite it when already set.
+This made custom handles not intuitive and this created many unexpected behaviours.</p>
+
+<p>Let's see how was implemented a custom JSON handler for an hypothetical <code>User</code> object.</p>
+
+<p>v1.x:</p>
+
+<pre><code class="php">&lt;?php
+use JMS\Serializer\GraphNavigatorInterface;
+use JMS\Serializer\JsonSerializationVisitor;
+use App\Entity\User;
+
+final class CustomUserHandler implements SubscribingHandlerInterface
+{
+    public static function getSubscribingMethods()
+    {
+        return [
+            [
+               'direction' =&gt; GraphNavigatorInterface::DIRECTION_SERIALIZATION,
+               'type' =&gt; User::class,
+               'format' =&gt; 'json',
+               'method' =&gt; 'serializeUserToJson',
+            ]
+        ];
+    }
+
+    public function serializeUserToJson(JsonSerializationVisitor $visitor, User $user)
+    {
+        // custom user serialization
+        $data = [
+            'username' =&gt; $user-&gt;getUsername()
+        ];
+
+        // extra root check
+        if ($visitor-&gt;getRoot() === null) {
+            $visitor-&gt;setRoot($data);
+        }
+        return $data;
+    }
+}
+</code></pre>
+
+<p>v2.x:</p>
+
+<pre><code class="php">&lt;?php
+use JMS\Serializer\GraphNavigatorInterface;
+use JMS\Serializer\JsonSerializationVisitor;
+use App\Entity\User;
+
+final class CustomUserHandler implements SubscribingHandlerInterface
+{
+    public static function getSubscribingMethods()
+    {
+        return [
+            [
+               'direction' =&gt; GraphNavigatorInterface::DIRECTION_SERIALIZATION,
+               'type' =&gt; User::class,
+               'format' =&gt; 'json',
+               'method' =&gt; 'serializeUserToJson',
+            ]
+        ];
+    }
+
+    public function serializeUserToJson(JsonSerializationVisitor $visitor, User $user)
+    {
+        // custom user serialization
+        return [
+            'username' =&gt; $user-&gt;getUsername()
+        ];
+    }
+}
+</code></pre>
+
+<p><strong>2) <code>@MaxDepth</code> on object collections</strong></p>
+
+<p>When using the "max depth" exclusion strategy, traversing arrays and collections (ArrayCollection from Doctrine as example)
+had different behaviours. 
+To achieve a desired "max-depth" of 1, for arrays was necessary declare it as <code>@MaxDepth(1)</code>, but for collections
+was necessary declare it as <code>@MaxDepth(2)</code>. This was a very old bug that become effectively a feature in v1.x, in 2.0 this
+has been fixed and now in both cases <code>@MaxDepth(1)</code> works as expected.</p>
+
+<p><strong>3) Consistent Exclusion Strategies</strong></p>
+
+<p>In v1.x the exclusion strategies were returning <code>null</code> in some cases, sometimes empty objects as <code>{}</code>  and other
+ were effectively excluding the property.
+Now the behaviour is more consistent and handles better collections and circular references 
+(see <a href="https://github.com/schmittjoh/serializer/pull/895">#895</a>).</p>
+
+<h2 id="other-changes">Other changes</h2>
+
+<p>Many other changes allowed to reduce complexity and improve speed, here some of them:</p>
+
+<ul>
+<li><p>A relaxed version of the <a href="https://github.com/doctrine/coding-standard">doctrine/coding-standard</a> has been adopted as official 
+coding standard. 
+Now the codebase is checked by PHPCS on each build for coding violations allowing to avoid bugs to land in released code</p></li>
+<li><p>The <code>VisitorInterface</code> has been replaced by two more specialized interfaces: <code>SerializationVisitorInterface</code> and 
+<code>DeserializationVisitorInterface</code>.</p></li>
+<li>The type parsing now uses <a href="https://hoa-project.net/En/Literature/Hack/Compiler.html">HOA Compiler</a>, an AST based lexer and parser.</li>
+<li>Updated <code>jms/metadata</code> v2.0 that does not rely heavily on reflection as the v1.x allowing to gain some performance 
+and saving some memory. </li>
+<li>To improve performance, the graph-navigators and visitors are stateless and instantiated on each <code>serialize</code>/<code>deserialize</code>
+call.</li>
+<li>Removed support for "obsolete" libraries as Propel, PHPCollection and the minimum supported Symfony version is 3.0</li>
+<li>Removed YAML serialization support (to not be confused with YAML metadata support that is still part of the serializer core)</li>
+<li>Removed PHP metadata definitions support</li>
+</ul>
+
+<h2 id="what%27s-next%3F">What's next?</h2>
+
+<p>Today the beta release has been tagged, in two-four weeks the RC release will be tagged.
+Before entering in the RC stage it will be still possible to break things by introducing big changes (if necessary), 
+but in the RC stage will not be possible to add features anymore till 2.0 will not be completed 
+(eventual pull requests that are not bug-fixes will land in v2.1). 
+Four weeks after the last RC, a stable version will be tagged.</p>
+
+<p>In case of big changes in the beta period or bugs discovered in the RC phase, a second beta or RC release could happen, 
+shifting the release process for one or two iterations.</p>
+
+<p>In parallel, for Symfony users, will be released the new 
+<a href="https://github.com/schmittjoh/JMSSerializerBundle">JMSSerializer bundle</a> (v3.0) that will integrate the new serializer 
+into Symfony. The JMSSerializer bundle will follow the same release schedule as the serializer library.</p>
+
+<p>There are many popular libraries that use the serializer, 
+as <a href="https://github.com/willdurand/Hateoas">willdurand/Hateoas</a>, 
+<a href="https://github.com/nelmio/NelmioApiDocBundle">nelmio/NelmioApiDocBundle</a> or
+<a href="https://github.com/FriendsOfSymfony/FOSRestBundle">FriendsOfSymfony/FOSRestBundle</a> and also they need to be upgraded.
+Hope to see some feedback from the PHP community.</p>
+
+<h2 id="do-you-want-to-help%3F">Do you want to help?</h2>
+
+<p>That's great! As you can see there is a lot of work that needs to be done.
+Feel free to contact me via <a href="https://github.com/goetas">Github</a> or <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x67;&#111;&#x65;&#116;&#x61;&#115;&#x40;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;">email</a>.
+You can test it with your project, write documentation, tests or contribute to the project! Do not hesitate.</p>
+
+<p>You can also support me on <a href="https://www.patreon.com/goetas">https://www.patreon.com/goetas</a>.</p>
+
+<p>Feedback via email or comments are always welcome! :)</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>api</span>,                <span>json</span>,                <span>rest</span>,                <span>serializer</span>,                <span>xml</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/jms-serializer-error-codes/">Setup Custom error codes with jms/serializer and Symfony 5</a></li>                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fwhats-new-in-jmsserializer-v20&text=I%27ve%20just%20read%20%22What%27s%20new%20in%20jms%2Fserializer%20v2.0%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fwhats-new-in-jmsserializer-v20" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fwhats-new-in-jmsserializer-v20&title=What%26%23039%3Bs%20new%20in%20jms%2Fserializer%20v2.0%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fwhats-new-in-jmsserializer-v20&title=What%26%23039%3Bs%20new%20in%20jms%2Fserializer%20v2.0%20-Asmir%20Mustafic&summary=After%20more%20than%20a%20two%20years%20of%20work%2C%20jms%2Fserializer%20v2.0%20is%20going%20to%20see%20the%20light.%20Here%20a%20preview%20of%20the%20changes%2C%20new%20features%20and%20improvements%20that%20will%20be%20released%20soon.%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fwhats-new-in-jmsserializer-v20" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/how-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql" title="How I approached software development and why I prefer PostgreSQL to MySQL">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">How I approached software development and why I prefer PostgreSQL to MySQL</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/why-and-how-some-people-run-open-source-projects" title="Why and how some people run open source projects">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">Why and how some people run open source projects</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

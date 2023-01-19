@@ -1,0 +1,444 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>Changing credentials on Docker Swarm Services -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/changing-credentials-on-docker-swarm-services" />
+
+        <meta name="twitter:title" content="Changing credentials on Docker Swarm Services -Asmir Mustafic" />
+        <meta name="og:title" content="Changing credentials on Docker Swarm Services -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/docker-swarm-auth.png" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/docker-swarm-auth.png" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "Changing credentials on Docker Swarm Services",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2019-07-01",
+         "dateModified": "2019-07-01",
+         "description": "This&#x20;post&#x20;will&#x20;give&#x20;you&#x20;and&#x20;overview&#x20;on&#x20;how&#x20;docker&#x20;performs&#x20;the&#x20;authentication&#x20;into&#x20;image&#x20;registries,&#x0A;&#x20;and&#x20;how&#x20;changes&#x20;to&#x20;the&#x20;credentials&#x20;alters&#x20;the&#x20;workflow&#x20;when&#x20;multiple&#x20;nodes&#x20;are&#x20;involved.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/changing-credentials-on-docker-swarm-services"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/changing-credentials-on-docker-swarm-services",
+              "name": "Changing credentials on Docker Swarm Services"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="This post will give you and overview on how docker performs the authentication into image registries,  and how changes to the credentials alters the workflow when multiple nodes are involved.       ">
+        <meta name="twitter:description" content="This post will give you and overview on how docker performs the authentication into image registries,  and how changes to the credentials alters the workflow when multiple nodes are involved.       ">
+        <meta name="og:description" content="This post will give you and overview on how docker performs the authentication into image registries,  and how changes to the credentials alters the workflow when multiple nodes are involved.       ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,docker,devops,swarm,security,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>Changing credentials on Docker Swarm Services</i>
+        </div>
+        <header>
+            <h1>Changing credentials on Docker Swarm Services</h1>
+        </header>        <p class="subtitle">This post will give you and overview on how docker performs the authentication into image registries,
+ and how changes to the credentials alters the workflow when multiple nodes are involved.
+     
+        </p>        <div class="col-md-5 hidden-xs related-posts">                    <div class="related-posts_container">
+                        <h4>More posts from the author</h4>                        <div class="related-posts_item">
+                            <a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30">-Multi-namespace migrations with doctrine/migrations 3.0</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/released-doctrinemigrations-30-alpha">-Released doctrine/migrations 3.0-alpha</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/make-the-difference-when-contributing-to-open-source">-Make the difference when contributing to open-source</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-to-use-external-services-with-the-symfony-validator">-How to use external services with the Symfony Validator</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/docker-swarm-auth.png" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2019-7-1">
+                        <i class="fa fa-calendar"></i>2019-07-01                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p>This post will give you and overview on how docker performs the authentication into image registries,
+ and how changes to the credentials alters the workflow when multiple nodes are involved.</p>
+
+<p>The first part of this post gives and overview of what docker is, where docker images are stored and what <code>docker login</code>
+does.
+If you already know some basics on how Docker and Docker Swarm works, you can skip directly 
+<a href="#downloading-private-images">here</a>.</p>
+
+<h3 id="docker-basics">Docker basics</h3>
+
+<p>Docker has a client-server architecture and most of the <code>docker</code> commands are communicating with the docker daemon via some REST-ish API.</p>
+
+<p>Running <code>docker -H tcp://1.2.4.5:2375 run --rm nginx</code> will contact the docker daemon on the <code>1.2.4.5</code> host and
+will instruct it to download and run the <code>nginx</code> image.</p>
+
+<h3 id="docker-swarm">Docker swarm</h3>
+
+<p>Docker Swarm is a container orchestrator that allows you to run docker containers across multiple nodes. 
+It allows you also to abstract from the nodes that are running the Swarm, you decide the desired state
+and Docker Swarm will distribute the load across the nodes forming the cluster.</p>
+
+<h3 id="docker-image-registry">Docker image registry</h3>
+
+<p>Docker images are stored into a "registry" and images can be uploaded and downloaded from/to it by the docker daemon.
+Most of the registries require authentication.</p>
+
+<h3 id="docker-login">Docker login</h3>
+
+<p>To authenticate a docker client into a docker image registry you can run:</p>
+
+<pre><code class="bash">docker login
+</code></pre>
+
+<p>This command will try to authenticate us into <a href="https://hub.docker.com/">hub.docker.com</a> (the commercial docker registry), 
+ asking us username and password. 
+you can also login into other registries (offered by other companies or hosting our own registries) 
+by specifying the registry host name as third parameter.</p>
+
+<p>As example  <code>docker login registry.gitlab.com</code> will try authenticate us into the Gitlab registry.</p>
+
+<p>By default credentials are saved into <code>$HOME/.docker/config.json</code> on the computer running the <code>docker login</code> command
+(there are also <a href="https://docs.docker.com/engine/reference/commandline/login/#credentials-store">other</a> storages).</p>
+
+<p>To notice that <code>docker login</code> is a "client" command, and does not communicate with the docker daemon.</p>
+
+<h2 id="downloading-private-images">Downloading private images</h2>
+
+<p>What happens when you create/update a Docker Swarm service using the <code>--with-registry-auth</code> option 
+(or deploy a Docker Stack with the same option)?</p>
+
+<p>The docker client will:</p>
+
+<ol>
+<li>Collect a list of docker images to download</li>
+<li>Read the authentication informations from the <a href="https://docs.docker.com/engine/reference/commandline/login/#credentials-store">credentials-store</a> for the images to download (for instance reading the <code>$HOME/.docker/config.json</code> from the computer where the client is installed) </li>
+<li>Create (or update) the service in the Swarm <a href="https://docs.docker.com/engine/swarm/raft/">RAFT</a> state.
+The state information <strong>include also the authentication information on how to download the image</strong>.</li>
+</ol>
+
+<p>In this way when the container will be scheduled on some node, 
+the docker daemon will read the RAFT state and forward the stored credentials to that node, allowing it do download autonomously the docker image.</p>
+
+<h3 id="changing-credentials">Changing credentials</h3>
+
+<p>If you update your credentials (as example change your password), 
+the credentials stored in the Swarm RAFT state are not correct anymore and new nodes will not be able to download images.</p>
+
+<p>As a solution, you should re-authenticate into the image registry using the <code>docker login</code> command 
+and update the credentials stored into the Swarm RAFT state by running:</p>
+
+<pre><code class="bash">docker login
+
+docker service update SERVICE_NAME --with-registry-auth
+</code></pre>
+
+<p>This command will leave the service as it is, it will just update the credentials.</p>
+
+<p>The same strategy can be used for the Docker Stack, 
+but is more risky as it could trigger unwanted container updates since Docker in some cases might try to download a newer 
+image (if you update a docker image tag) or re-run services that are configured as <code>restart: never</code>.</p>
+
+<h3 id="other-things-to-consider">Other things to consider</h3>
+
+<p><strong>Which services should I update?</strong></p>
+
+<p>If you have a lot of services (maybe using different registries) it might be difficult to keep track of which credentials 
+ should be updated.</p>
+
+<p>Services can be labeled (using  the <code>--label</code> or <code>--label-add</code> options), and later you can update only the services having a specific label.</p>
+
+<pre><code class="bash">docker login -u "me" -p "xxxxxx" registry.gitlab.com
+
+for i in $(docker service ls --filter=label=gitlab-registry); do docker service update "$i" --with-registry-auth -d; done
+</code></pre>
+
+<p>This  script will update the credentials for all the services having the <code>gitlab-registry</code> label.</p>
+
+<p><em>Note: It is not safe to provide the password as commandline argument, 
+find <a href="https://docs.docker.com/engine/reference/commandline/login/#provide-a-password-using-stdin">here</a> some alternatives.</em></p>
+
+<p><strong>Expiring credentials</strong></p>
+
+<p>Some docker registries (AWS or Azure) have credentials that expire automatically after a specified amount of time.
+Also in this case the credentials stored in the Swarm RAFT state will be not correct anymore and new nodes
+will not be able to download images.</p>
+
+<p>As a solution, it is possible to setup a cronjob to perform periodically the update.</p>
+
+<h3 id="there-is-a-trap%21">There is a trap!</h3>
+
+<p>If you have a <a href="https://hub.docker.com/">DockerHub</a> account (the commercial docker registry), and you did login into it using
+the <code>docker login</code> command, and you created/updated a service or stack using the <code>--with-registry-auth</code> option, 
+ <strong>those credentials WILL be used to retrieve the public images</strong> (that could have been downloaded anonymously otherwise).
+This means that if you change credentials on DockerHub, your nodes will not be able to download public images.</p>
+
+<p>To mitigate this issue make sure to not use the  <code>--with-registry-auth</code> option 
+when creating or updating a service that uses public images.
+Unfortunately if you are deploying a Docker Stack that contains mixed services (with private and public images),
+the <code>--with-registry-auth</code> is global and can not be specified per single service. 
+In alternative you can use the same labeling strategy described before and update also the credentials for public services.</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>docker</span>,                <span>devops</span>,                <span>swarm</span>,                <span>security</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fchanging-credentials-on-docker-swarm-services&text=I%27ve%20just%20read%20%22Changing%20credentials%20on%20Docker%20Swarm%20Services%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fchanging-credentials-on-docker-swarm-services" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fchanging-credentials-on-docker-swarm-services&title=Changing%20credentials%20on%20Docker%20Swarm%20Services%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fchanging-credentials-on-docker-swarm-services&title=Changing%20credentials%20on%20Docker%20Swarm%20Services%20-Asmir%20Mustafic&summary=This%20post%20will%20give%20you%20and%20overview%20on%20how%20docker%20performs%20the%20authentication%20into%20image%20registries%2C%0A%20and%20how%20changes%20to%20the%20credentials%20alters%20the%20workflow%20when%20multiple%20nodes%20are%20involved.%0A%20%20%20%20%20%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fchanging-credentials-on-docker-swarm-services" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/traps-on-the-way-of-blue-green-deployments" title="Traps on the way of Blue-Green deployments">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">Traps on the way of Blue-Green deployments</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/how-to-use-external-services-with-the-symfony-validator" title="How to use external services with the Symfony Validator">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">How to use external services with the Symfony Validator</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

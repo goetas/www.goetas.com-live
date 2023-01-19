@@ -1,0 +1,406 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>The way to the goetas-webservices/client release -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/the-way-to-the-goetas-webservicesclient-release" />
+
+        <meta name="twitter:title" content="The way to the goetas-webservices/client release -Asmir Mustafic" />
+        <meta name="og:title" content="The way to the goetas-webservices/client release -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/webservice.jpeg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/webservice.jpeg" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "The way to the goetas-webservices/client release",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2016-10-04",
+         "dateModified": "2016-10-04",
+         "description": "After&#x20;many&#x20;years&#x20;of&#x20;work,&#x20;finally&#x20;I&#x20;have&#x20;released&#x20;a&#x20;fully&#x20;PHP&#x20;based&#x20;SOAP&#x20;client&#x20;up&#x20;to&#x20;date&#x20;with&#x20;the&#x20;latest&#x20;best&#x20;practice.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/the-way-to-the-goetas-webservicesclient-release"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/the-way-to-the-goetas-webservicesclient-release",
+              "name": "The way to the goetas-webservices/client release"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="After many years of work, finally I have released a fully PHP based SOAP client up to date with the latest best practice.">
+        <meta name="twitter:description" content="After many years of work, finally I have released a fully PHP based SOAP client up to date with the latest best practice.">
+        <meta name="og:description" content="After many years of work, finally I have released a fully PHP based SOAP client up to date with the latest best practice.">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,xml,soap,webservices,rest,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>The way to the goetas-webservices/client release</i>
+        </div>
+        <header>
+            <h1>The way to the goetas-webservices/client release</h1>
+        </header>        <p class="subtitle">After many years of work, finally I have released a fully PHP based SOAP client up to date with the latest best practice.        </p>        <div class="col-md-5 hidden-xs related-posts">                    <div class="related-posts_container">
+                        <h4>More posts from the author</h4>                        <div class="related-posts_item">
+                            <a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30">-Multi-namespace migrations with doctrine/migrations 3.0</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/released-doctrinemigrations-30-alpha">-Released doctrine/migrations 3.0-alpha</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/make-the-difference-when-contributing-to-open-source">-Make the difference when contributing to open-source</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-to-use-external-services-with-the-symfony-validator">-How to use external services with the Symfony Validator</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/webservice.jpeg" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2016-10-4">
+                        <i class="fa fa-calendar"></i>2016-10-04                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p>I started to work on this project (let's say technology) almost 10 years ago 
+while was working at <a href="http://www.mercuriosistemi.com/">Mercurio Sistemi</a>...</p>
+
+<p>Everything started with a customer that had an already existing <a href="https://en.wikipedia.org/wiki/SOAP">SOAP webservice</a>, 
+this webservice was necessary to integrate their existing Visual Basic (.NET ? ) application stack with a new PHP website.
+Fortunately PHP had already "ext-soap" that allows to communicate with it and the task was pretty easy.</p>
+
+<p>This is how I was introduced to SOAP...</p>
+
+<p>After some time and many completed integrations, client and server side, I was looking enviously to some .NET and Java 
+developers, and how easy, "safe", was working for them with SOAP webservices.</p>
+
+<p>This was mainly because of some commodities their programming language and IDE was providing them.
+Auto completion, static checks, code generation were just great, and their job essentially was just about choosing the 
+right variable name or method call from a list provided by their IDE.
+Of course if something was wrong, their IDE or some software tool will warn them, telling: "hei! here something is wrong
+fix it, otherwise yor webservice will not work well".</p>
+
+<p>That was just great, errors were discovered even before saving the file containing the code, and often errors were 
+auto fix-able by this set of tools.
+PHP on the other hand was a jungle... tons of arrays, stdClass instances, caches to be refreshed, and even more 
+variables, properties that needs to be guessed by the developer and so on.</p>
+
+<p>I tried many libraries but not a single one was close to the .NET webservices implementation or Java Axis and similar.</p>
+
+<p>Things got even worse when I had to integrate in our system an <a href="https://en.wikipedia.org/wiki/OpenTravel_Alliance">OTA</a> 
+company. OTA is a set of specifications built on top of XML on how to communicate between travel-focused companies as flights companies, 
+hotel chains, car rentals and so on.
+OTA is a great set of standards but for the PHP soap ecosystem, is just crazy complex.</p>
+
+<p>I started blinding some scripts to generate PHP classes from the <a href="https://en.wikipedia.org/wiki/XML_schema">XML Schema</a>
+definitions provided by the Open Travel Alliance, to have some hints by my IDE, in order to increase productivity, and
+reduce bugs.</p>
+
+<p>To me was looking the right way... in the mean while I have released <a href="https://github.com/goetas/xsd2php">goetas/xsd2php</a>
+(used to generate PHP classes) and a set of other libraries as <a href="https://github.com/goetas/webservices">goetas/webservices</a>
+that essentially was my final goal, a fully PHP based SOAP client and server.</p>
+
+<p>But as every developer should do, for me the result was not good enough and I continued working on it.
+Was not good because there were still so many things not working well, complex xml parsing done on each webservice call, 
+no tests, some edge cases were just not working, and the whole result was looking really unstable.</p>
+
+<p>So I decided to restart from scratch (almost from scratch).</p>
+
+<p><a href="https://github.com/schmittjoh/serializer">jms/serializer</a> was mature enough to do the XML serialization/deserialization
+ even for some really complex cases, PSR-7 was out and great HTTP clients were available.</p>
+
+<p>This put on me even more motivation and the current result is good enough, of course there is plenty of work that still 
+has to be done! Multiple things needs to be added, improved, fixed, and so on, but I decided that was the time 
+to release <a href="https://github.com/goetas-webservices/soap-client">goetas-webservices/soap-client</a>!</p>
+
+<p>The project is released under a <a href="https://en.wikipedia.org/wiki/MIT_License">MIT</a> license 
+and is freely available on <a href="https://github.com/goetas-webservices/soap-client">GitHub</a>.</p>
+
+<p>Some of the strengths of the project are:</p>
+
+<ul>
+<li>Pure PHP, no dependencies on ext-soap</li>
+<li>Extensible (JMS event listeners support)</li>
+<li>PSR-7 HTTP messaging compatible</li>
+<li>Multi HTTP client (guzzle, buzz, curl, react)</li>
+<li>No WSDL/XSD parsing on production</li>
+<li>IDE type hinting support</li>
+</ul>
+
+<p>So, if you need a SOAP client for your project, give it a try!</p>
+
+<p>In the mean while I have in plan to release soon also a fully PHP SOAP server. 
+You can <a href="https://twitter.com/goetas_asmir">follow me</a>, if you are interested to know more about it.</p>
+
+<p>A note that has to be said about this is that, in the last years 
+<a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>
+arrived and changed completely the way on how webservices are built, somehow deprecating SOAP. 
+I see also on the way also <a href="https://en.wikipedia.org/wiki/GraphQL">GraphQL</a> trying to deprecate REST too.</p>
+
+<p>So, was it worth working on this project? Definitely yes! I have learned a lot, and I think there are still many 
+developers struggling with legacy applications every day as I did.</p>
+
+<p>If somebody has some feedback, please just drop me a line at <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x67;&#111;&#x65;&#116;&#x61;&#115;&#x40;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;">goetas@gmail.com</a> 
+or tweet me at <a href="https://twitter.com/goetas_asmir">@goetas</a></p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>xml</span>,                <span>soap</span>,                <span>webservices</span>,                <span>rest</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">
+            </div>
+        </div>        <div class="row m-top-40" style="border-top: 1px dotted lightgray">
+            <div class="col-md-4 col-md-offset-3" style="padding: 20px">
+                    See the tweet on
+                    <a href="780742109691248642" target="_blank">twitter.com</a> about this!
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fthe-way-to-the-goetas-webservicesclient-release&text=I%27ve%20just%20read%20%22The%20way%20to%20the%20goetas-webservices%2Fclient%20release%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fthe-way-to-the-goetas-webservicesclient-release" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fthe-way-to-the-goetas-webservicesclient-release&title=The%20way%20to%20the%20goetas-webservices%2Fclient%20release%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fthe-way-to-the-goetas-webservicesclient-release&title=The%20way%20to%20the%20goetas-webservices%2Fclient%20release%20-Asmir%20Mustafic&summary=After%20many%20years%20of%20work%2C%20finally%20I%20have%20released%20a%20fully%20PHP%20based%20SOAP%20client%20up%20to%20date%20with%20the%20latest%20best%20practice.&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fthe-way-to-the-goetas-webservicesclient-release" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/some-notes-about-jms-serializer-plus-v130-release" title="Some notes about JMS Serializer (plus v1.3.0 release)">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">Some notes about JMS Serializer (plus v1.3.0 release)</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/deserialization-normalization-validation-and-the-jms-serializer" title="Deserialization, normalization, validation and the JMS Serializer">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">Deserialization, normalization, validation and the JMS Serializer</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">Do you need something similar for your company?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">Contact me now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

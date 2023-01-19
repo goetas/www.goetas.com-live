@@ -1,0 +1,708 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>Modular Application Architecture - Static assets -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/modular-application-architecture-static-assets" />
+
+        <meta name="twitter:title" content="Modular Application Architecture - Static assets -Asmir Mustafic" />
+        <meta name="og:title" content="Modular Application Architecture - Static assets -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/plugin-based-architecture/static-files.jpg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/plugin-based-architecture/static-files.jpg" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "Modular Application Architecture - Static assets",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2018-01-17",
+         "dateModified": "2018-01-17",
+         "description": "When&#x20;developing&#x20;software,&#x20;sometimes&#x20;we&#x20;need&#x20;to&#x20;allow&#x20;our&#x20;application&#x20;to&#x20;have&#x20;plugins&#x20;or&#x20;modules&#x20;&#x20;developed&#x20;by&#x20;third&#x20;parties.&#x0A;Static&#x20;files&#x20;as&#x20;images,&#x20;fonts&#x20;or&#x20;in&#x20;general&#x20;&quot;files&quot;&#x20;are&#x20;often&#x20;part&#x20;of&#x20;a&#x20;plugin.&#x20;In&#x20;this&#x20;article&#x20;we&#x20;will&#x20;se&#x20;how&#x20;to&#x20;&#x20;deal&#x20;to&#x20;them&#x20;and&#x20;how&#x20;to&#x20;make&#x20;them&#x20;available&#x20;to&#x20;the&#x20;core&#x20;application.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/modular-application-architecture-static-assets"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/modular-application-architecture-static-assets",
+              "name": "Modular Application Architecture - Static assets"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="When developing software, sometimes we need to allow our application to have plugins or modules  developed by third parties. Static files as images, fonts or in general &quot;files&quot; are often part of a plugin. In this article we will se how to  deal to them and how to make them available to the core application.  ">
+        <meta name="twitter:description" content="When developing software, sometimes we need to allow our application to have plugins or modules  developed by third parties. Static files as images, fonts or in general &quot;files&quot; are often part of a plugin. In this article we will se how to  deal to them and how to make them available to the core application.  ">
+        <meta name="og:description" content="When developing software, sometimes we need to allow our application to have plugins or modules  developed by third parties. Static files as images, fonts or in general &quot;files&quot; are often part of a plugin. In this article we will se how to  deal to them and how to make them available to the core application.  ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,extensibility,plugins,static-files,images,css,js,modules,software,design,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>Modular Application Architecture - Static assets</i>
+        </div>
+        <header>
+            <h1>Modular Application Architecture - Static assets</h1>
+        </header>        <p class="subtitle">When developing software, sometimes we need to allow our application to have plugins or modules  developed by third parties.
+Static files as images, fonts or in general &quot;files&quot; are often part of a plugin. In this article we will se how to  deal to them and how to make them available to the core application. 
+        </p>        <div class="col-md-5 hidden-xs related-posts">    <!--                -->
+                    <div class="related-posts_container">
+                        <h4>Related</h4>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-intro/">Modular Application Architecture - Intro</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-events/">Modular Application Architecture - Events</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-pipelines/">Modular Application Architecture - Pipelines</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-inheritance/">Modular Application Architecture - Inheritance</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-considerations/">Modular Application Architecture - Considerations</a>
+                        </div>                        <div class="related-posts_item">Modular Application Architecture - Static assets
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/plugin-based-architecture/static-files.jpg" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2018-1-17">
+                        <i class="fa fa-calendar"></i>2018-01-17                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p><strong>This is the sixth post from a series of posts that will describe strategies to build 
+modular and extensible applications. In this post we will see how to deal with static files (images, fonts...)
+and how to make them available to the core application.</strong></p>
+
+<p>In the previous posts we discussed how to build a plugin architecture, hot to register, configure and run plugins.
+Plugins are composed of many files, each file has its own propose. The source code (or a compiled version of it in 
+case you are dealing with complied languages) is the plugin-itself, but what about "static files" as images, css, 
+or any other file that we want to make available to the application core or to its user?</p>
+
+<p>We need a way to publish those "assets" (the static files...) to the application and later the application can make them 
+available to the user.</p>
+
+<p>As it should be clear, the "application" is the coordinator and should define how a plugin should publish the assets.</p>
+
+<p>I've seen applications that do not define rules on how to publish assets, and sadly often the result is that the plugin
+authors start using different strategies leading to a chaotic plugin system where no one knows which is the best way to 
+expose static files.</p>
+
+<h2 id="publishing-assets">Publishing assets</h2>
+
+<p>There are many strategies on how to publish static assets, each of them with advantages and pitfalls.
+Some of them require coordination from the main application, some of them require coordination from web server or 
+some of them require manual steps to be performed by system administrators and so on...</p>
+
+<p>Lets suppose for our application a directory structure as follows and the <code>application/public</code> folder to be
+directly accessible by the webserver:</p>
+
+<pre><code>application/
+├── src/ # application code
+├── plugins/ 
+├── public/ # directory accessible to the web-server
+│   ├── index.php
+│   ├── app.js
+│   └── style.css
+</code></pre>
+
+<p>Obviously this is just an example, the <code>plugins</code> can be located anywhere we want.</p>
+
+<h3 id="1.-install-plugins-in-public-folder">1. Install plugins in public folder</h3>
+
+<p>The simples strategy to expose public assets from plugins, is just to put the whole plugins folder into the public directory.</p>
+
+<pre><code>application/
+├── src/ # application code
+└── public/ # directory accessible to the web-server
+    ├── plugins/
+    │   ├── plugin-1/
+    │   │   ├── src/
+    │   │   ├── public/
+    │   │   └────── kitten.jpg
+    │   └── plugin-n/
+    ├── index.php
+    ├── app.js
+    └── style.css
+</code></pre>
+
+<p>Advantages:</p>
+
+<ul>
+<li>simple</li>
+<li>does not require special server configurations</li>
+<li>does not require "application" configurations to expose public assets</li>
+</ul>
+
+<p>Disadvantages:</p>
+
+<ul>
+<li>Very Insecure! (your source code is exposed) </li>
+<li>no easy way to control permissions</li>
+</ul>
+
+<p>This strategy as example is used by Wordpress.
+**This solutions is very insecure and not really suggested, ** it is here just for informational proposes.</p>
+
+<h3 id="2.-copy-public-assets">2. Copy public assets</h3>
+
+<p>To solve the security issues from the first example, we can copy just the static files to the public folder instead
+of placing it there the whole plugin.</p>
+
+<p>The application defines one or more folders in the plugin directory structure to be copied to the main public folder.
+As example, if yor plugin has a folder named <code>public</code>, its content will be copied to the 
+<code>application/public/[plugin-name]</code> folder and made available to users.</p>
+
+<p>If the plugin system has an installation step, the copy can be created automatically when "installing" it, otherwise
+has to be done manually or in a "deploy" step.</p>
+
+<pre><code>application/
+├── src/ # application code
+├── plugins/ # plugins code
+│   ├── plugin-1/
+│   │   ├── src/
+│   │   ├── public/
+│   │   └────── kitten.jpg
+│   └── plugin-n/ 
+└── public/ # directory accessible to the web-server
+    ├── plugins/
+    │   ├── plugin-1
+    │   ├────── kitten.jpg
+    │   └── plugin-n*
+    ├── index.php
+    ├── app.js
+    └── style.css
+</code></pre>
+
+<p>Advantages:</p>
+
+<ul>
+<li>simple</li>
+<li>does not require special server configurations</li>
+</ul>
+
+<p>Disadvantages:
+- the application should have a way to copy public assets from a plugin (an install step), otherwise should be done manually
+- requires a "deploy" or an "install" step in which assets are copied to the public folder
+- necessary to re-sync the public folder when updating the plugin files
+- not convenient while developing plugins
+- no easy way to control permissions</p>
+
+<h3 id="3.-symlinking">3. Symlinking</h3>
+
+<p>To solve some of the disadvantages of the "copy" strategy, instead of copying the public folder,<br />
+we can use a "symlink" to link its content to the main public folder.</p>
+
+<p>As example, if yor plugin has a folder named <code>public</code>, its content will be symlinked to the 
+<code>application/public/[plugin-name]</code> folder and made available to users.</p>
+
+<p>If the plugin system has an installation step, the link can be created automatically when "installing" it, otherwise
+has to be done manually or in a "deploy" step.</p>
+
+<pre><code>application/
+├── src/ # application code
+├── plugins/
+│   ├── plugin-1/
+│   │   ├── src/
+│   │   ├── public/
+│   │   └────── kitten.jpg
+│   └── plugin-n/ 
+└── public/ # directory accessible to the web-server
+    ├── plugins/
+    │   ├── plugin-1* # points to application/plugins/public
+    │   └── plugin-n*
+    ├── index.php
+    ├── app.js
+    └── style.css
+</code></pre>
+
+<p>Advantages:</p>
+
+<ul>
+<li>simple</li>
+<li>does not require special server configurations</li>
+<li>changes in the plugin files are automatically available</li>
+</ul>
+
+<p>Disadvantages:</p>
+
+<ul>
+<li>the application should have a way to expose public assets from a plugin (an install step), otherwise should be done manually</li>
+<li>no easy way to control permissions</li>
+<li>still requires a "deploy" or an "install" step in which assets are symlinked to the public folder</li>
+<li>(some systems do not support symlinks (really few...))</li>
+</ul>
+
+<h3 id="4.-server-configuration">4. Server configuration</h3>
+
+<p>Some applications that are shipped together with a web server, can modify directly the server configurations and expose 
+the files through it; in alternative the web server can be configured manually to expose specific folders/files.</p>
+
+<p>In general, we can resume advantages and disadvantages of exposing plugin assets via server configuration as:</p>
+
+<p>Advantages:</p>
+
+<ul>
+<li>high level of control</li>
+<li>changes in the plugin files are automatically available</li>
+</ul>
+
+<p>Disadvantages:</p>
+
+<ul>
+<li>requires server configuration (manual or via more complex automation)</li>
+<li>depends on the server that you are using</li>
+<li>no easy way to control permissions </li>
+</ul>
+
+<p>Thanks to the containerization technologies, 
+modern applications tend to ship together with the application also part of the infrastructure as webserver, db and so on.
+This mean that part of the plugin files we can have also infrastructure configurations as web server configs.
+This makes the whole plugin much more complex and often is not worth.</p>
+
+<p>We can go more in detail and see which strategies to expose plugin assets via server configuration we can use.
+Different strategies have different trade-offs and are able to solve some of the disadvantages said before.</p>
+
+<p>Lets consider some examples using <a href="https://nginx.org/">nginx</a> and suppose to have a directory structure as:</p>
+
+<pre><code>application/
+├── src/ # application code
+├── plugins/ # pligins code
+│   ├── plugin-1/
+│   │   ├── src/
+│   │   ├── public/
+│   │   └────── kitten.jpg
+│   └── plugin-n/ 
+└── public/ # directory accessible to the web-server
+    ├── index.php
+    ├── app.js
+    └── style.css
+</code></pre>
+
+<p><strong>Explicit</strong></p>
+
+<p>We can explicitly define a list of directories and their exact location on the filesystem and make them exposed by the 
+web server. This approach requires an human intervention as the mapping are manually defined (or complex automation).</p>
+
+<pre><code class="nginx">server {
+    ...
+
+    location /plugins/plugin-1 {
+       root /application/plugins/plugin-1/public
+    }
+    ...
+    location /plugins/plugin-n {
+       root /application/plugins/plugin-n/public
+    }    
+}
+</code></pre>
+
+<p>In addition to the general advantages/disadvantages of the configuration based approach we, for this specific strategy 
+we have:</p>
+
+<p>Advantages:</p>
+
+<ul>
+<li>high level of control</li>
+</ul>
+
+<p>Disadvantages:</p>
+
+<ul>
+<li>requires server configuration, mostly manual or via complex automation</li>
+<li>each new plugin require editing the configs</li>
+</ul>
+
+<p><strong>Pattern matching</strong></p>
+
+<p>Instead of mapping manually the paths we ca use some pattern matching. If yor plugin has a folder named <code>public</code>, 
+its content can be mapped to the <code>/plugins/[plugin-name]</code> location and made available to users.</p>
+
+<pre><code class="nginx">server {
+    ...
+
+    location ~ ^/plugins/(?&lt;pluginName&gt;.+) {
+       root /application/plugins/$pluginName/public
+    } 
+}
+</code></pre>
+
+<p>In addition to the general advantages/disadvantages of the configuration based approach we, for this specific strategy 
+we have:</p>
+
+<p>Advantages:</p>
+
+<ul>
+<li>can be automated and the manual intervention can be avoided</li>
+<li>does not require a new configuration when adding a ned plugin</li>
+<li>no complex automation or human intervention are needed</li>
+</ul>
+
+<h3 id="5.-serving-static-files-through-the-application">5. Serving static files through the application</h3>
+
+<p>Most of the strategies said before expose in one way or another the files directly to the webserver.
+The approach tend to be very resource-efficient but the drawbacks of the approach are
+that the application is not in control the file anymore.</p>
+
+<p>As example to control access permissions to static files part of a plugin we have to serve them 
+through the application.
+Doing so, each time a file is requested, the application will be invoked and will act as intermediary. 
+The application can do processing (decide if we are allowed to see the file as example), 
+and eventually serve the file to the user.</p>
+
+<p>This approach is extremely flexible but the biggest drawback are the performances as 
+each request will spawn our application too.</p>
+
+<p><strong>Via application only</strong></p>
+
+<p>The application can offer some features and replace the role of a webserver, serving static files by reading them 
+instead of the webserver.</p>
+
+<pre><code class="php">&lt;?php
+// suppose this piece if code is executed when requesting /plugins/plugin-1/my_protected_file.txt
+
+// here we can do here any type of security check and store it into $hasPermissions
+
+if ($hasPermissions) {
+    header("Content-Type: text/plain");
+    $fp = fopen("/application/plugins/plugin-1/public/my_protected_file.txt", "r");
+    fpassthru($fp);
+    fclose($fp);
+} else {
+    header('HTTP/1.0 401 Unauthorized');
+    // or header("HTTP/1.0 404 Not Found");
+}
+</code></pre>
+
+<p>The main disadvantage of this approach is performance wise. 
+Serving a static file through a scripting/programming language is an overkill, especially if the file is big.</p>
+
+<p>The application should re-implement all the "file" handling capabilities as partial downloads, mime type inspections, 
+download resume, caching... that are part of most webserver core functionalities.</p>
+
+<p>To sum up:</p>
+
+<p>Advantages:</p>
+
+<ul>
+<li>high level of control</li>
+<li>files can be stored anywhere (when the application know how to access them, it is enough!)</li>
+</ul>
+
+<p>Disadvantages:</p>
+
+<ul>
+<li>low performance</li>
+<li>requires re-implementation of some HTTP basics at application level</li>
+</ul>
+
+<p><strong>Via application but assisted by the webserver</strong></p>
+
+<p>To solve the performance issues of the previous strategy, but keeping still the ability to control via application who
+can download the files, 
+we can use the <code>X-Sendfile</code> feature offered by <a href="https://tn123.org/mod_xsendfile/">Apache</a> 
+ or the analog <code>X-Accel</code> feature offered by <a href="https://www.nginx.com/resources/wiki/start/topics/examples/xsendfile/">Nginx</a>.</p>
+
+<p>The previous example will become:</p>
+
+<pre><code class="php">&lt;?php
+// suppose this piece if code is executed when requesting /plugins/plugin-1/my_protected_file.txt
+
+// here we can do here any type of security check and store it into $hasPermissions
+
+if ($hasPermissions) {
+    header("Content-Type: text/plain");
+    header("X-Sendfile: /application/plugins/plugin-1/public/my_protected_file.txt");
+    // or header("X-Accel-Redirect: /application/plugins/plugin-1/public/my_protected_file.txt"); for nginx 
+} else {
+    header('HTTP/1.0 401 Unauthorized');
+    // or header("HTTP/1.0 404 Not Found");
+}
+</code></pre>
+
+<p>This approach combines the ability of giving full control to the application, but delegating to the web server the 
+responsibility of how to read an send the file.</p>
+
+<p>The application decides if the file can be downloaded, and then sends the <code>X-Sendfile</code> containing the path of the file.
+The webserver will serve the file at the specified location (applying the common HTTP capabilities and optimizations).</p>
+
+<p>To sum up:</p>
+
+<p>Advantages:</p>
+
+<ul>
+<li>high level of control</li>
+<li>lower performance impact</li>
+</ul>
+
+<p>Disadvantages:</p>
+
+<ul>
+<li>files must be accessible by the web-server </li>
+<li>creates some dependency on the webserver</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this article we saw some strategies on how to serve static files part of a plugin, 
+each discussed strategy has specific trade-offs and can be useful in some cases.</p>
+
+<p>This is the last article for the series of "Modular Application Architecture" on how to build plugin-based architectures.</p>
+
+<p>Hope you enjoyed this article and the others. 
+If you have some feedback, do not hesitate to leave a comment!</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>extensibility</span>,                <span>plugins</span>,                <span>static-files</span>,                <span>images</span>,                <span>css</span>,                <span>js</span>,                <span>modules</span>,                <span>software</span>,                <span>design</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-static-assets&text=I%27ve%20just%20read%20%22Modular%20Application%20Architecture%20-%20Static%20assets%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-static-assets" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-static-assets&title=Modular%20Application%20Architecture%20-%20Static%20assets%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-static-assets&title=Modular%20Application%20Architecture%20-%20Static%20assets%20-Asmir%20Mustafic&summary=When%20developing%20software%2C%20sometimes%20we%20need%20to%20allow%20our%20application%20to%20have%20plugins%20or%20modules%20%20developed%20by%20third%20parties.%0AStatic%20files%20as%20images%2C%20fonts%20or%20in%20general%20%22files%22%20are%20often%20part%20of%20a%20plugin.%20In%20this%20article%20we%20will%20se%20how%20to%20%20deal%20to%20them%20and%20how%20to%20make%20them%20available%20to%20the%20core%20application.%20%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-static-assets" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/modular-application-architecture-considerations" title="Modular Application Architecture - Considerations">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">Modular Application Architecture - Considerations</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/how-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql" title="How I approached software development and why I prefer PostgreSQL to MySQL">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">How I approached software development and why I prefer PostgreSQL to MySQL</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

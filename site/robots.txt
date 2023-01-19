@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /shop-cancel
+Disallow: /shop-thank-you
+Disallow: /terms-and-conditions
+Disallow: /credits
+Disallow: /contact
+Disallow: /privacy
+Disallow: /contact
+
+sitemap: https://www.goetas.com/sitemap.xml

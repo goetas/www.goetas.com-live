@@ -1,0 +1,655 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>How do I deploy my Symfony API - Part 2 - Build -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-2-build" />
+
+        <meta name="twitter:title" content="How do I deploy my Symfony API - Part 2 - Build -Asmir Mustafic" />
+        <meta name="og:title" content="How do I deploy my Symfony API - Part 2 - Build -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/build-process.jpeg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/build-process.jpeg" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "How do I deploy my Symfony API - Part 2 - Build",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2017-09-27",
+         "dateModified": "2017-09-27",
+         "description": "This&#x20;is&#x20;the&#x20;second&#x20;article&#x20;from&#x20;a&#x20;series&#x20;of&#x20;blog&#x20;posts&#x20;on&#x20;how&#x20;to&#x20;deploy&#x20;a&#x20;symfony&#x20;PHP&#x20;based&#x20;application&#x20;to&#x20;a&#x20;docker&#x20;swarm&#x20;cluster&#x20;hosted&#x20;on&#x20;Amazon&#x20;EC2&#x20;instances.&#x0A;&#x20;This&#x20;post&#x20;focuses&#x20;on&#x20;the&#x20;build&#x20;process,&#x20;executed&#x20;on&#x20;a&#x20;continuous&#x20;integration&#x20;server.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-2-build"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-2-build",
+              "name": "How do I deploy my Symfony API - Part 2 - Build"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="This is the second article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.  This post focuses on the build process, executed on a continuous integration server.  ">
+        <meta name="twitter:description" content="This is the second article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.  This post focuses on the build process, executed on a continuous integration server.  ">
+        <meta name="og:description" content="This is the second article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.  This post focuses on the build process, executed on a continuous integration server.  ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,symfony,aws,deploy,symfony,api,docker,amazon,ec2,docker-compose,swarm,build,circle-ci,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>How do I deploy my Symfony API - Part 2 - Build</i>
+        </div>
+        <header>
+            <h1>How do I deploy my Symfony API - Part 2 - Build</h1>
+        </header>        <p class="subtitle">This is the second article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.
+ This post focuses on the build process, executed on a continuous integration server. 
+        </p>        <div class="col-md-5 hidden-xs related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/circle-ci-deploy/">Continuous integration with CircleCI</a></li>                                <li><a href="/shop/symfony-5-rest-api/">Symfony 5 REST API</a></li>                        </ul>
+                    </p>
+                </div>    <!--                -->
+                    <div class="related-posts_container">
+                        <h4>Related</h4>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-1-development/">How do I deploy my Symfony API - Part 1 - Development</a>
+                        </div>                        <div class="related-posts_item">How do I deploy my Symfony API - Part 2 - Build
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-3-infrastructure/">How do I deploy my Symfony API - Part 3 - Infrastructure</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-4-deploy/">How do I deploy my Symfony API - Part 4 - Deploy</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-5-conclusion/">How do I deploy my Symfony API - Part 5 - Conclusion</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/build-process.jpeg" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2017-9-27">
+                        <i class="fa fa-calendar"></i>2017-09-27                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p><strong>This is the second post from a series of posts that will describe the whole deploy process from development to production.</strong>
+The first article is available <a href="/blog/how-do-i-deploy-my-symfony-api-part-1/">here</a>.</p>
+
+<p>Here a short summary of the blog article series, quoted directly from the first post.</p>
+
+<blockquote>
+  <p>The application was a more-or-less basic API implemented using <a href="https://www.symfony.com">Symfony</a> 3.3 and few other things
+  as <a href="http://www.doctrine-project.org/projects/orm.html">Doctrine ORM</a> 
+  and <a href="https://github.com/FriendsOfSymfony/FOSRestBundle">FOS Rest Bundle</a>.
+  Obviously the source code was stored in a GIT repository.</p>
+  
+  <p>When the project/application was completed, I've used<br />
+  <a href="https://circleci.com">CircleCI</a> (that offers 1 container for private builds for free) to coordinate the "build and deploy"
+  process.</p>
+  
+  <p>The repository code was hosted on Github and CircleCI was configured to trigger a build on each commit.</p>
+  
+  <p>As development flow I've used <a href="http://nvie.com/posts/a-successful-git-branching-model/">GitFlow</a> and each commit to 
+  <code>master</code> was triggering a deploy to live, each commit to <code>develop</code> was triggering a deploy to staging
+   and each commit to feature branches was triggering a deploy to a test environment.
+  Commit to release branches were triggering a deploy to a pre-live environment. 
+  The deploy to live had a manual confirmation step.</p>
+</blockquote>
+
+<p>In this part we will see how the <strong>build</strong> process was organized.</p>
+
+<h2 id="build-process">Build process</h2>
+
+<p>The build process was triggered on each push to the GitHub repository. The process was identical for all the 
+branch "types" (master/develop/feature branches).
+This was fundamental to reduce environment-differences, it is a common problem a situation when something 
+works on staging but does not work on production. The goal here was to have the development, build, staging and 
+production environments as close as possible.</p>
+
+<p>The build was performed using CircleCI, and the whole flow was managed by a single <code>.circleci/config.yml</code> file
+ to decide what to do in each step. Might be useful to have a quick look to the 
+ <a href="https://circleci.com/docs/2.0/configuration-reference/">CircleCI config file reference</a>.</p>
+
+<h3 id="the-configuration-file">The configuration file</h3>
+
+<p></p>
+
+<pre><code class="yaml"># helper nodes
+helpers: &amp;helpers
+  - &amp;helpers_system_basic # basic system configurations  helper
+    run:
+      name: System basic
+      command: |
+        sudo apt-get -qq update
+        sudo apt-get -qq -y install \
+        apt-transport-https \
+        ca-certificates \
+        curl wget \
+        software-properties-common openvpn
+        pip install -q awscli
+
+  - &amp;helpers_docker # basic docker installation  helper
+    run:
+      name: Docker installation
+      command: |
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        sudo apt-get -qq update
+        sudo apt-get install -y -qq docker-ce
+
+  - &amp;helpers_docker_compose # docker compose installation helper
+    run:
+      name: Install Docker Compose
+      command: |
+        sudo curl -L https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+        sudo chmod a+x /usr/local/bin/docker-compose
+
+
+# build configurations
+version: 2
+executorType: machine
+jobs:
+  build:
+    working_directory: ~/my_ap
+    steps:
+      - *helpers_system_basic # use basic system configurations  helper
+      - *helpers_docker # use basic docker installation  helper
+      - *helpers_docker_compose # docker compose installation helper
+      - checkout # checkout the source code
+
+      - restore_cache: # restore docker images cache
+          keys:
+            - myproject-{{ epoch }}
+            - myproject
+
+      - restore_cache: # restore composer cache
+          keys:
+            - myproject-composer-{{ checksum "composer.lock" }}
+
+      - run: # load docker images cache into docker engine
+          name: Restore docker images cache
+          command: |
+            mkdir -p ~/cache
+            if [ -e ~/cache/docker-images-cache.tar.gz ]; then docker load -i ~/cache/docker-images-cache.tar.gz; fi
+
+      - run:
+          name: Build
+          command: |
+            docker-compose build
+
+      - run:
+          name: Install dependencies
+          command: |
+            mkdir -p ~/.composer &amp;&amp; chmod a+rw -R vendor var ~/.composer
+            chmod a+rw "$SSH_AUTH_SOCK"
+            docker-compose run --rm -u www-data php composer install --no-dev --no-autoloader --no-progress --no-interaction --no-scripts --prefer-dist
+            docker-compose build php
+
+      - deploy:
+          name: Push images to registry
+          command: |
+            docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASS
+            docker-compose push
+
+      - save_cache: # save composer cache
+          key: myproject-composer-{{ checksum "composer.lock" }}
+          paths:
+            - ~/.composer
+
+      - run:  # save docker images into a TAR file
+          name: Save images cache
+          command: |
+            docker save -o ~/cache/docker-images-cache.tar.gz $(docker images -q -a)
+
+      - save_cache:  # cache the docker TAR file  
+          key: myproject-{{ epoch }}
+          paths:
+            - ~/cache
+</code></pre>
+
+<p></p>
+
+<p>The configuration file might look complicated, but lets analyze it step by step.</p>
+
+<p>The first part of the file with the key <code>helpers</code> is just a set of helper nodes obtained using the 
+<a href="http://blog.daemonl.com/2016/02/yaml.html">YAML anchors and references</a>, that allows the reuse of portions of YAML code
+on multiple places.</p>
+
+<h2 id="step-by-step">Step by step</h2>
+
+<p>Let's analyze step-by-step the build process by looking in detail at the <code>.circleci/config.yml</code> file.</p>
+
+<h4 id="preparation">Preparation</h4>
+
+<pre><code class="yaml">- *helpers_system_basic # use basic system configurations  helper
+- *helpers_docker # use basic docker installation  helper
+- *helpers_docker_compose # docker compose installation helper
+- checkout # checkout the source code
+</code></pre>
+
+<p>The first part of the file consists in simply installing the required libraries for our build, this includes
+ installing some basic libraries as <code>curl</code>, <code>docker</code>, 
+<code>docker-compose</code> and updating the general system configuration 
+(in this case Ubuntu 14.04 was the underlying Linux distribution).</p>
+
+<h4 id="restoring-caches">Restoring caches</h4>
+
+<p></p>
+
+<pre><code class="yaml">- restore_cache: # restore docker images cache
+  keys:
+    - myproject-{{ epoch }}
+    - myproject
+
+- restore_cache: # restore composer cache
+  keys:
+    - myproject-composer-{{ checksum "composer.lock" }}
+
+- run: # load docker images cache into docker engine
+  name: Restore docker images cache
+  command: |
+    mkdir -p ~/cache
+    if [ -e ~/cache/docker-images-cache.tar.gz ]; then docker load -i ~/cache/docker-images-cache.tar.gz; fi
+</code></pre>
+
+<p></p>
+
+<p>To speed up the build process I've tried to cache as many things as possible, this includes docker images and
+composer file. The two caches are separate, this allows to refresh independently the files as most likely they will not change 
+together.</p>
+
+<p>The composer cache will change only if the <code>composer.lock</code> changes, while the docker image cache will change probably on 
+each build.
+Saving the docker images cache might be not trivial as it requires to save the images in a TAR file running the
+<code>docker save</code> command and to restore the cache is necessary to use the <code>docker load</code> command. Docker does not offer a 
+folder that can be simply copied as composer does.</p>
+
+<h4 id="build">Build</h4>
+
+<p></p>
+
+<pre><code class="yaml">- run:
+  name: Build
+  command: |
+    docker-compose build
+
+- run:
+  name: Install dependencies
+  command: |
+    mkdir -p ~/.composer &amp;&amp; chmod a+rw -R vendor var ~/.composer
+    chmod a+rw "$SSH_AUTH_SOCK"
+    docker-compose run --rm -u www-data php composer install --no-dev --no-autoloader --no-progress --no-interaction --no-scripts --prefer-dist
+    docker-compose build php
+</code></pre>
+
+<p></p>
+
+<p>To create the docker images we simply run <code>docker-compose build</code> that will build all the images following the 
+<code>docker-compose.yml</code> file shown in the <a href="/blog/how-do-i-deploy-my-symfony-api-part-1/">previous article</a>.</p>
+
+<p>After the images are ready we can install the composer dependencies. Note that the <code>composer install</code> command 
+is executed disabling the post install and the autoloader creation.
+When the dependencies are installed, the "php" image is re-build to include the just created vendor folder.
+In the rebuild process, he autoloader is created 
+and the post install command is executed (will warm-up the symfony cache).</p>
+
+<p><em>Note: this solution can be not optimal in some circumstances.<br>
+In the described project we had not yet tests (early 
+stage start-up).
+<strong>I highly recommend to have a good test suite and to run it on each build</strong>. 
+The tests can be executed right after the build process or in a separate CircleCI build 
+(this step will be explained in the next articles by 
+introducing the <a href="https://circleci.com/docs/2.0/workflows/">CircleCI Workflows</a>).</em></p>
+
+<p><strong>TIP: Private repositories</strong></p>
+
+<p>If you have some private repositories in your project
+and you rely in the SSH keys to download them in the <code>composer install</code> step, 
+you will have to enable the SSH key forwarding from the build environment to the docker container and to add a valid 
+SSH key on to the build machine (CircleCI calls them "Checkout SSH keys" under the project setting menu).</p>
+
+<p>To do it is necessary to edit the <code>docker-compose.yml</code> file by adding the volume reference to the SSH socket.</p>
+
+<pre><code class="yaml">php: 
+    volumes:
+      - $SSH_AUTH_SOCK:$SSH_AUTH_SOCK
+    environment:
+      - SSH_AUTH_SOCK
+</code></pre>
+
+<p>(this is the reason for <code>chmod a+rw "$SSH_AUTH_SOCK"</code> in the "Install dependencies" step)</p>
+
+<h4 id="push">Push</h4>
+
+<p></p>
+
+<pre><code class="yaml">- deploy:
+  name: Push images to registry
+  command: |
+    docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASS
+    docker-compose push
+</code></pre>
+
+<p></p>
+
+<p>When the docker images are ready we just push them to the DockerHub.</p>
+
+<p>If you are on AWS, most probably is more convenient (economically) to push tem to the Amazon ECR. In that case
+the "login" part will be slightly different as the ECR has a bit different authentication mechanism.</p>
+
+<p>Will be something as:</p>
+
+<pre><code class="bash">aws configure set aws_access_key_id $AWSKEY
+aws configure set aws_secret_access_key $AWSSECRET
+aws configure set region $AWS_REGION
+
+eval $(aws ecr get-login --no-include-email)
+
+docker-compose push
+</code></pre>
+
+<p>In this case is necessary to install the <code>aws-cli</code> (the Amazon console client). The environment variables contains
+the amazon region and credentials for the registry-push operation.</p>
+
+<p></p>
+
+<h4 id="save-caches">Save caches</h4>
+
+<pre><code class="yaml">- save_cache: # save composer cache
+  key: myproject-composer-{{ checksum "composer.lock" }}
+  paths:
+    - ~/.composer
+
+- run:  # save docker images into a TAR file
+  name: Save images cache
+  command: |
+    docker save -o ~/cache/docker-images-cache.tar.gz $(docker images -q -a)
+
+- save_cache:  # cache the docker TAR file  
+  key: myproject-{{ epoch }}
+  paths:
+    - ~/cache
+</code></pre>
+
+<p></p>
+
+<p>If everything went fine, we can save the caches that will allow us to speed up the next builds.
+To note, if the <code>composer.lock</code> file did not change between builds, the "save cache step" will be just skipped, 
+saving some time necessary to upload the (not-modified) composer cache directory.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this article I've explained how the build process was done (including the push of the docker images to the 
+registry). In the next articles the focus will move on how to deploy to some environment (live/staging...) the just 
+pushed images.</p>
+
+<p>As you can see I've decided to not use any of the pre-installed tools/services/libraries offered by CircleCI.
+The reason behind it is that I want to use exactly what developers are using and what will be deployed on production.
+By doing so, in my opinion the environment differences are less and the possibility of bugs caused by those differences
+decreases.</p>
+
+<p>As usual I think that many things can be improved and I'm always happy to hear constructive feedback.
+As <a href="/blog/how-do-i-deploy-my-symfony-api-part-1/#db-postgres">already happen</a> will be happy to publish updates.</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>symfony</span>,                <span>aws</span>,                <span>deploy</span>,                <span>symfony</span>,                <span>api</span>,                <span>docker</span>,                <span>amazon</span>,                <span>ec2</span>,                <span>docker-compose</span>,                <span>swarm</span>,                <span>build</span>,                <span>circle-ci</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/circle-ci-deploy/">Continuous integration with CircleCI</a></li>                                <li><a href="/shop/symfony-5-rest-api/">Symfony 5 REST API</a></li>                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-2-build&text=I%27ve%20just%20read%20%22How%20do%20I%20deploy%20my%20Symfony%20API%20-%20Part%202%20-%20Build%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-2-build" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-2-build&title=How%20do%20I%20deploy%20my%20Symfony%20API%20-%20Part%202%20-%20Build%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-2-build&title=How%20do%20I%20deploy%20my%20Symfony%20API%20-%20Part%202%20-%20Build%20-Asmir%20Mustafic&summary=This%20is%20the%20second%20article%20from%20a%20series%20of%20blog%20posts%20on%20how%20to%20deploy%20a%20symfony%20PHP%20based%20application%20to%20a%20docker%20swarm%20cluster%20hosted%20on%20Amazon%20EC2%20instances.%0A%20This%20post%20focuses%20on%20the%20build%20process%2C%20executed%20on%20a%20continuous%20integration%20server.%20%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-2-build" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/how-do-i-deploy-my-symfony-api-part-1-development" title="How do I deploy my Symfony API - Part 1 - Development">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">How do I deploy my Symfony API - Part 1 - Development</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/how-do-i-deploy-my-symfony-api-part-3-infrastructure" title="How do I deploy my Symfony API - Part 3 - Infrastructure">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">How do I deploy my Symfony API - Part 3 - Infrastructure</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">Do you need something similar for your company?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">Contact me now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

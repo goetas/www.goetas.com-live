@@ -1,0 +1,552 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>Modular Application Architecture - Intro -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/modular-application-architecture-intro" />
+
+        <meta name="twitter:title" content="Modular Application Architecture - Intro -Asmir Mustafic" />
+        <meta name="og:title" content="Modular Application Architecture - Intro -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/plugin-based-architecture/modules-img-small.jpg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/plugin-based-architecture/modules-img-small.jpg" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "Modular Application Architecture - Intro",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2017-11-01",
+         "dateModified": "2017-11-01",
+         "description": "When&#x20;developing&#x20;software,&#x20;sometimes&#x20;we&#x20;need&#x20;to&#x20;allow&#x20;our&#x20;application&#x20;to&#x20;have&#x20;plug-ins&#x20;or&#x20;modules&#x20;&#x20;developed&#x20;by&#x20;third&#x20;parties.&#x20;&#x20;Creating&#x20;a&#x20;robust&#x20;architecture&#x20;that&#x20;allows&#x20;a&#x20;powerful&#x20;mechanism&#x20;can&#x20;be&#x20;challenging.&#x20;In&#x20;this&#x20;series&#x20;of&#x20;posts&#x20;we&#x20;will&#x20;see&#x20;some&#x20;strategies&#x20;to&#x20;do&#x20;it.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/modular-application-architecture-intro"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/modular-application-architecture-intro",
+              "name": "Modular Application Architecture - Intro"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  Creating a robust architecture that allows a powerful mechanism can be challenging. In this series of posts we will see some strategies to do it.  ">
+        <meta name="twitter:description" content="When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  Creating a robust architecture that allows a powerful mechanism can be challenging. In this series of posts we will see some strategies to do it.  ">
+        <meta name="og:description" content="When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  Creating a robust architecture that allows a powerful mechanism can be challenging. In this series of posts we will see some strategies to do it.  ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,extensibility,plugins,hooks,api,software-design,software-architecture,modules,core,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>Modular Application Architecture - Intro</i>
+        </div>
+        <header>
+            <h1>Modular Application Architecture - Intro</h1>
+        </header>        <p class="subtitle">When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  Creating a robust architecture that allows a powerful mechanism can be challenging. In this series of posts we will see some strategies to do it. 
+        </p>        <div class="col-md-5 hidden-xs related-posts">    <!--                -->
+                    <div class="related-posts_container">
+                        <h4>Related</h4>                        <div class="related-posts_item">Modular Application Architecture - Intro
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-events/">Modular Application Architecture - Events</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-pipelines/">Modular Application Architecture - Pipelines</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-inheritance/">Modular Application Architecture - Inheritance</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-considerations/">Modular Application Architecture - Considerations</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-static-assets/">Modular Application Architecture - Static assets</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/plugin-based-architecture/modules-img-small.jpg" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2017-11-1">
+                        <i class="fa fa-calendar"></i>2017-11-01                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p><strong>This is the first post from a series of posts that will describe strategies to build 
+modular and extensible applications.</strong> (inspired by a talk from <a href="https://qafoo.com/">qafoo</a> in 2011 in Berlin)</p>
+
+<p>When developing a software, one of the most common steps is taking care that the resulting application is extensible and 
+modular.</p>
+
+<p>Let's suppose we have our application or library. If we see it from outside, often it looks as a single thing. 
+Taking a closer look we can identify different and more-or-less independent set of components. 
+Components might still be really interconnected and have dependencies with the rest of the application 
+and their development might require a deep knowledge of the rest of the application.</p>
+
+<div class="text-center">
+
+<p><img src="/img/posts/plugin-based-architecture/application.png" alt="application and components" title="" class="not-too-big text-center" /></p>
+
+</div>
+
+<p>As the application grows we can continue adding components... but this comes with a price. 
+Components often knows too much of our application and  there is a delicate equilibrium of dependencies between them 
+and our application. When not handled carefully, a small change in one component might require changes in many other.</p>
+
+<p><em>As a rule of thumb, I personally try to follow as much as possible the 
+<a href="https://en.wikipedia.org/wiki/Acyclic_dependencies_principle">Acyclic dependencies principle</a></em></p>
+
+<p>Another way to allow extensibility but keeping the application "clean" is to introduce modules.</p>
+
+<h2 id="modules">Modules</h2>
+
+<p>Modules are "components" developed outside of the application. Modules communicate the the application only via
+defined entry-points.</p>
+
+<p>Different people use different names for modules as plugins, bundles, add-ons and so on... 
+but the main idea is always the same, independent functionalities developed outside of the application.</p>
+
+<div class="text-center">
+
+<p><img src="/img/posts/plugin-based-architecture/modules.png" alt="application and components" title="" class="not-too-big" /></p>
+
+</div>
+
+<h2 id="why%3F">Why?</h2>
+
+<p>By using modules that are not part of the application, we gain several advantages as:</p>
+
+<ul>
+<li><strong>Customizations</strong>: the application can behave really differently by just enabling/disabling some modules.</li>
+<li><strong>Less dependencies</strong>: the modules are more independent from the application itself, till the "entrypoints" are 
+compatible, both modules and the application can evolve independently.</li>
+<li><strong>Third-party extensions</strong>: since the modules are not part of the application and the "entrypoints" are well defined, 
+developing modules can be done by third parties.</li>
+<li><strong>Independent development</strong>: Since the application and the modules are independent, they can be: 
+
+<ul>
+<li>developed by external developers</li>
+<li>released with independent release cycles</li>
+<li>developed potentially with different technologies</li>
+</ul></li>
+<li><strong>Smaller application</strong> The applications is smaller (many functionalities can be implemented via modules) 
+and smaller application is translated in better maintainability.</li>
+</ul>
+
+<p>Just to make few example to understand why is important to have an application that allows modules:</p>
+
+<ul>
+<li><strong>Wordpress</strong> it the most popular blogging platform nowadays. Part of its success is an incredibly powerful and
+at the same time incredibly simple plug-in and theme system. </li>
+<li><strong>Symfony</strong> is a popular PHP framework. Thanks to its "bundles" system, is possible to get a large variety of ready 
+functionalities with almost no effort.</li>
+<li><strong>PHP</strong>, itself offers a great set of extensions and those extensions allowed to integrate the language with a large
+variety of systems.</li>
+</ul>
+
+<h2 id="challenges-to-solve">Challenges to solve</h2>
+
+<p>To make our application modular we have to carefully decide what modules should be able to do, 
+how will communicate with the application and how will expose their functionalities.
+When implementing a plug-in/modular system we have to consider which part of application behavior
+ a module will be allowed to change and in which measure.</p>
+
+<p>As example, if we are developing a word processor,
+a module might be able to add just the support for a new file format or just a new icon 
+on the toolbar or on the opposite side, to change completely the whole application.</p>
+
+<p>Depending on this decisions we can architect our module very differently, but almost always we will have to 
+deal with module structure, registration/configuration, resource management and communication with the core.</p>
+
+<h3 id="1.-module-structure">1. Module structure</h3>
+
+<p>A starting point is the module structure as file naming, folder structure, class naming, etc.
+When the module structure is decided, the remaining aspects are highly influenced.</p>
+
+<p>Often the module structure is the first entrypoint with the application.</p>
+
+<p><em>My personal suggestion is to not impose any specific folder structure but to have a single "entrypoint" where 
+the module is loaded and using that entrypoint as source of truth and configuration. 
+The meaning of "entrypoint" will be defined in the next paragraph</em></p>
+
+<h3 id="2.-registration">2. Registration</h3>
+
+<p>When the module structure is decided, the next step is to let our application know about it.</p>
+
+<p>There are mainly two ways to do it:</p>
+
+<ul>
+<li><strong>discovery</strong>: our application can try to use predefined set of "rules" to look for new modules and load/register them.
+<br>As example is possible to try to look in <em>specific folder (s)</em> for some <em>particular file (s)</em> 
+or check if a <em>particular class (es)</em> is defined and try to instantiate it. </li>
+<li><strong>configuration</strong>: we can <em>explicitly configure</em> the application to load a  <em>particular file (s)</em> 
+or a <em>particular class (es)</em>.</li>
+</ul>
+
+<p>There is no preferred ways to do it, it really depends on your application. 
+"configuration" based registration might be better if your audience is more technical while the "discovery" approach 
+can offer a more smooth user experience (but might be more difficult to implement).</p>
+
+<p><em>My personal suggestion is to have again a single "entrypoint" that will register 
+the module into the application core, can be a single file, class, database row, service-name etc...</em></p>
+
+<p>The application offers one or more "interfaces" to interact with its "core" and they are used via "entrypoints". 
+By "interface" here is intended any possible protocol or convention defined by the application
+that might be used used by the module to achieve a goal.</p>
+
+<div class="text-center">
+
+<p><img src="/img/posts/plugin-based-architecture/interface.png" alt="application and components" /></p>
+
+</div>
+
+<p>Examples:</p>
+
+<ul>
+<li><strong>composer</strong>: the <a href="https://getcomposer.org/">composer</a> way of adding functionalities is by <em>discovery</em>.<br>
+Composer will search for installed packages having <code>type=composer-plugin</code>, will search for a property named <code>class</code> 
+defined in the package's <code>composer.json</code> file and will register the event listeners declared by that class. 
+More info about it are available <a href="https://getcomposer.org/doc/articles/plugins.md">here</a></li>
+<li><strong>symfony</strong>: the <a href="https://www.symfony.com/">symfony</a> way of adding functionalities is by <em>configuration</em>.<br>
+In the <code>Appkernel</code> class is necessary to define all the "bundles" that will be used by symfony to enrich 
+the framework functionalities. The "bundle" class will be instantiated and is responsible for registering the bundle 
+into the extension points that symfony allows. 
+The bundle class is able to alter almost any part of symfony itself as it has access to 
+the symfony core dependency injection mechanism.
+More info about it are available <a href="https://symfony.com/doc/3.4/bundles.html">here</a>.
+Recently with <a href="https://github.com/symfony/flex">flex</a> an automatic discovery and configuration become available. </li>
+<li><strong>laravel</strong>: the <a href="https://getcomposer.org/">laravel</a> way of adding functionalities is by <em>discovery</em>.<br>
+Laravel will search for installed packages and will search for a property named <code>extra</code>.<code>laravel</code> 
+defined in the package's <code>composer.json</code> file and will register the service providers declared in there. 
+More info about it are available <a href="https://laravel.com/docs/5.5/packages">here</a></li>
+</ul>
+
+<h3 id="3.-configuration">3. Configuration</h3>
+
+<p>When the module is registered into the core it might be useful to allow some additional configurations.<br>
+Most probably the application is configured somehow to match user-expectations, the same thing should happen 
+for the module.</p>
+
+<p><em>Is possible to offer different configuration strategies, my personal suggestion is to offer a configuration 
+mechanism very close to the way how the application is configured.
+If the application is configured via configuration files, environment variables, database entries or a 
+nice control panel, the module should be configured in the same way</em></p>
+
+<p>A nice feature that modules should have (and application should allow) are "defaults", so virtually a module might 
+need no configuration.</p>
+
+<p>Examples:</p>
+
+<ul>
+<li><strong>composer</strong>: the <a href="https://getcomposer.org/">composer</a>'s <code>composer.json</code> file allows you to decide which plugins to load, 
+which commands to run and so on.</li>
+<li><strong>symfony</strong>: the <a href="https://www.symfony.com/">symfony</a> allows YAML, XML and PHP as configuration languages, 
+configuration values can to be declared in <code>config.(yml|xml|php)</code> (and in few other places) and bundles can provide default values for it.</li>
+<li><strong>laravel</strong>: the <a href="https://getcomposer.org/">laravel</a> uses mainly PHP as configuration language and thank to it
+is possible to use the power of the PHP syntax when defining configurations.</li>
+</ul>
+
+<h3 id="4.-resources">4. Resources</h3>
+
+<p>Some modules might need to expose some content to the user as images, CSS, templates, translations, files or similar. 
+Applications can take different way to make available the content to the user.</p>
+
+<p>When the resource is "application managed", 
+is just about using the "application interface" to provide/override the resource
+(as example using the application plugin interface).</p>
+
+<p>When resources are not managed by the application but are module-specific, things can get more 
+complicated. Some way to handle it are:</p>
+
+<ul>
+<li>linking/copying the content to the web directory
+
+<ul>
+<li>requires some step to publish the resources</li>
+</ul></li>
+<li>serve the resources using the applications, as example pipe-it via PHP 
+
+<ul>
+<li>can be slow or resource intensive</li>
+</ul></li>
+<li>configure the webserver to serve explicitly the plugin resources 
+
+<ul>
+<li>makes in vain the "plug &amp; play" idea behind modules by adding additional configurations</li>
+</ul></li>
+<li><p>let the user "copy and paste" resources manually</p>
+
+<p>Each option has drawbacks and advantages. Lately the "linking/copying" strategy is the most popular.</p></li>
+</ul>
+
+<h3 id="5.-interaction-with-the-application">5. Interaction with the application</h3>
+
+<p>Now that the module is loaded and configured, everything is ready.<br />
+The application can decide all the "interaction" points and go through modules checking if some module is "interested"
+in interacting with the application core (probably)</p>
+
+<p>There are many strategies to "interact" with the application some of them limit the ability of a module to interact 
+on a specific (user defined) part if the application while other might allow to change potentially the whole 
+application flow.</p>
+
+<p><strong>In the next articles we will go deeper into possible ways to interact with the application.</strong></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this first article I've described some motivations and challenges when building extensible applications. 
+In the next articles we will see some strategies of interaction with the application as 
+<em>hooks</em>, <em>event manager</em>, <em>observer pattern</em>, <em>inheritance</em> and others.</p>
+
+<p>Looking forward for your feedback.</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>extensibility</span>,                <span>plugins</span>,                <span>hooks</span>,                <span>api</span>,                <span>software-design</span>,                <span>software-architecture</span>,                <span>modules</span>,                <span>core</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-intro&text=I%27ve%20just%20read%20%22Modular%20Application%20Architecture%20-%20Intro%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-intro" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-intro&title=Modular%20Application%20Architecture%20-%20Intro%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-intro&title=Modular%20Application%20Architecture%20-%20Intro%20-Asmir%20Mustafic&summary=When%20developing%20software%2C%20sometimes%20we%20need%20to%20allow%20our%20application%20to%20have%20plug-ins%20or%20modules%20%20developed%20by%20third%20parties.%20%20Creating%20a%20robust%20architecture%20that%20allows%20a%20powerful%20mechanism%20can%20be%20challenging.%20In%20this%20series%20of%20posts%20we%20will%20see%20some%20strategies%20to%20do%20it.%20%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-intro" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/immobinet-at-ttg-2017-rimini" title="Immobinet at TTG 2017 Rimini">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">Immobinet at TTG 2017 Rimini</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/modular-application-architecture-events" title="Modular Application Architecture - Events">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">Modular Application Architecture - Events</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

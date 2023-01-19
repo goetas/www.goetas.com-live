@@ -1,0 +1,778 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>Multi-namespace migrations with doctrine/migrations 3.0 -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/multi-namespace-migrations-with-doctrinemigrations-30" />
+
+        <meta name="twitter:title" content="Multi-namespace migrations with doctrine/migrations 3.0 -Asmir Mustafic" />
+        <meta name="og:title" content="Multi-namespace migrations with doctrine/migrations 3.0 -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/doctrine-migrations-3.0/doctrine-logo.png" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/doctrine-migrations-3.0/doctrine-logo.png" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "Multi-namespace migrations with doctrine/migrations 3.0",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2020-04-05",
+         "dateModified": "2020-04-05",
+         "description": "doctrine&#x2F;migrations&#x20;3.0-alpha1&#x20;has&#x20;been&#x20;made&#x20;available&#x20;last&#x20;week.&#x20;The&#x20;main&#x20;user-facing&#x20;feature&#x20;is&#x20;the&#x20;ability&#x20;to&#x20;define&#x20;migrations&#x20;into&#x20;multiple&#x20;folders&#x2F;namespaces&#x20;and&#x20;to&#x20;specify&#x20;dependencies&#x20;between&#x20;migrations.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/multi-namespace-migrations-with-doctrinemigrations-30"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/multi-namespace-migrations-with-doctrinemigrations-30",
+              "name": "Multi-namespace migrations with doctrine/migrations 3.0"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="doctrine/migrations 3.0-alpha1 has been made available last week. The main user-facing feature is the ability to define migrations into multiple folders/namespaces and to specify dependencies between migrations. ">
+        <meta name="twitter:description" content="doctrine/migrations 3.0-alpha1 has been made available last week. The main user-facing feature is the ability to define migrations into multiple folders/namespaces and to specify dependencies between migrations. ">
+        <meta name="og:description" content="doctrine/migrations 3.0-alpha1 has been made available last week. The main user-facing feature is the ability to define migrations into multiple folders/namespaces and to specify dependencies between migrations. ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="open-source,php,doctrine,migrations,database,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>Multi-namespace migrations with doctrine/migrations 3.0</i>
+        </div>
+        <header>
+            <h1>Multi-namespace migrations with doctrine/migrations 3.0</h1>
+        </header>        <p class="subtitle">doctrine/migrations 3.0-alpha1 has been made available last week. The main user-facing feature is the ability to define migrations into multiple folders/namespaces and to specify dependencies between migrations.
+        </p>        <div class="col-md-5 hidden-xs related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/multi-ns-migrations/">Setup Multi-namespace migrations with doctrine/migrations 3.0 and Symfony 5</a></li>                        </ul>
+                    </p>
+                </div>                    <div class="related-posts_container">
+                        <h4>More posts from the author</h4>                        <div class="related-posts_item">
+                            <a href="/blog/released-doctrinemigrations-30-alpha">-Released doctrine/migrations 3.0-alpha</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/make-the-difference-when-contributing-to-open-source">-Make the difference when contributing to open-source</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-to-use-external-services-with-the-symfony-validator">-How to use external services with the Symfony Validator</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/changing-credentials-on-docker-swarm-services">-Changing credentials on Docker Swarm Services</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/doctrine-migrations-3.0/doctrine-logo.png" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2020-4-5">
+                        <i class="fa fa-calendar"></i>2020-04-05                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p>Last week <a href="/blog/released-doctrinemigrations-30-alpha">I've announced the first alpha release</a> 
+for <a href="https://github.com/doctrine/migrations"><code>doctrine/migrations</code> 3.0</a>.
+This new major release is the result of almost 6 months of work. 
+Brings a completely refactored/rewritten internal structure and some interesting new features.</p>
+
+<p>This post will focus on the <strong>ability to collect migrations from multiple folders/namespaces and
+to specify dependencies between them</strong> (this feature has been introduced with the 3.0 major release and 
+was not available before).</p>
+
+<h2 id="multi-namespace-migrations">Multi-namespace migrations</h2>
+
+<p>Let's suppose we have a multi-installation application(such as example Wordpress, Magento, Drupal or similar).
+All this applications have some kind of optional Modules/Plugins/Extensions.</p>
+
+<p>Modules/Plugins/Extensions by definition are optional, and if a module defines migrations, 
+then even the database structure will be different from installation to installation.
+When modules have dependencies to other modules, then the execution order 
+depends on those dependencies and not only on the chronological order.</p>
+
+<p>Consider the following application diagram:</p>
+
+<pre><code class="text">            +--------+
+            |  Core  |
+            +---+----+
+                |
+         +------+------+
+         |             |
+         v             v
+    +--------+    +--------+
+    |Module A|    |Module B|
+    +--------+    +---+----+
+                      |
+                      v
+                  +--------+
+                  |Module C|
+                  +--------+
+</code></pre>
+
+<p>We can see that there is a <code>Core</code> application, then the modules <code>Module A</code>, <code>Module B</code>, and <code>Module C</code>.
+We can see also that <code>Module C</code> has a dependency on <code>Module B</code>.</p>
+
+<p>If the <code>Module C</code> defines some migrations, they most likely will depend on structures defined 
+in the <code>Module B</code>, thus they should be executed after all the migrations in <code>ModuleB</code> have been executed. 
+On the other hand, since <code>Module A</code> does not depend on <code>Module B</code>, their execution order relative to each other is not important.</p>
+
+<p>In previous versions of <code>doctrine/migrations</code> this case was not handled, let's see how this use case can be solved by 
+the upcoming 3.0 release.</p>
+
+<h2 id="use-case">Use case</h2>
+
+<p>Here we are going to see an example of how multi-namespace migrations can be implemented using <code>doctrine/migrations</code> <code>3.0</code>.</p>
+
+<h3 id="directory-layout">Directory layout</h3>
+
+<p>Our example application has the following directory layout:</p>
+
+<pre><code class="text">├── config/
+|   └── cli-config.php
+├── src/
+|   ├── Core/
+|   |  └── Migrations/
+|   |     └── Version182289181.php
+|   ├── ModuleA/
+|   |  └── Migrations/
+|   |     └── Version182289181.php
+|   ├── ModuleB/    
+|   |  └── Migrations/
+|   |      └── Version098766776.php
+|   └── ModuleC/
+|      └── Migrations/
+|         └── Version987689789.php
+├── vendor/
+└── composer.json
+</code></pre>
+
+<ul>
+<li><code>composer.json</code> and <code>vendor</code> are the standard composer file and vendor directory, containing the list of packages
+we depend on and the source code. 
+By default executable files are available in the <code>vendor/bin</code> directory, and 
+<code>doctrine/migrations</code> offers the <code>vendor/bin/doctrine-migrations</code> executable command to manage database migrations.</li>
+<li><code>src</code> contains our source code, in this case, the application is divided into 4 parts, the <code>Core</code> and 3 modules.
+(This is just an example directory layout, in your application you can use any other layout you prefer.)</li>
+<li><code>config/cli-config.php</code> is loaded by <code>doctrine/migrations</code> to configure itself.
+For other ways to integrate <code>doctrine/migrations</code>, please take a look at the <a href="https://www.doctrine-project.org/projects/doctrine-migrations/en/latest/reference/custom-integration.html">official documentation</a>.</li>
+</ul>
+
+<p><em>Note that this is just an example, your application can have a different layout that might depend on how
+modules are loaded, framework in use and many other factors. The important thing is that the configurations defined
+in the <code>config/cli-config.php</code> file are able to discover the migration classes.</em></p>
+
+<h3 id="configurations">Configurations</h3>
+
+<p>This is the content of our <code>cli-config.php</code>:</p>
+
+<pre><code class="php">use Doctrine\DBAL\DriverManager;
+use Doctrine\Migrations\Configuration\Connection\ExistingConnection;
+use Doctrine\Migrations\Configuration\Migration\ConfigurationArray;
+use Doctrine\Migrations\DependencyFactory;
+use Doctrine\Migrations\Version\Comparator;
+use App\Core\ProjectVersionComparator;
+
+// setup database connection
+$conn = DriverManager::getConnection(['driver' =&gt; 'pdo_sqlite', 'memory' =&gt; true]);
+
+// define configurations
+$config = new ConfigurationArray([
+    'migrations_paths'      =&gt; [
+        'App\Core\Migrations' =&gt; 'src/Core/Migrations',
+        'App\ModuleA\Migrations' =&gt; 'src/ModuleA/Migrations',
+        'App\ModuleB\Migrations' =&gt; 'src/ModuleB/Migrations',
+        'App\ModuleC\Migrations' =&gt; 'src/ModuleC/Migrations',
+     ],
+]);
+
+$di = DependencyFactory::fromConnection($config, new ExistingConnection($conn));
+
+// define custom migration sorting
+$di-&gt;setService(Comparator::class, new ProjectVersionComparator());
+
+return $di;
+</code></pre>
+
+<p>Analyzing line-by-line this file, we can see that:</p>
+
+<ul>
+<li><code>$conn</code> is the connection to your database using the <a href="https://github.com/doctrine/dbal">DBAL</a> library.</li>
+<li><code>$config</code> defines the doctrine migration configurations. The only mandatory parameter is  <code>migrations_paths</code> 
+that is a key/value array that tells to <code>doctrine/migrations</code> where to find the migration files for each module
+(keys are namespace prefixes and values are directory locations. 
+Many other configuration options are explained in the <a href="https://www.doctrine-project.org/projects/doctrine-migrations/en/latest/reference/custom-configuration.html#custom-configuration">official documentation</a>.</li>
+<li><code>$di</code> is the dependency factory that will be used by doctrine to retrieve connection, configurations 
+and other dependencies.</li>
+<li>as last thing, calling <code>$di-&gt;setService(Comparator::class, ...)</code> we define a custom 
+version comparator (<code>App\Core\ProjectVersionComparator</code>) 
+that will have the responsibility of deciding the execution order for our migrations.</li>
+</ul>
+
+<h3 id="version-comparator">Version comparator</h3>
+
+<p>The version comparator decides the execution order and must implement the  <code>Doctrine\Migrations\Version\Comparator</code> interface.
+The class implementing the interface has the responsibility to figure out the dependencies between migrations
+and sort the migrations accordingly.</p>
+
+<p>Let's take a look at the custom version comparator:</p>
+
+<pre><code class="php">namespace App\Core;
+
+use Doctrine\Migrations\Version\Comparator;
+use Doctrine\Migrations\Version\AlphabeticalComparator;
+use MJS\TopSort\Implementations\ArraySort;
+
+class ProjectVersionComparator implements Comparator
+{
+    private $dependencies;
+    private $defaultSorter;
+
+    public function __construct()
+    {
+        $this-&gt;defaultSorter = new AlphabeticalComparator();
+        $this-&gt;dependencies = $this-&gt;buildDependencies();
+    }
+
+    private function buildDependencies(): array
+    {        
+        $sorter = new ArraySort();
+
+        $sorter-&gt;add('App\Core');
+        $sorter-&gt;add('App\ModuleA', ['App\Core']);
+        $sorter-&gt;add('App\ModuleB', ['App\Core']);
+        $sorter-&gt;add('App\ModuleC', ['App\ModuleB']);
+
+        return array_flip($sorter-&gt;sort());
+    }
+
+    private function getNamespacePrefix(Version $version): string
+    {
+        if (preg_match('~^App\[^\]+~', (string)$version, $mch)) {
+            return $mch[0];
+        }       
+
+        throw new Exception('Can not find the namespace prefix for the provide migration version.');
+    }   
+
+    public function compare(Version $a, Version $b): int
+    {
+        $prefixA = $this-&gt;getNamespacePrefix($a);
+        $prefixB = $this-&gt;getNamespacePrefix($b);
+
+        return $this-&gt;dependencies[$prefixA] &lt;=&gt; $this-&gt;dependencies[$prefixB] 
+            ?: $this-&gt;defaultSorter-&gt;compare($a, $b);
+    }
+}
+</code></pre>
+
+<p>Analyzing method-by-method this class, we can see that:</p>
+
+<h4 id="__construct">__construct()</h4>
+
+<p>The constructor initializes two variables that will be used by the main <code>compare()</code> method.</p>
+
+<ul>
+<li><code>$this-&gt;defaultSorter</code>: is an instance of <code>new AlphabeticalComparator</code> and initializes
+the default alphabetical doctrine migration sorter (will be used later as fallback sorting).</li>
+<li><code>$this-&gt;dependencies</code>: is initialized by <code>$this-&gt;buildDependencies()</code> and is an array containing the sorted dependencies between modules</li>
+</ul>
+
+<h4 id="builddependencies">buildDependencies()</h4>
+
+<p>This method is the core of our dependency resolution strategy. 
+Uses the <a href="https://github.com/marcj/topsort.php">marcj/topsort.php</a> library 
+to perform <a href="https://en.wikipedia.org/wiki/Topological_sorting">topological sorting</a> and provide a sorted array 
+of our dependency graph. Later that array will be used to sort migrations.</p>
+
+<p>For each namespace, we define its dependent namespace. In our case we have:</p>
+
+<ul>
+<li><code>App\Core</code> has no dependencies</li>
+<li><code>App\ModuleA</code> depends on <code>App\Core</code></li>
+<li><code>App\ModuleB</code> depends on <code>App\Core</code></li>
+<li><code>App\ModuleC</code> depends on <code>App\ModuleB</code> (the dependency on <code>App\Core</code> is optional here because <code>App\ModuleB</code> depends already on it)</li>
+</ul>
+
+<p>In the end, <code>$this-&gt;dependencies</code> will be an array having as keys the application namespaces and as value the execution order.
+To be more precise, will look like this:</p>
+
+<pre><code class="php">[
+ 'App\Core' =&gt; 0,
+ 'App\ModuleA' =&gt; 1, 
+ 'App\ModuleB' =&gt; 2,
+ 'App\ModuleC' =&gt; 3,
+]
+</code></pre>
+
+<p><em>Note that the hard-coded dependencies in the function <code>buildDependencies()</code> is just an example 
+on how to detect relations between packages.
+In an ideal situation, modules could be independent composer packages, then a better way
+to resolve migration dependencies would be using the package relations defined in the <code>composer.json</code> file.</em></p>
+
+<h4 id="getnamespaceprefix">getNamespacePrefix()</h4>
+
+<p>This is just a utility method that is able to extract the namespace prefix from a <code>doctrine/migrations</code> version name.
+As an example, if the migration version is <code>App\ModuleA\Migrations\Version6569787886</code>, it will return <code>App\ModuleA</code>.
+It is used to have an easy lookup in the <code>$this-&gt;dependencies</code> array and locate the execution order of the migration
+based on the package to which it belongs.</p>
+
+<h4 id="compare">compare()</h4>
+
+<p>This method does the real job of deciding which migration comes first and which comes later.</p>
+
+<p>Let's see line-by-line what is happening:</p>
+
+<ul>
+<li>using <code>getNamespacePrefix()</code> we get the namespace prefixes for the two migration versions we are comparing</li>
+<li><p>using the space ship operator (<code>&lt;=&gt;</code>) we check the order of execution of the two namespace prefixes 
+against the <code>$this-&gt;dependencies</code> array (initialized in the constructor using the <code>buildDependencies()</code> method)</p>
+
+<ul>
+<li>if the two migrations belong to two packages that depend on each other, 
+the <code>&lt;=&gt;</code>  will return <code>1</code> or <code>-1</code> depending on which comes first. </li>
+<li>if the two migrations belong to the same package, the spaceship operator will return <code>0</code>, so we fallback to 
+the default doctrine alphabetical sorting.</li>
+</ul></li>
+</ul>
+
+<h3 id="running-migrations-and-other-commands">Running migrations and other commands</h3>
+
+<p>Most of the other commands have the same output and input argument.
+A complete list of available commands can be found on the <a href="https://www.doctrine-project.org/projects/doctrine-migrations/en/latest/index.html">official documentation</a>.</p>
+
+<h3 id="empty-migrations">Empty migrations</h3>
+
+<pre><code class="bash">bin/doctrine-migrations generate --namespace 'App\ModuleA\Migrations'
+</code></pre>
+
+<p>Will generate an empty migration in the <code>src/Core/Migrations</code> directory and having as namespace <code>App\Core\Migrations</code>.
+By omitting the  <code>--namespace</code> argument, migrations will be generated in the first defined <code>migrations_paths</code> element.</p>
+
+<p>An optional parameter <code>--filter-expression</code> will allow you to include in the diff only changes for a particular 
+subset of your schema.</p>
+
+<h3 id="diff-migrations">Diff migrations</h3>
+
+<pre><code class="bash">bin/doctrine-migrations diff --namespace 'App\ModuleA\Migrations'
+</code></pre>
+
+<p>Will generate a migration in the <code>src/Core/Migrations</code> directory and having as namespace <code>App\Core\Migrations</code>.
+By omitting the  <code>--namespace</code> argument, migrations will be generated in the first defined <code>migrations_paths</code> element 
+and all the entities will be considered. (This command is available only if you are using <code>doctine/orm</code>)</p>
+
+<h2 id="symfony-integration">Symfony integration</h2>
+
+<p>If you are using <a href="https://symfony.com/">Symfony</a>, <code>doctrine/migrations</code> 3.0 comes with 
+<code>doctrine/doctrine-migrations-bundle</code> 3.0.</p>
+
+<p>Because of how the integration is done we do not need the <code>config/cli-config.php</code> file to define connections, dependency
+factories or configurations. 
+We also do not need the doctrine migrations executable file anymore since Symfony has already its 
+own fully integrated <code>bin/console</code> command.</p>
+
+<p>Symfony's bundle system allows us also to organize our core application and modules in bundles.</p>
+
+<p>Most of the configurations are defined inside <code>doctrine_migrations.yaml</code>.</p>
+
+<pre><code class="yaml">doctrine_migrations:
+    migrations_paths:
+        'App\Core\Migrations': '%kernel.project_dir%/Migrations'
+        'MyCompany\ModuleA\Migrations': '%kernel.root_dir%/vendor/my-company/mod-a/src/Migrations'
+        'MyCompany\ModuleB\Migrations': '%kernel.root_dir%/vendor/my-company/mod-b/src/Migrations'
+        'MyCompany\ModuleC\Migrations': '%kernel.root_dir%/vendor/my-company/mod-c/src/Migrations'
+    services: 
+        'Doctrine\Migrations\Version\Comparator': 'App\Core\ProjectVersionComparator'
+</code></pre>
+
+<p>This configuration implies that:</p>
+
+<ul>
+<li>your <code>Core</code> module is in the <code>src</code> directory and the other
+modules are in the <code>vendor</code> directory installed as composer packages</li>
+<li><code>App\Core\ProjectVersionComparator</code> is a service based on the <code>App\Core\ProjectVersionComparator</code> class we saw before 
+(<a href="https://symfony.com/doc/current/service_container.html">here more info on how to define Symfony services</a>)</li>
+</ul>
+
+<p>The <code>doctrine/doctrine-migrations-bundle</code> will auto-configure itself to use the default DBAL connection 
+or the default ORM entity manager if available. 
+There are many other configuration parameters <a href="https://www.doctrine-project.org/projects/doctrine-migrations/en/latest/reference/configuration.html#configuration">explained in the official documentation</a>.</p>
+
+<p><em>Depending on which Symfony version you are using, this file could be located inside <code>config/packages</code>
+or its content has to be placed inside <code>config/config.yml</code>. 
+If you are using Symfony Flex, a skeleton of this file will be auto-generated.</em></p>
+
+<h3 id="extra%3A-custom-migration-factories-aka-decorating-services">Extra: Custom migration factories (aka Decorating services)</h3>
+
+<p>Sometimes migrations need external services to get some data before running migrations. Use cases are fetching 
+default data and inserting them into newly created tables, resolving IP addresses to countries if you are adding the 
+"country" column to an existing user table, and many other situations.</p>
+
+<p>This can be done by defining a custom factory on the <code>doctrine_migrations.yaml</code> file:</p>
+
+<pre><code class="yaml">doctrine_migrations:
+    # ...
+    services: 
+        'Doctrine\Migrations\Version\MigrationFactory': 'App\Core\ProjectVersionFactory'
+
+services:
+    App\Core\ProjectVersionFactory.inner:
+      class: Doctrine\Migrations\Version\DbalMigrationFactory
+      factory: ['@doctrine.migrations.dependency_factory', 'getMigrationFactory']
+
+    App\Core\ProjectVersionFactory:
+      arguments: ['@App\Core\ProjectVersionFactory.inner', '@service_container']
+</code></pre>
+
+<p>The <code>App\Core\ProjectVersionFactory</code> can look like this:</p>
+
+<pre><code class="php">namespace App\Core;
+
+use Doctrine\Migrations\AbstractMigration;
+use Doctrine\Migrations\Version\MigrationFactory;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class ProjectVersionFactory implements MigrationFactory
+{
+    private $container;
+    private $migrationFactory;
+
+    public function __construct(MigrationFactory $migrationFactory, ContainerInterface $container)
+    {
+        $this-&gt;container = $container;
+        $this-&gt;migrationFactory = $migrationFactory;
+    }
+
+    public function createVersion(string $migrationClassName): AbstractMigration
+    {        
+        $instance = $this-&gt;migrationFactory-&gt;createVersion($migrationClassName);
+
+        if ($instance instanceof ContainerAwareInterface) {
+            $instance-&gt;setContainer($this-&gt;container);
+        } 
+
+        return $instance;
+    }
+}
+</code></pre>
+
+<p>Custom migration factories can be defined also in the project without Symfony by declaring them in the <code>cli-config.php</code> file.</p>
+
+<pre><code class="php">// ...
+
+$oldMigrationFactory = $di-&gt;getMigrationFactory();
+$di-&gt;setService(MigrationFactory::class, new ProjectVersionFactory($oldMigrationFactory, $container));
+
+return $di;
+</code></pre>
+
+<h3 id="extra%3A-auto-registered-migrations">Extra: Auto registered migrations</h3>
+
+<p>This is a feature useful for bundle authors/maintainers and allows a bundle to "append"
+some migrations to the list of migrations to be executed by the core application.
+It is done using the Symfony's <a href="https://symfony.com/doc/current/bundles/prepend_extension.html">prepend extension</a> interface.</p>
+
+<pre><code class="php">namespace MyCompany\ModuleA\DependencyInjection;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+
+class MyCompanyModuleAExtension extends Extension implements PrependExtensionInterface
+{
+    // ...
+    public function prepend(ContainerBuilder $container)
+    {
+        $container-&gt;prependExtensionConfig('doctrine_migrations', [
+            'migrations_paths' =&gt; [
+                'MyCompany\ModuleA\Migrations' =&gt; __DIR__. '/../Migrations',
+            ]
+        ]);
+    }
+}
+</code></pre>
+
+<p>Using the Symfony dependency injection and the prepend extension feature,  <code>ModuleA</code> is able to auto-register
+its migrations into the <code>Core</code> application.</p>
+
+<p>Of course, the sorting algorithm provided by the <code>ProjectVersionComparator</code> class must be able to sort accordingly 
+the migrations provided by <code>ModuleA</code>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>That's it. With these configurations, <code>doctrine/migrations</code> is able to run migrations from multiple namespaces
+and the execution order will depend on the dependencies between the different modules.</p>
+
+<h3 id="what-is-next">What is next</h3>
+
+<p><code>doctrine/migrations</code> <code>3.0</code> is still in alpha, 
+<strong>to be able to deliver a good stable release it is important that you test the pre-release and share your feedback!</strong></p>
+
+<p>To try the alpha version, you can run:</p>
+
+<pre><code class="bash">composer require 'doctrine/migrations:^3.0@alpha'
+</code></pre>
+
+<p>You can have a look also to the <a href="https://github.com/doctrine/migrations/blob/master/UPGRADE.md">upgrading</a> document.</p>
+
+<p>If you are using Symfony:</p>
+
+<pre><code class="bash">composer require 'doctrine/doctrine-migrations-bundle:^3.0@alpha' 'doctrine/migrations:^3.0@alpha'
+</code></pre>
+
+<p>You can have a look also to the <a href="https://github.com/doctrine/DoctrineMigrationsBundle/blob/master/UPGRADE.md">upgrading</a> document 
+for the symfony bundle.</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>open-source</span>,                <span>php</span>,                <span>doctrine</span>,                <span>migrations</span>,                <span>database</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/multi-ns-migrations/">Setup Multi-namespace migrations with doctrine/migrations 3.0 and Symfony 5</a></li>                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmulti-namespace-migrations-with-doctrinemigrations-30&text=I%27ve%20just%20read%20%22Multi-namespace%20migrations%20with%20doctrine%2Fmigrations%203.0%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmulti-namespace-migrations-with-doctrinemigrations-30" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmulti-namespace-migrations-with-doctrinemigrations-30&title=Multi-namespace%20migrations%20with%20doctrine%2Fmigrations%203.0%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmulti-namespace-migrations-with-doctrinemigrations-30&title=Multi-namespace%20migrations%20with%20doctrine%2Fmigrations%203.0%20-Asmir%20Mustafic&summary=doctrine%2Fmigrations%203.0-alpha1%20has%20been%20made%20available%20last%20week.%20The%20main%20user-facing%20feature%20is%20the%20ability%20to%20define%20migrations%20into%20multiple%20folders%2Fnamespaces%20and%20to%20specify%20dependencies%20between%20migrations.%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmulti-namespace-migrations-with-doctrinemigrations-30" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/released-doctrinemigrations-30-alpha" title="Released doctrine/migrations 3.0-alpha">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">Released doctrine/migrations 3.0-alpha</span>
+                                </a>
+                            </div>
+                        </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

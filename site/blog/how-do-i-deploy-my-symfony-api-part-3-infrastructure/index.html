@@ -1,0 +1,620 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>How do I deploy my Symfony API - Part 3 - Infrastructure -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-3-infrastructure" />
+
+        <meta name="twitter:title" content="How do I deploy my Symfony API - Part 3 - Infrastructure -Asmir Mustafic" />
+        <meta name="og:title" content="How do I deploy my Symfony API - Part 3 - Infrastructure -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/cloud-computing-2444290_960_720.png" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/cloud-computing-2444290_960_720.png" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "How do I deploy my Symfony API - Part 3 - Infrastructure",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2017-10-04",
+         "dateModified": "2017-10-04",
+         "description": "This&#x20;is&#x20;the&#x20;third&#x20;article&#x20;from&#x20;a&#x20;series&#x20;of&#x20;blog&#x20;posts&#x20;on&#x20;how&#x20;to&#x20;deploy&#x20;a&#x20;symfony&#x20;PHP&#x20;based&#x20;application&#x20;to&#x20;a&#x20;docker&#x20;swarm&#x20;cluster&#x20;hosted&#x20;on&#x20;Amazon&#x20;EC2&#x20;instances.&#x0A;&#x20;This&#x20;post&#x20;focuses&#x20;on&#x20;the&#x20;AWS&#x20;and&#x20;instances&#x20;configuration.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-3-infrastructure"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-3-infrastructure",
+              "name": "How do I deploy my Symfony API - Part 3 - Infrastructure"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="This is the third article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.  This post focuses on the AWS and instances configuration.  ">
+        <meta name="twitter:description" content="This is the third article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.  This post focuses on the AWS and instances configuration.  ">
+        <meta name="og:description" content="This is the third article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.  This post focuses on the AWS and instances configuration.  ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,symfony,aws,deploy,symfony,api,docker,amazon,ec2,swarm,puppet,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>How do I deploy my Symfony API - Part 3 - Infrastructure</i>
+        </div>
+        <header>
+            <h1>How do I deploy my Symfony API - Part 3 - Infrastructure</h1>
+        </header>        <p class="subtitle">This is the third article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.
+ This post focuses on the AWS and instances configuration. 
+        </p>        <div class="col-md-5 hidden-xs related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/puppet-cluster/">Puppet 6 cluster setup</a></li>                        </ul>
+                    </p>
+                </div>    <!--                -->
+                    <div class="related-posts_container">
+                        <h4>Related</h4>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-1-development/">How do I deploy my Symfony API - Part 1 - Development</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-2-build/">How do I deploy my Symfony API - Part 2 - Build</a>
+                        </div>                        <div class="related-posts_item">How do I deploy my Symfony API - Part 3 - Infrastructure
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-4-deploy/">How do I deploy my Symfony API - Part 4 - Deploy</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-do-i-deploy-my-symfony-api-part-5-conclusion/">How do I deploy my Symfony API - Part 5 - Conclusion</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/cloud-computing-2444290_960_720.png" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2017-10-4">
+                        <i class="fa fa-calendar"></i>2017-10-04                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p><strong>This is the third post from a series of posts that will describe the whole deploy process from development to production.</strong>
+The first article is available <a href="/blog/how-do-i-deploy-my-symfony-api-part-1-development/">here</a> and 
+the second <a href="/blog/how-do-i-deploy-my-symfony-api-part-2-build/">here</a>.</p>
+
+<p>In the previous two articles I've covered the steps 1-3 from the schema here below.
+Before being able to discuss the steps 4-5  we will need to see how to <strong>configure the instances</strong>  properly 
+to be able to deploy our application to a docker-swarm cluster with rolling updates.</p>
+
+<p><img src="/img/posts/deploy-php-1-schema.png" alt="Deploy schema summary" /></p>
+
+<h2 id="database">Database</h2>
+
+<p>The database (PostgreSQL) used for the application was a simple <a href="https://aws.amazon.com/rds/">AWS RDS</a> instance.</p>
+
+<p>The configuration is pretty simple and requires few steps to be put in place.
+I've not used an home-made postgres installation with or without docker just because the AWS solution works well 
+and for few $$ more offers you security and scalability.</p>
+
+<h2 id="docker-swarm">Docker swarm</h2>
+
+<p><a href="https://docs.docker.com/engine/swarm/">Docker swarm</a> is a specific docker configuration that allows you to see a group 
+of physical or virtual machines as a single one. 
+It allows you to deploy docker images on it as on an ordinary docker engine, but the load will be distributed
+across multiple nodes.</p>
+
+<p>This is a very simplified and probably imprecise definition, but personally, to me it gives the idea of what docker
+swarm does.</p>
+
+<p>Docker swarm has one or many manager nodes (the one that decides who does what) and zero or many worker nodes (the one
+who can only do the job). To not waste resources, manager nodes act also as workers too (so they take jobs too).</p>
+
+<div class="text-center">
+
+<p><img src="/img/posts/docker-swarm.jpg" alt="Deploy swarm architecture" /></p>
+
+</div>
+
+<p>From outside, requesting <code>http://node1/service1</code> or <code>http://node2/service1</code> or <code>http://node3/service1</code> 
+makes no difference since the request will be internally re-routed randomly to one of the nodes 
+part of the docker swarm cluster that hosts the <code>service1</code>. 
+Note that <code>service1</code> can be running on multiple nodes at the same time, is up to the developer make sure to have always
+a consistent application state (as example by implementing stateless services or having a shared state storage).</p>
+
+<h2 id="aws-configuration">AWS configuration</h2>
+
+<p>Here are some important details about the AWS and <a href="https://aws.amazon.com/vpc/">VPC</a> configuration that are necessary
+ do know in order to understand better the article, but are out of the scope for this series of posts.</p>
+
+<ul>
+<li>The AWS VPC had the internal DNS resolution enabled.</li>
+<li>There was a VPN configured to access the VPC from outside (<code>openvpn</code> was installed on an instance on a public subnet)
+and the commands executed here imply being connected to the VPN.</li>
+<li>The VPC internal DNS was pushed down to VPN clients by allowing them to resolve AWS internal IPs.</li>
+<li>AWS security groups were properly configured (this was the biggest headache!).</li>
+</ul>
+
+<p>All the nodes were exposing the port 80 and using a <a href="https://aws.amazon.com/elasticloadbalancing/">ELB</a> 
+(Elastic load balancer) was possible to distribute the load across the cluster.</p>
+
+<p>If somebody is interested to go deeper into one of the topics, just let me know, 
+can be a good topic for one the next posts.</p>
+
+<h2 id="instance-spin-up-and-type">Instance spin-up and type</h2>
+
+<p>As said, the application was hosed on AWS, more precisely a region with 3 adaptability zones
+(more info on this <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">here</a>).
+The 3 availability zones are an important fact for a fault-tolerance of a swarm cluster as explained 
+<a href="https://docs.docker.com/engine/swarm/admin_guide/#add-manager-nodes-for-fault-tolerance">here</a>.</p>
+
+<p>I've used two separate <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroup.html">Auto Scaling Groups</a>, 
+one for the manager nodes and one for the worker nodes.</p>
+
+<ul>
+<li>Manager nodes Auto Scaling Group: configured to have always one node per availability zone.</li>
+<li>Worker nodes Auto Scaling Group: configured to have 1 or more nodes depending on the CPU usage.</li>
+</ul>
+
+<p>Each node, when spinning up was executing a simple bash script 
+(<a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">AWS User data scripts</a>), 
+that was allowing to run some specific node configurations and decide if a node is manager or a worker.</p>
+
+<h3 id="manager-nodes">Manager nodes</h3>
+
+<p>As said, manager nodes in a swarm cluster responsible in managing the cluster state. 
+For more detail on administrating manager nodes, 
+<a href="https://docs.docker.com/engine/swarm/admin_guide/">here</a> is a great overview of what might be necessary to know.</p>
+
+<p>Manager nodes had a <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html">Private Hosted Zone</a>.
+On creation (in the user data script), manager nodes were registering them self in a private hosted zone, 
+more specifically, manager nodes were setting their IP into a record <code>myapp-manager.yyy.local</code> 
+(instead of "myapp-manager.yyy.local" I've used obviously something more meaningful).<br>
+<code>myapp-manager.yyy.local</code> was a record with a 
+<a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-configuring.html">Failover</a> routing policy.
+AWS health checks were making sure to not return records for not healthy nodes. 
+This made possible to have always a docker swarm manager available at that address/name.</p>
+
+<p>Here the script that was executed for on each manager node creation.</p>
+
+<pre><code class="bash">#!/bin/bash -v
+set -ex
+
+HOSTED_ZONE_ID='xxx'
+HOSTED_ZONE_RECORD='myapp-manager.yyy.local'
+
+# install basics
+apt-get update -y -m &amp;&amp; apt-get upgrade -y -m
+apt-get -y install awscli curl &gt; /tmp/userdata.log
+
+# docker installation
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update -q -y &amp;&amp; apt-get install -y docker-ce
+
+# configure docker swarm
+if nc "$HOSTED_ZONE_RECORD" 2377 &lt; /dev/null -w 10; then #
+    # join the cluster as manager
+    docker swarm join --token $(docker -H "$HOSTED_ZONE_RECORD" swarm join-token -q manager);
+else 
+    # create the swarm
+    docker swarm init; 
+fi
+
+# update DNS
+IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+
+echo "
+{
+    \"Comment\": \"Update record for manager node\",
+    \"Changes\": [
+        {
+            \"Action\": \"UPSERT\",
+            \"ResourceRecordSet\": {
+                \"Name\": \"$HOSTED_ZONE_RECORD.\",
+                \"Type\": \"A\",
+                \"TTL\": 300,
+                \"ResourceRecords\": [
+                    {
+                        \"Value\": \"$IP\"
+                    }
+                ]
+            }
+        }
+    ]
+}
+" &gt; /tmp/change-resource-record-sets.json
+aws route53 change-resource-record-sets --hosted-zone-id "$HOSTED_ZONE_ID" --change-batch file:///tmp/change-resource-record-sets.json
+
+exit 0;
+</code></pre>
+
+<p>Let's analyze what this script does:</p>
+
+<ul>
+<li>We have some basic system setup as the <code>curl</code> installation and package updates.</li>
+<li>Then Docker is installed via its official packages (the underlying distribution was a recent Debian)</li>
+<li>The docker swarm cluster configured:
+
+<ul>
+<li>If there is a host listening on <code>myapp-manager.yyy.local:2377</code> means that the cluster is running 
+and the node has to <a href="https://docs.docker.com/engine/reference/commandline/swarm_join/">join a swarm</a>
+and does is using the <code>docker swarm join</code> command.<br> 
+The command <code>docker -H "$HOSTED_ZONE_RECORD" swarm join-token -q manager</code> connects to a currently running manager 
+and retrieves the token necessary to join the cluster as a manager.</li>
+<li>If there are no nodes listening on <code>myapp-manager.yyy.local:2377</code> means that the cluster has not yet been created
+and the current node is the responsible for creating the cluster, so it does.</li>
+</ul></li>
+<li>Using the AWS client, the node register it self to the DNS record <code>myapp-manager.yyy.local</code>, so newly created managers
+can connect to it when crated by the auto scaling group.</li>
+</ul>
+
+<p>With this script our manager was ready to host new docker containers and was reachable via <code>myapp-manager.yyy.local</code> DNS
+name.</p>
+
+<p>We can check how it went the cluster creation operation by running the following command.</p>
+
+<pre><code class="bash">docker -H myapp-manager.yyy.local node ls
+</code></pre>
+
+<p>The output should be something as:</p>
+
+<pre><code>ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
+cer8w4urw 8yxrwzr987wyrzw    node3     Ready   Active        Reachable
+ecru45c8m5uw358xmw0x68cw8    node2     Ready   Active        Reachable
+ecruw490rx4w8w4ynw4vy9wv4 *  node1     Ready   Active        Leader
+</code></pre>
+
+<p>In this example the command was executed from an instance outside of a cluster, 
+for that reason, the option <code>-H myapp-manager.yyy.local</code> was used.
+If the command was executed from a shell inside one of the managers, the <code>-H option</code> will be not necessary</p>
+
+<h3 id="worker-nodes">Worker nodes</h3>
+
+<p>In a swarm cluster worker nodes run containers assigned to them by the manager nodes.</p>
+
+<p>Here is the script executed on node creation.</p>
+
+<pre><code class="bash">#!/bin/bash -v
+set -ex
+
+HOSTED_ZONE_RECORD='myapp-manager.yyy.local'
+
+# install basics
+apt-get update -y -m &amp;&amp; apt-get upgrade -y -m
+apt-get -y install curl &gt; /tmp/userdata.log
+
+# docker installation
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update -q -y &amp;&amp; apt-get install -y docker-ce
+
+# join the cluster as worker
+docker swarm join --token $(docker -H "$HOSTED_ZONE_RECORD" swarm join-token -q worker);
+
+exit 0;
+</code></pre>
+
+<p>Let's analyze what the worker script does:</p>
+
+<ul>
+<li>We have some basic system setup as the <code>curl</code> installation and package updates.</li>
+<li>Then Docker is installed via its official packages (the underlying distribution was a recent Debian)</li>
+<li>The docker swarm cluster configured:
+
+<ul>
+<li>The worker joins the cluster using the <code>docker swarm join</code> command.<br> 
+The command <code>docker -H "$HOSTED_ZONE_RECORD" swarm join-token -q worker</code> connects to a currently running manager 
+and retrieves the token necessary to join the cluster as a worker.</li>
+</ul></li>
+</ul>
+
+<p>When this script completes the worker is part of the cluster.</p>
+
+<p>We can check how it went the worker creation operation by running the following command.</p>
+
+<pre><code class="bash">docker -H myapp-manager.yyy.local node ls
+</code></pre>
+
+<p>The output should be something as:</p>
+
+<pre><code>ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
+8j34r9j3498rj34f9n34f9448    node4     Ready   Active
+cer8w4urw 8yxrwzr987wyrzw    node3     Ready   Active        Reachable
+ecru45c8m5uw358xmw0x68cw8    node2     Ready   Active        Reachable
+ecruw490rx4w8w4ynw4vy9wv4 *  node1     Ready   Active        Leader
+</code></pre>
+
+<p>We can see here a node <code>node4</code> as worker.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this article I've explained how AWS and the VPC was configured. 
+Now the instances are ready to receive the docker images to run.</p>
+
+<p>Even in this case there are many gray areas that require attention and improvement, 
+but the project was in a very early stage and some aspects had to be postponed.</p>
+
+<p>Some of the improvements I can easily spot are:</p>
+
+<ul>
+<li>Use custom <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html">AMI</a> with pre-installed and up to date
+docker to have faster the spin-up time. </li>
+<li>Handle the container re-balancing when the auto scaling group creates a worker node.</li>
+<li>The use of an ELB and the way how docker-swarm works (the traffic is internally re-balanced) changes 
+partially the aim of a load balancer (suggestions are welcome!).</li>
+<li>When the cluster is scaling down, <a href="https://docs.docker.com/engine/swarm/swarm-tutorial/drain-node/">drain</a> 
+the nodes to make sure to not "kill" active connections 
+and gracefully <a href="https://docs.docker.com/engine/reference/commandline/swarm_leave/">leave</a> the cluster.
+<br>
+Possible ways to do it in my opinion are available
+<a href="https://circleci.com/blog/graceful-shutdown-using-aws/">here</a> 
+or <a href="https://github.com/miglen/aws/blob/master/ec2/run-script-on-ec2-instance-termination.md">here</a></li>
+<li>When a node just "dies" without executing any maintenance script, will be seen by the cluster as "Unavailable" and 
+needs to be manually removed. Not sure how this can be automated.</li>
+<li>An alternative to AWS DNS to be used for manager discover can be <a href="https://www.consul.io/">Consul</a></li>
+</ul>
+
+<p>Most probably many other things can be improved but it depends a lot on specific use cases.</p>
+
+<p>In the <strong>next article</strong> we will se how will be possible to <strong>deploy the application</strong> prepared in the 
+first two articles.</p>
+
+<p>As usual, I'm always happy to hear constructive feedback and to learn what else can be improved in the above explained
+setup.</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>symfony</span>,                <span>aws</span>,                <span>deploy</span>,                <span>symfony</span>,                <span>api</span>,                <span>docker</span>,                <span>amazon</span>,                <span>ec2</span>,                <span>swarm</span>,                <span>puppet</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/puppet-cluster/">Puppet 6 cluster setup</a></li>                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-3-infrastructure&text=I%27ve%20just%20read%20%22How%20do%20I%20deploy%20my%20Symfony%20API%20-%20Part%203%20-%20Infrastructure%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-3-infrastructure" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-3-infrastructure&title=How%20do%20I%20deploy%20my%20Symfony%20API%20-%20Part%203%20-%20Infrastructure%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-3-infrastructure&title=How%20do%20I%20deploy%20my%20Symfony%20API%20-%20Part%203%20-%20Infrastructure%20-Asmir%20Mustafic&summary=This%20is%20the%20third%20article%20from%20a%20series%20of%20blog%20posts%20on%20how%20to%20deploy%20a%20symfony%20PHP%20based%20application%20to%20a%20docker%20swarm%20cluster%20hosted%20on%20Amazon%20EC2%20instances.%0A%20This%20post%20focuses%20on%20the%20AWS%20and%20instances%20configuration.%20%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-do-i-deploy-my-symfony-api-part-3-infrastructure" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/how-do-i-deploy-my-symfony-api-part-2-build" title="How do I deploy my Symfony API - Part 2 - Build">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">How do I deploy my Symfony API - Part 2 - Build</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/how-do-i-deploy-my-symfony-api-part-4-deploy" title="How do I deploy my Symfony API - Part 4 - Deploy">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">How do I deploy my Symfony API - Part 4 - Deploy</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">Do you need something similar for your company?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">Contact me now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

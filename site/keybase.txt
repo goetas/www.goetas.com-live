@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/goetas
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://www.goetas.com
+  * I am goetas (https://keybase.io/goetas) on keybase.
+  * I have a public key ASDtr-GRL68PRAmyL1WGS-hezrav2hc6L0pw1A4V7aaFdQo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101aa110689399cd0db5a3effe6d1e93465efa5c44e2b67f583a2a4b63b9214cd930a",
+      "host": "keybase.io",
+      "kid": "0120edafe1912faf0f4409b22f55864be85eceb6afda173a2f4a70d40e15eda685750a",
+      "uid": "375654beb787133eb2e5f9deba523519",
+      "username": "goetas"
+    },
+    "merkle_root": {
+      "ctime": 1538751223,
+      "hash": "f97cc50ba30cc660d3cc2343c2c9c9ad3514c03fb0bd8b8e2476d915eef14f177abe064c2d712318fed530e601678a1f4cc1e87d857172b974384020b44ab4a3",
+      "hash_meta": "f2234de4baae60032bfd6b74ade85170f26b271257f0ad84ef8ff3cae80ccc16",
+      "seqno": 3750426
+    },
+    "service": {
+      "entropy": "C3KAWl3JICzzsM9RuoAE5Bha",
+      "hostname": "www.goetas.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "2.7.0"
+  },
+  "ctime": 1538751282,
+  "expire_in": 504576000,
+  "prev": "3f59be299ecb19c3e2c62e7db3a5f2b8728db55f0c911abbebaf60458eb20815",
+  "seqno": 10,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg7a/hkS+vD0QJsi9VhkvoXs62r9oXOi9KcNQOFe2mhXUKp3BheWxvYWTESpcCCsQgP1m+KZ7LGcPixi59s6XyuHKNtV8MkRq7669gRY6yCBXEIFxCcfCmwbvQ9WRK54bT1iE2dLYFp0FfYDMuMA2ACgmQAgHCo3NpZ8RAI2IECeLhr4/BTuWCBF9S6cLORgAZumzGyv+6zceTgujXQ7IAUNTd+8aajg+mvadatS9F26NZUkRpH00F95slDKhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIC9cyBtTkEjubNWYttRJpJyE42Ryt/TkfyBm3Ma0SfqWo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/goetas
+
+==================================================================

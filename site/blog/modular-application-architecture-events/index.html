@@ -1,0 +1,633 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>Modular Application Architecture - Events -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/modular-application-architecture-events" />
+
+        <meta name="twitter:title" content="Modular Application Architecture - Events -Asmir Mustafic" />
+        <meta name="og:title" content="Modular Application Architecture - Events -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/plugin-based-architecture/bubbles.jpg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/plugin-based-architecture/bubbles.jpg" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "Modular Application Architecture - Events",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2017-11-14",
+         "dateModified": "2017-11-14",
+         "description": "When&#x20;developing&#x20;software,&#x20;sometimes&#x20;we&#x20;need&#x20;to&#x20;allow&#x20;our&#x20;application&#x20;to&#x20;have&#x20;plug-ins&#x20;or&#x20;modules&#x20;&#x20;developed&#x20;by&#x20;third&#x20;parties.&#x20;&#x0A;In&#x20;this&#x20;post&#x20;we&#x20;will&#x20;start&#x20;looking&#x20;on&#x20;how&#x20;to&#x20;implement&#x20;a&#x20;plugin-system&#x20;by&#x20;using&#x20;&quot;events&quot;.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/modular-application-architecture-events"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/modular-application-architecture-events",
+              "name": "Modular Application Architecture - Events"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  In this post we will start looking on how to implement a plugin-system by using &quot;events&quot;. ">
+        <meta name="twitter:description" content="When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  In this post we will start looking on how to implement a plugin-system by using &quot;events&quot;. ">
+        <meta name="og:description" content="When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  In this post we will start looking on how to implement a plugin-system by using &quot;events&quot;. ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,extensibility,plugins,hooks,api,software-design,software-architecture,modules,core,events,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>Modular Application Architecture - Events</i>
+        </div>
+        <header>
+            <h1>Modular Application Architecture - Events</h1>
+        </header>        <p class="subtitle">When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties. 
+In this post we will start looking on how to implement a plugin-system by using &quot;events&quot;.
+        </p>        <div class="col-md-5 hidden-xs related-posts">    <!--                -->
+                    <div class="related-posts_container">
+                        <h4>Related</h4>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-intro/">Modular Application Architecture - Intro</a>
+                        </div>                        <div class="related-posts_item">Modular Application Architecture - Events
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-pipelines/">Modular Application Architecture - Pipelines</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-inheritance/">Modular Application Architecture - Inheritance</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-considerations/">Modular Application Architecture - Considerations</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/modular-application-architecture-static-assets/">Modular Application Architecture - Static assets</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/plugin-based-architecture/bubbles.jpg" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2017-11-14">
+                        <i class="fa fa-calendar"></i>2017-11-14                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p><strong>This is the second post from a series of posts that will describe strategies to build 
+modular and extensible applications. In this post we will start looking on how to implement a plugin-system by using 
+"events".</strong></p>
+
+<p>One of the most common approaches to implement a plugin-based architecture is to use "events".
+The idea is that the application core "throws" events, modules listen to those events and react accordingly.</p>
+
+<p>Modules (often called as plugins) can also "throw" events, 
+making the whole mechanisms even more powerful since is possible to build 
+a sort of communication between modules not coordinated directly by the core.</p>
+
+<p>The event listeners can react to the events and eventually return some data to the core. 
+The core application can use the received data to achieve some goal 
+(as example displaying them to the user or using them to "throw" other events).</p>
+
+<p>This strategy is used by popular frameworks as <a href="https://symfony.com">Symfony</a> or by <a href="https://wordpress.com/">WordPress</a>.
+WordPress calls this approach "hooks", while Symfony and Laravel calls them "events" and they are managed by 
+an "event dispatcher".</p>
+
+<div class="text-center">
+
+<p><img src="/img/posts/plugin-based-architecture/events.png" alt="application and components" /></p>
+
+</div>
+
+<h2 id="event-dispatcher">Event Dispatcher</h2>
+
+<p>Here we will analyze in detail how the core application can throw events, how a plugin can listen to them 
+and how is possible to use this mechanism to build a plugin system.</p>
+
+<ol>
+<li>The application core throws <code>events</code>. To make the system more flexible and performant events have a <code>name</code>, 
+so event listeners (plugins) can register on specific events without having to listen to each single event thrown by the core.</li>
+<li>The events might have a <code>payload</code>. A payload contains information associated to the event, making it more
+meaningful. In this way plugins have more info about the context where the event was thrown as just the name could be 
+not enough.</li>
+<li>Event listeners can <code>return</code> some data back to who has thrown the event. The returned data should be in a format that 
+can be understood by the who has thrown the event. </li>
+</ol>
+
+<h3 id="event-features">Event features</h3>
+
+<p>Is possible to add or remove some characteristics from the event system,
+this will give us in exchange some features and/or limitations. 
+Even the "name", ""payload" and the "return" characteristics can be removed from the event system making it extremely minimal.</p>
+
+<ul>
+<li><strong>removing "name"</strong>: by removing the event name we will make our system more complex and less performant as listeners will 
+have to listen to all the events and decide by themself to react to the event or not. Removing the event name is an 
+uncommon choice and therefore not recommended.</li>
+<li><strong>removing "payload"</strong>: by removing the payload we make our event less useful as the only info available  information 
+for listeners to understand the context of the event is the name. The event listeners will have to find alternative 
+ways to get the context information.</li>
+<li><strong>removing "return"</strong>: by removing the return we make our event listeners less able to interact with the core application.
+Effects to the system have to be implemented directly by the plugin 
+using alternative ways. The core application is not able to "use" directly the effects of a plugin.
+Having return values is common, not having them makes easier to introduce asynchronous events.</li>
+<li><strong>adding "stop event propagation"</strong>: by giving to event listeners the ability to stop the event propagation
+(by returning a special value as example),  it will be possible to influence the "event" effects thrown by the core 
+on other plugins.</li>
+<li><strong>adding "listener priorities"</strong>: by adding listener priorities we allow plugins to co-operate better, 
+especially when the "payload" and "stop event propagation" feature is available. It is possible to decide the order 
+of execution of event listeners or to execute only one event listeners even if many are registered on the same event.</li>
+<li><strong>adding "wildcard event listeners"</strong>: when necessary to listen on multiple events, on all events or on events where 
+the name is only partially known, can be useful to be able to listen on all the events. A common case for this are 
+profiling plugins or debug features.</li>
+<li><strong>adding "ability to throw event"</strong>: having plugins able to throw events is a useful feature that allows to crete 
+"plugins for plugins" making the whole system more flexible. A drawback of too much flexibility is that can go out 
+of control really easily.</li>
+</ul>
+
+<p><strong>Asynchronous events</strong></p>
+
+<p>If we decide to have only "name" and a "payload" into our event system, it can be easily converted into an asynchronous 
+event system. This because each event is independent from the others 
+(this can be valid for web applications that have a synchronous flow, 
+while with desktop applications or multithreaded/concurrent languages the situation is quite different).</p>
+
+<h3 id="event-listener-registration">Event listener registration</h3>
+
+<p>As said in the first article, a fundamental step is the plugin registration. 
+Both, discovery and configuration strategies can be used.</p>
+
+<h2 id="example-implementations">Example implementations</h2>
+
+<p>Implementing and event system is a pretty common task, this means that out there there are already many implementations
+we can use instead re-inventing the wheel.</p>
+
+<p>All of them have specific features and is just about choosing the best fit for us.
+As is possible to see here below, all of them offers you slightly different features and have slightly different behaviours, 
+but in general they are very similar.</p>
+
+<p>We are going to see how is possible to implement a side-bar having the content created dynamically by plugins. 
+We will see how to do it using Symfony, Laravel and Wordpress.</p>
+
+<p><strong>Symfony</strong></p>
+
+<pre><code class="php">&lt;?php
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\Event;
+
+// the event and payload
+class SidebarEvent extends Event
+{
+    private $placement;
+    private $items = [];
+    public function __construct($placement)
+    {
+        $this-&gt;placement = $placement;
+    }
+
+    public function getPlacement()
+    {
+        return $this-&gt;placement;
+    }
+
+    public function addItem(Item $item)
+    {
+         $this-&gt;items[] = $item;
+    }
+
+    /**
+     * @return Item[] 
+     */
+    public function getItems() : array
+    {
+        return $this-&gt;items;
+    }
+}
+
+
+// listeners/plugins
+$addContactListener = function (SidebarEvent $ev) {
+    $ev-&gt;addItem(new Item('Contact on the ' . $ev-&gt;getPlacement()));
+};
+$addHomeListener = function (SidebarEvent $ev, $eventName, EventDispatcher $dispatcher) {
+    $ev-&gt;addItem(new Item('Homepage' . $ev-&gt;getPlacement()));
+};
+
+// here is the application
+$dispatcher = new EventDispatcher();
+
+// listener registration
+$dispatcher-&gt;addListener('site_bar', $addContactListener, -100); // priority
+$dispatcher-&gt;addListener('site_bar', $addHomeListener);
+
+// application throwing events
+$dispatcher-&gt;dispatch('site_bar', $event = new SidebarEvent('left'));
+$items = $event-&gt;getItems();
+
+// example use the return values
+echo "&lt;li&gt;";
+foreach ($items as $item) {
+    echo "&lt;ul&gt;" . $item-&gt;getTitle() . "&lt;/li&gt;";    
+}
+echo "&lt;/li&gt;";
+</code></pre>
+
+<p>What do we have here?</p>
+
+<ul>
+<li>the <code>$dispatcher</code> variable is the standard symfony event dispatcher;
+the symfony event dispatcher is synchronous and it allows to
+listeners to stop the event propagation or to dispatch/throw new events.</li>
+<li>we are using a custom <code>SidebarEvent</code> event that has <code>$placement</code> (that says us where is the sidebar) as payload and
+allows <code>data</code> as return value; setting the return value will stop the event propagation. </li>
+<li>our event listeners are <code>$addContactListener</code> and <code>$addHomeListener</code> as simple callbacks.</li>
+<li>the event listeners are registered on the <code>site_bar</code> and <code>admin_site_bar</code> events using the <code>addListener</code> method.</li>
+<li>our application throws some events (using the <code>dispatch</code> method);
+in this case we are using a specific event class (<code>SidebarEvent</code>)
+and as payload we have the page url.</li>
+<li><code>$items</code> will contain the values eventually set by an event listener when calling the <code>setItems</code> method; 
+<code>$items</code> will be an an array of <code>Item</code> as enforced by the type hinting.</li>
+</ul>
+
+<p><strong>Laravel</strong></p>
+
+<pre><code class="php">&lt;?php
+
+use App\Events\SidebarEvent;  
+
+// the event and payload
+class SidebarEvent
+{
+    private $placement;
+    public function __construct($placement)
+    {
+        $this-&gt;placement = $placement;
+    }
+
+    public function getPlacement()
+    {
+        return $this-&gt;placement;
+    }
+}
+
+// listeners/plugins
+$addContactListener = function (array $payload) {
+    list($ev) = $payload;
+
+    return 'Contact on the ' . $ev-&gt;getPlacement();
+};
+$addHomeListener = function ($payload) {
+    list($ev) = $payload;
+
+    return 'Homepage on the ' . $ev-&gt;getPlacement();
+};
+
+// listener registration
+Event::listen('site_bar', $addContactListener);
+Event::listen('site_bar', $addHomeListener);
+
+// application throwing events
+$items = Event::fire('site_bar', [new SidebarEvent('left')]);
+
+// example use the return values
+echo "&lt;li&gt;";
+foreach ($items as $item) {
+    echo "&lt;ul&gt;" . $item . "&lt;/li&gt;";    
+}
+echo "&lt;/li&gt;";
+</code></pre>
+
+<p>What do we have here?</p>
+
+<ul>
+<li>the <code>Event</code> is the default laravel facade;
+the laravel event system is also synchronous, has a payload (that by default has to be an array), 
+supports broadcasting, wildcard events and return values.</li>
+<li>we are using a custom <code>SidebarEvent</code> event that has <code>$placement</code> as payload.   </li>
+<li>our event listeners are <code>$addContactListener</code> and <code>$addHomeListener</code> as simple callbacks. returning <code>false</code>
+will stop the event propagation.</li>
+<li>the event listeners are registered on the <code>site_bar</code> and <code>admin_site_bar</code> events using the <code>Event::listen</code> facade method.</li>
+<li>our application throws some events (using the <code>Event::fire</code> facade method); 
+in this case we are using a specific event class (<code>SidebarEvent</code>) and as payload we have the page url. </li>
+<li><code>$returnPageView</code> will contain an array with all the not false return values from all the events. 
+since the values inside <code>$returnPageView</code> can't be checked by type hinting, a sanity check at application level should be done</li>
+</ul>
+
+<p><strong>WordPress</strong></p>
+
+<pre><code class="php">&lt;?php
+
+// listeners/plugins
+$addContactListener = function ($placement) {
+    echo "&lt;ul&gt;Contact on the $placement&lt;/li&gt;";
+};
+$addHomeListener = function ($placement) {
+    echo "&lt;ul&gt;Homepage on the $placement&lt;/li&gt;";
+};
+
+// listener registration
+add_action('site_bar', $addContactListener); 
+add_action('site_bar', $addHomeListener);
+
+// application throwing events
+
+echo "&lt;li&gt;";
+$returnPageView = do_action('site_bar', 'left');
+echo "&lt;/li&gt;";
+</code></pre>
+
+<p>What do we have here?</p>
+
+<ul>
+<li>we are using the basic action event system from wordpress; supports priorities, payload and return values</li>
+<li>our event listeners are <code>$addContactListener</code> and <code>$addHomeListener</code> as simple callbacks.</li>
+<li>the event listeners are registered on the <code>site_bar</code> and <code>admin_site_bar</code> events using the <code>add_action</code> function.</li>
+<li>our application throws some events (using the <code>do_action</code> facade method); 
+in this case we are using a simple string as payload we have the page url. </li>
+<li><code>$returnPageView</code> will contain the return value from the last event listener; 
+since the value inside <code>$returnPageView</code> can't be checked, a sanity check at application level should be done</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The "event" plugin mechanism is commonly used when the <strong>application want to be able to control what plugins are able to do</strong>.
+Plugins can interact with the application only in the "extension points" decided by the application.</p>
+
+<p>Advantages:</p>
+
+<ul>
+<li>Very flexible.</li>
+<li>High degree of control offered to the application: the application decides extension points and data structures use.</li>
+<li>Can be asynchronous.</li>
+<li>Transparent: the application does not need to be aware of how many plugins are registered and how they are structured.</li>
+<li>Documentable: return and payload can be explicitly defined. </li>
+</ul>
+
+<p>Disadvantages:</p>
+
+<ul>
+<li>Limited to pre-defined extension points: there is not an easy way to interact with parts of the application that does
+not offer appropriate extension points.  </li>
+<li>Transparent: since the application is not aware of what plugins do and how many they are,
+can be difficult to keep application quality; "bad" plugins can't be excluded.</li>
+<li>In some dispatcher implementations is difficult to understand if listeners were triggered</li>
+<li>Hard to debug and almost useless stack traces in case of errors.</li>
+</ul>
+
+<p><strong>Notes</strong>: Depending on the implementation you decide to use, some of the said advantages/disadvantages may change.</p>
+
+<p>Events are one of the most popular extension mechanism, in the next article we will see how and when the "middleware"
+extension pattern can be used.</p>
+
+<p>Looking forward to your feedback.</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>extensibility</span>,                <span>plugins</span>,                <span>hooks</span>,                <span>api</span>,                <span>software-design</span>,                <span>software-architecture</span>,                <span>modules</span>,                <span>core</span>,                <span>events</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-events&text=I%27ve%20just%20read%20%22Modular%20Application%20Architecture%20-%20Events%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-events" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-events&title=Modular%20Application%20Architecture%20-%20Events%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-events&title=Modular%20Application%20Architecture%20-%20Events%20-Asmir%20Mustafic&summary=When%20developing%20software%2C%20sometimes%20we%20need%20to%20allow%20our%20application%20to%20have%20plug-ins%20or%20modules%20%20developed%20by%20third%20parties.%20%0AIn%20this%20post%20we%20will%20start%20looking%20on%20how%20to%20implement%20a%20plugin-system%20by%20using%20%22events%22.%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fmodular-application-architecture-events" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/modular-application-architecture-intro" title="Modular Application Architecture - Intro">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">Modular Application Architecture - Intro</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/modular-application-architecture-pipelines" title="Modular Application Architecture - Pipelines">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">Modular Application Architecture - Pipelines</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

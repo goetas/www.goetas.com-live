@@ -1,0 +1,444 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>Traps on the way of Blue-Green deployments -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/traps-on-the-way-of-blue-green-deployments" />
+
+        <meta name="twitter:title" content="Traps on the way of Blue-Green deployments -Asmir Mustafic" />
+        <meta name="og:title" content="Traps on the way of Blue-Green deployments -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/blue-green.png" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/blue-green.png" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "Traps on the way of Blue-Green deployments",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2019-06-14",
+         "dateModified": "2019-06-14",
+         "description": "Docker&#x20;&#x28;as&#x20;well&#x20;as&#x20;Kubernetes&#x29;&#x20;gives&#x20;you&#x20;a&#x20;way&#x20;to&#x20;update&#x20;your&#x20;applications&#x20;with&#x20;no-downtime&#x20;through&#x20;a&#x20;strategy&#x20;called&#x20;Blue-Green&#x20;deployment.&#x20;Here&#x20;we&#x20;can&#x20;see&#x20;a&#x20;common&#x20;trap&#x20;&#x28;and&#x20;solution&#x29;&#x20;when&#x20;building&#x20;PHP-based&#x20;applications&#x20;and&#x20;&#x20;doing&#x20;blue-green&#x20;deployments.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/traps-on-the-way-of-blue-green-deployments"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/traps-on-the-way-of-blue-green-deployments",
+              "name": "Traps on the way of Blue-Green deployments"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="Docker (as well as Kubernetes) gives you a way to update your applications with no-downtime through a strategy called Blue-Green deployment. Here we can see a common trap (and solution) when building PHP-based applications and  doing blue-green deployments.       ">
+        <meta name="twitter:description" content="Docker (as well as Kubernetes) gives you a way to update your applications with no-downtime through a strategy called Blue-Green deployment. Here we can see a common trap (and solution) when building PHP-based applications and  doing blue-green deployments.       ">
+        <meta name="og:description" content="Docker (as well as Kubernetes) gives you a way to update your applications with no-downtime through a strategy called Blue-Green deployment. Here we can see a common trap (and solution) when building PHP-based applications and  doing blue-green deployments.       ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,docker,devops,swarm,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>Traps on the way of Blue-Green deployments</i>
+        </div>
+        <header>
+            <h1>Traps on the way of Blue-Green deployments</h1>
+        </header>        <p class="subtitle">Docker (as well as Kubernetes) gives you a way to update your applications with no-downtime through a strategy called Blue-Green deployment. Here we can see a common trap (and solution) when building PHP-based applications and  doing blue-green deployments.
+     
+        </p>        <div class="col-md-5 hidden-xs related-posts">                    <div class="related-posts_container">
+                        <h4>More posts from the author</h4>                        <div class="related-posts_item">
+                            <a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30">-Multi-namespace migrations with doctrine/migrations 3.0</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/released-doctrinemigrations-30-alpha">-Released doctrine/migrations 3.0-alpha</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/make-the-difference-when-contributing-to-open-source">-Make the difference when contributing to open-source</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-to-use-external-services-with-the-symfony-validator">-How to use external services with the Symfony Validator</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/blue-green.png" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2019-6-14">
+                        <i class="fa fa-calendar"></i>2019-06-14                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p>Docker (as well as Kubernetes) offers you a way to update your applications with no-downtime through a common strategy called
+Blue-Green deployment.</p>
+
+<p>Blue-Green deployments work in this way:</p>
+
+<ol>
+<li>Your currently deployed application ("Green") is serving the incoming traffic.</li>
+<li>A new version of your application is deployed ("Blue") and tested, but is not yet receiving any traffic.</li>
+<li>When "Blue" is ready, we can start sending the incoming traffic to "Blue" too.</li>
+<li>At this point we have two copies of our application running in parallel (the "Green" and the "Blue").</li>
+<li>Now we have to stop sending incoming traffic to the "Green" application, "Blue" is handling all the incoming traffic.</li>
+<li>Since "Green" is not receiving any traffic anymore, it can be safely removed.</li>
+<li>The "Blue" will be marked as "Green", allowing in the future a deploy of a newer version using the same strategy.</li>
+</ol>
+
+<h2 id="docker-swarm-blue-green-deployment">Docker Swarm blue-green deployment</h2>
+
+<p>If you are using Docker Swarm, this can be a stack file that implements the blue-green deployment strategy.</p>
+
+<pre><code class="yaml"># app.yml
+
+version: '3.4'
+services:
+  app:
+    image: acme/todo-list:${VERSION}
+    deploy:
+      update_config:
+        order: start-first
+</code></pre>
+
+<p><code>acme/todo-list</code> is a simple todo-list web application. The <code>update_config.order: start-first</code> instructs docker swarm to 
+use the blue-green deploy strategy.</p>
+
+<p>Do deploy the <code>v1</code>  of our todo-list in a Docker-Swarm cluster we can run:</p>
+
+<pre><code class="bash">VERSION=v1 docker stack deploy todolist_app -c app.yml
+</code></pre>
+
+<p>If we want to update the app to <code>v2</code> we can run:</p>
+
+<pre><code class="bash">VERSION=v2 docker stack deploy todolist_app -c app.yml
+</code></pre>
+
+<p>The update will follow the blue-green deploy strategy as described before. 
+Docker will keep <code>v1</code> running and will deploy <code>v2</code>. 
+When <code>v2</code> is ready, it will redirect all the traffic to <code>v2</code> and will remove <code>v1</code>. Neat!</p>
+
+<p>But if we look at the logs of our load balancer we can see something as:</p>
+
+<pre><code>1.2.3.4 - - [13/Jun/2019:06:00:10 +0000] "GET /toto/list HTTP/1.1" 502 150 ....
+</code></pre>
+
+<p>The status code is <code>502</code>, "Bad Gateway". 
+This HTTP status code that means that the load balancer has received an invalid response from the application server (or no response).
+Why is that?</p>
+
+<p>To remove <code>v1</code>, after stopping to send incoming traffic, Docker sends the <code>SIG_TERM</code> signal to the app and waits<br />
+up to 10 seconds for the app to gracefully terminate itself. 
+If <code>v1</code> is still running after 10 seconds, Docker brutally kills the <code>v1</code> app.
+This will terminate any connection the app had (and pending requests will receive 502 error).</p>
+
+<h3 id="graceful-stop">Graceful stop</h3>
+
+<p>We can change the amount of seconds Docker will wait before removing the container by tuning the <code>stop_grace_period</code> parameter:</p>
+
+<pre><code class="yaml"># app.yml
+
+version: '3.4'
+services:
+  php:
+    image: acme/todo-list:${VERSION}
+    stop_grace_period: 120s
+    deploy:
+      update_config:
+        order: start-first
+</code></pre>
+
+<p>With this configuration, after sending the <code>SIG_TERM</code> signal, docker will wait up to two minutes before killing the app.
+Depending on the specific logic and response times of your application, you can tell to docker how long to 
+ wait for your application to terminate before forcing it.</p>
+
+<h3 id="blue-green-deployments-and-php-fpm">Blue-green deployments and PHP-FPM</h3>
+
+<p>If you are using PHP-FPM, the previous configurations might not be enough.</p>
+
+<p>Unfortunately (?) PHP-FPM is configured by default to terminate immediately after receiving the <code>SIG_TERM</code> signal.
+Even if docker is ready to wait for 10 seconds (or any other value you might have configured with <code>stop_grace_period</code>) 
+PHP will terminate itself (and all the requests being served) without waiting.</p>
+
+<p>This will lead again to <code>502</code> errors.</p>
+
+<p>To solve this we have to instruct also PHP to give enough time itself to complete serving the pending requests, 
+tuning <code>process_control_timeout</code> parameter (check <a href="https://www.php.net/manual/en/install.fpm.configuration.php">here</a> for a full list of PHP-FPM configurations).</p>
+
+<p>By setting  <code>process_control_timeout = 5</code>, 
+PHP-FPM will wait up to 5 seconds before exiting and killing all the processes that were serving requests.</p>
+
+<p>We can add this parameter in the <code>Dockerfile</code> when building our PHP image.</p>
+
+<pre><code class="dockerfile"># Dockerfile
+FROM php:fpm
+
+# ... 
+
+RUN { \
+    echo '[global]'; \
+    echo 'process_control_timeout = 5'; \
+    } | tee /usr/local/etc/php-fpm.conf
+
+# ... 
+</code></pre>
+
+<p>In the same way how docker was waiting for a container to finish its job, now PHP will do the same and wait up to 5 seconds
+for its child processes to finish serving the requests.</p>
+
+<p>In this way we configured how long docker should wait before terminating the container, and also how long PHP 
+will wait to complete the requests.</p>
+
+<p>If PHP is able to stop running in less than 5 seconds, it will do it (for instance when all the pending requests are served quickly). 
+The same applies for docker. 
+In this way, these timeouts are applied only for the worse case.</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>docker</span>,                <span>devops</span>,                <span>swarm</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Ftraps-on-the-way-of-blue-green-deployments&text=I%27ve%20just%20read%20%22Traps%20on%20the%20way%20of%20Blue-Green%20deployments%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Ftraps-on-the-way-of-blue-green-deployments" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Ftraps-on-the-way-of-blue-green-deployments&title=Traps%20on%20the%20way%20of%20Blue-Green%20deployments%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Ftraps-on-the-way-of-blue-green-deployments&title=Traps%20on%20the%20way%20of%20Blue-Green%20deployments%20-Asmir%20Mustafic&summary=Docker%20%28as%20well%20as%20Kubernetes%29%20gives%20you%20a%20way%20to%20update%20your%20applications%20with%20no-downtime%20through%20a%20strategy%20called%20Blue-Green%20deployment.%20Here%20we%20can%20see%20a%20common%20trap%20%28and%20solution%29%20when%20building%20PHP-based%20applications%20and%20%20doing%20blue-green%20deployments.%0A%20%20%20%20%20%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Ftraps-on-the-way-of-blue-green-deployments" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/why-and-how-some-people-run-open-source-projects" title="Why and how some people run open source projects">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">Why and how some people run open source projects</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/changing-credentials-on-docker-swarm-services" title="Changing credentials on Docker Swarm Services">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">Changing credentials on Docker Swarm Services</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

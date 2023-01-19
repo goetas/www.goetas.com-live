@@ -1,0 +1,538 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>How I approached software development and why I prefer PostgreSQL to MySQL -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/how-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql" />
+
+        <meta name="twitter:title" content="How I approached software development and why I prefer PostgreSQL to MySQL -Asmir Mustafic" />
+        <meta name="og:title" content="How I approached software development and why I prefer PostgreSQL to MySQL -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/servers.jpg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/servers.jpg" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "How I approached software development and why I prefer PostgreSQL to MySQL",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2018-03-04",
+         "dateModified": "2018-03-04",
+         "description": "This&#x20;post&#x20;is&#x20;basically&#x20;a&#x20;PostgreSQL&#x20;vs&#x20;MySQL&#x20;comparison.&#x20;&#x20;Working&#x20;with&#x20;MySQL&#x20;has&#x20;always&#x20;been&#x20;a&#x20;pain&#x20;for&#x20;me,&#x20;on&#x20;the&#x20;other&#x20;side&#x20;the&#x20;experience&#x20;with&#x20;PostgreSQL&#x20;was&#x20;always&#x20;&#x20;just&#x20;great&#x21;&#x20;That&#x20;is&#x20;why&#x20;I&#x20;prefer&#x20;PostgreSQL.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/how-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/how-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql",
+              "name": "How I approached software development and why I prefer PostgreSQL to MySQL"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="This post is basically a PostgreSQL vs MySQL comparison.  Working with MySQL has always been a pain for me, on the other side the experience with PostgreSQL was always  just great! That is why I prefer PostgreSQL. ">
+        <meta name="twitter:description" content="This post is basically a PostgreSQL vs MySQL comparison.  Working with MySQL has always been a pain for me, on the other side the experience with PostgreSQL was always  just great! That is why I prefer PostgreSQL. ">
+        <meta name="og:description" content="This post is basically a PostgreSQL vs MySQL comparison.  Working with MySQL has always been a pain for me, on the other side the experience with PostgreSQL was always  just great! That is why I prefer PostgreSQL. ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,extensibility,plugins,static-files,images,css,js,modules,software,design,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>How I approached software development and why I prefer PostgreSQL to MySQL</i>
+        </div>
+        <header>
+            <h1>How I approached software development and why I prefer PostgreSQL to MySQL</h1>
+        </header>        <p class="subtitle">This post is basically a PostgreSQL vs MySQL comparison.  Working with MySQL has always been a pain for me, on the other side the experience with PostgreSQL was always  just great! That is why I prefer PostgreSQL.
+        </p>        <div class="col-md-5 hidden-xs related-posts">                    <div class="related-posts_container">
+                        <h4>More posts from the author</h4>                        <div class="related-posts_item">
+                            <a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30">-Multi-namespace migrations with doctrine/migrations 3.0</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/released-doctrinemigrations-30-alpha">-Released doctrine/migrations 3.0-alpha</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/make-the-difference-when-contributing-to-open-source">-Make the difference when contributing to open-source</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-to-use-external-services-with-the-symfony-validator">-How to use external services with the Symfony Validator</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/servers.jpg" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2018-3-4">
+                        <i class="fa fa-calendar"></i>2018-03-04                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p><em>This post is more a rant against MySQL (InnoDB) rather than a technical tutorial (as I was used to write in the previous months).
+Everything started with <a href="https://twitter.com/goetas_asmir/status/966743735194222592">this</a> tweet. 
+I'm not going to talk that much about exotic features in a multi server configuration in my comparison,
+I will try to focus on inconsistencies that might affect relatively simple every-day-applications.</em></p>
+
+<p>If you are interested just in the MySQL wideness I've found, just jump to the next paragraph. 
+On the other side if you want to hear a nostalgic story to get a bit more of a context continue reading.</p>
+
+<p>When I approached web development was the 2001 (I was 18). 
+In reality I even did not know really well what "software development" means or where I will end up.
+I learned to code with PHP and to use MySQL, just to build my personal website.</p>
+
+<p>Later I got hired to work in a local web agency. They were using PostgreSQL across the majority of their products.
+At that time, for me there were no differences between the two databases, 
+the only difference I was noticing was that I had to use
+<code>pg_connect</code> instead of <code>mysql_connect</code> and the admin panel was "phppgadmin" instead of "phpmyadmin".</p>
+
+<p>Fast forward, to nowadays. I've learned a lot and there is still a lot to learn. 
+I fall in love with PostgreSQL and for its consistency, but really often I have to work on projects that use MySQL and 
+the experience is not that nice.</p>
+
+<p>I've tried to analyze the "<strong>why people start projects by using mysql instead of postgres?</strong>"
+My conclusion is just one. Back in the time when I started development (~2001) PostgreSQL was not available on Windows
+(Mac and Linux based SO were not yet that good). MySQL was easy to install and run.
+<strong>So generations of developers learned to use MySQL, not as "a" database, but as "the" database</strong>. 
+In 2005 postgres 8.0 was running natively on windows, but only 2-3 years later become good enough.</p>
+
+<p>In the last two decades I've built and/or maintained a variety of applications, working intensively with both databases.
+Each time I had to deal with Postgres was always "ordinary work", I was able to focus on the application logic I was 
+developing. On the other hand, most of the time I had to work with MySQL 
+I had always to pay attention to quirks and edge-cases.</p>
+
+<h2 id="mysql...">MySQL...</h2>
+
+<p>MySQL is a great database that contributed to the success of many other projects (included PHP). With a promise of being 
+SQL-compliant and ACID-compliant.
+But as many of the software out there, what is MySQL today is the product of evolution. 
+Unfortunately <em>MySQL developers did not manage to keep a good balance between stability, consistency and new features</em>.</p>
+
+<p>Many of the parameter configurations available in MySQL 5.7 (the most popular installed version) are about "disabling" 
+some of the weird features that MySQL offers.
+The even more weird thing that most of the time, the default setting prefers the less-standard value, 
+creating more damage than benefit when they were introduced in first.</p>
+
+<p>Examples:</p>
+
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_sql-mode">sql-mode</a> is a mixed mess of 
+options aimed to disable/enable some of the weird features were added in previous versions.
+
+<ul>
+<li><code>ALLOW_INVALID_DATES</code>: (enabled by default) MySQL allows you to save a date as "1900-00-00". 
+Why? Which days is "1900-00-00" </li>
+<li><code>NO_ZERO_DATE</code>: similarly as in the previous case, in the past (enabled by default)
+MySQL allows you to save an invalid date as "0000-00-00".</li>
+<li><code>explicit_defaults_for_timestamp</code>: to make things more confusing, in MySQL 8.0 there is this new parameter that is 
+somewhere in between of the previous two.</li>
+<li><code>ONLY_FULL_GROUP_BY</code>: <a href="https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_only_full_group_by">this</a> 
+option is still used nowadays to be able to retrieve some extra columns when doing a "group by" query; 
+The rows retrieved are not predictable and in more of the case depend on how data are internally stored in MySQL.</li>
+</ul></li>
+<li><code>ENUM</code> is one of the basic data types in MySQL, but it has many trade offs:
+
+<ul>
+<li>A column with <code>ENUM('Mercury', 'Venus', 'Earth')</code> allows you to insert records as <code>NULL</code>, <code>"Mercury"</code>, <code>"Venus"</code>, 
+<code>"Earth"</code> and <code>""</code> (empty string)... Why <code>""</code>... ? </li>
+</ul></li>
+<li><p>(this is one of my favorites) Adding a column in a table might (and will in highly concurrent environments) 
+create duplicate rows and the failure of the column addition.
+This weird behaviour is explained <a href="https://stackoverflow.com/questions/22580529/mysql-duplicate-entry-error-when-trying-to-add-new-column/27067862">here</a>, 
+the MySQL documentation explains the technical reason of this <a href="https://dev.mysql.com/doc/refman/5.6/en/innodb-create-index-limitations.html">here</a>.<br></p>
+
+<blockquote>
+  <p><em>When running an online DDL operation, the thread that runs the ALTER TABLE statement applies an “online log” of
+  DML operations that were run concurrently on the same table from other connection threads. 
+  When the DML operations are applied, it is possible to encounter a duplicate key entry error 
+  (<code>ERROR 1062 (23000): Duplicate entry</code>), even if the duplicate entry is only temporary and would be reverted by a 
+  later entry in the “online log”.</em> <br></p>
+</blockquote>
+
+<p>Documenting the bug allows MySQL to not fix it! Nice!</p></li>
+<li>MySQL will lock the tables for most of the schema operation as adding columns, removing columns and so on, 
+leading to the inability to write data to the table and in some cases also to read data from it.
+This is a real pain point if you have tables with a lot of data.</li>
+<li>When making schema changes (adding/removing tables, columns, indexes and so on) MySQL will automatically commit all 
+the changes... making transactions useless...</li>
+<li>MySQL allows only one trigger per type/table... making that trigger generally more complex and hard to maintain.</li>
+</ul>
+
+<p>Another fun detail, this year MySQL started to roll-out a new major release, MySQL 8.0. Wait... where is the 6.0 and 7.0?</p>
+
+<h3 id="good-examples">Good examples</h3>
+
+<p>Out there, there are some examples of great ways of using MySQL.</p>
+
+<ul>
+<li><p><a href="https://eng.uber.com/schemaless-part-one/">Designing Schemaless, Uber Engineering’s Scalable Datastore Using MySQL</a>: 
+In this article Uber explains how they use MySQL to store their trip data.<br>
+They are using MySQL basically as key-value storage (with some nice extras) to store a huge amount of data 
+in an eventually-consistent system. It is not SQL (many operations are just not possible), 
+it is just an application-level managed storage. Scales well and works well for the Uber use case. <br>
+To be honest, I'm not that smart to understand why want they did could not be implemented 
+with any other database (postgres included), since all the storage logic is implemented by the application.</p></li>
+<li><p><a href="https://code.facebook.com/posts/190251048047090/myrocks-a-space-and-write-optimized-mysql-database/">MyRocks: A space- and write-optimized MySQL database</a>
+In this article, the facebook team explains how they have optimized MySQL to make a write-efficient database.<br>
+MyRocks looks to be just a different database built on top of the MySQL storage-engine API. 
+It has weak points, limitations and advantages but is far from being MySQL with the InnoDB storage.</p></li>
+</ul>
+
+<p>This are just two example of some great software build on top of MySQL. But this cases (and many other) have one point in 
+common. They are not really using MySQL, they are using a subset of it and building a brand new application top of it.</p>
+
+<h3 id="mysql-master-master-replication">MySQL master-master replication</h3>
+
+<p>MySQL can be configured to perform master-to-master replication. This is one of the main selling point of MySQL.
+Most people I've met, do not know what they are buying.</p>
+
+<p>Master-Master replication is tricky, has many limitations and you lose many of the traditional ACID-compliant 
+relational databases features.
+Auto-increments are tricky to manage because of possible write conflicts; 
+Unique-keys can not be easily supported and can lead to conflict situations having on different masters duplicate rows;
+<a href="https://www.quora.com/When-is-a-MySQL-master-master-synchronisation-worth-it">This</a> is an answer to the mysql 
+master-master question i really like.</p>
+
+<h2 id="on-the-other-hand...-postgresql%21">On the other hand... PostgreSQL!</h2>
+
+<p>PostgreSQL, initially developed by the Berkeley University (California) started with a much more formal approach 
+to databases than MySQL.
+The development process of PostgreSQL is relatively strict, but on the other side PostgreSQL has a very low bug-rate 
+and the features added are always well thought and consistent.</p>
+
+<p>Personally do not remember cases of weird features introduced just for "marketing".</p>
+
+<p>The list of features that PostgreSQL offers is endless. Will try just to point out some of the most common
+ (and that I miss when I have to work with MySQL).</p>
+
+<ul>
+<li><strong>SQL-standards</strong>: Reading the <a href="https://www.postgresql.org/docs/9.6/static/features.html">documentation</a> postgres claims to 
+follow at least 160 out of 179 SQL:2011 mandatory features required for full Core conformance. On the other hand 
+MySQL explicitly <a href="https://dev.mysql.com/doc/refman/5.7/en/compatibility.html">says</a> that they are ready to sacrifice
+standards for speed and reliability (instead of pursuing a way to achieve both goals as postgres does most of the time).</li>
+<li><strong>Functional Indexes</strong>: In Postgres you can use functions (build in or written by you via stored procedures) and build
+indexes over them. This is just a killer feature most of the time! You can putt all the complex logic in a custom function, 
+index it and your searches will be super fast!</li>
+<li><strong>Window-Functions</strong>: If you have to deal with reporting, this will save your life! Otherwise just do not bother about it.
+Window functions perform a calculations across a set of table rows that are somehow related to the current row.
+More info about it <a href="https://www.postgresql.org/docs/10/static/tutorial-window.html">here</a>.</li>
+<li><strong>GIN and GIST indexes</strong>: This are special kind of indexes that store on the leafs more than one row-reference. 
+They are a killer feature if you have to store (and search) arrays, geo-data, full-text and similar complex data-sets.
+Moore info about GIN/GIST indexes is available <a href="https://www.cybertec-postgresql.com/en/gin-just-an-index-type/">here</a>.</li>
+<li><strong>EXPLAIN</strong>: The postgres EXPLAIN query feature is just great! You should try it to see the difference.
+The postgres EXPLAIN query contains detailed index usage, scan and join strategies, timing, buffers and memory usage
+and much much more.   </li>
+<li><strong>Row level constraints</strong>: PostgreSQL in addition to foreign keys and unique indexes offers 
+<a href="https://www.postgresql.org/docs/9.4/static/ddl-constraints.html">CHECK constraints</a>. 
+Essentially is a check executed on each update/insert of a row and ensures the consistency of the data. As example<br />
+we can create a check as <code>CHECK (price &gt; 0 AND discount &lt;=100 OR special IS NOT NULL)</code> 
+to check that the "price" column is always greater than zero and the discount is less than 100 only if "special" 
+is not null. The expression inside CHECK can be any valid postgres expression, including checking geo coordinates checks, 
+special indexes and so on.</li>
+<li><strong>Range types</strong>: Postgres indexable data types to represent datetime and numeric ranges.      </li>
+<li><strong>The merge-join strategy</strong>: is a special join strategy that is super fast when both tables have the same sorting.</li>
+<li><strong>Locking</strong>: Postgres has many features to avoid locking as example the 
+<a href="https://www.postgresql.org/docs/10/static/sql-createindex.html">CREATE INDEX CONCURRENTLY</a>
+that allows you to add indexes without locking.</li>
+<li><strong>Adding/removing columns is atomic</strong>: adding columns (with default NULL) and removing them is super-fast as it alters
+only the table metadata (no need to copy the table onto a new one). 
+MySQL in most of the cases has to re-write the table (that might be very expensive if you have millions of rows).
+When using postgres at-scale in a highly concurrent environment this makes the difference.</li>
+<li><strong>Full text</strong>: MySQL has full text support, but compared to postgres-full-text looks like a toy. PostgreSQL allows you to 
+configure the language of the text, fine-tune the stemming rules for each language, weighted ranking and so on. </li>
+<li><strong>Spatial data</strong>: if you have to work with spatial data (geo data or geometric types/shapes) postgres is just excellent.
+By default postgres has specific data types to store and query information about "shapes" as squares, triangles, circles 
+spheres cubes and so on. For more advanced use-cases, 
+PostGIS is an extension-set that makes geo-data handling a pleasure (used by OpenStreetMap as example).
+MySQL introduced a similar feature-set in 5.7 but is much simpler and limited, with postgres you have more operation 
+types built in specialized indexes for read-optimized or write-optimized operations on shapes and much more. </li>
+</ul>
+
+<p>The list of PostgreSQL features I like (and miss when working with MySQL) is endless. 
+What makes postgres so attractive
+to me is the extension mechanism it has that allows to add extra features to postgres really really easily.
+Postgres has already <a href="https://www.postgresql.org/docs/10/static/contrib.html">dozens</a> of extensions ready to be used 
+and that will make your life easier. Some extensions I use often are 
+bloom (super efficient index types for probabilistic index matching), 
+cube (multi dimensional indexable data type for 3D or more dimensions searches), 
+earthdistance (calculate easily geo distances), hstore (simple, efficient and ACID key-value storage).</p>
+
+<h3 id="postgresql-replication">PostgreSQL replication</h3>
+
+<p>PostgreSQL offers master-slave replication. Works similarly to MySQL. Obviously has some differences but the big picture is similar. 
+Offers classical master-slave replication mode with also hot-standby master mode (essential a "waiting" master ready to 
+take over in case of the main master failure).</p>
+
+<p>Out of the box PostgreSQL does not offer master-master replication. This could sound a big disadvantage. <br>
+In my experience, with PostgreSQL takes much more time (and load) to reach a state where more than one master is necessary
+for performance reasons. 
+(For high availability, the hot-standby master-mode is already part of the postgres core.)</p>
+
+<p>In reality there are third-party solutions for master-master replications as
+ <a href="https://www.2ndquadrant.com/en/resources/bdr/">Postgres-BDR </a> that do an excellent job with multi-master solutions!</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>If there is a rule I've learned in life is that things are never black or white, most of the time are gray.</p>
+
+<p>So probably there are use cases where MySQL does a much better job than PostgreSQL, I just have not met them yet.
+Would be glad to hear experiences from both sides as in my opinion there is always something to learn.</p>
+
+<p>Would be glad to hear experiences where in your opinion MySQL did really a great job.</p>
+
+<p>Hope you enjoyed this article and the others. 
+If you have any type of feedback, do not hesitate to leave a comment!</p>
+
+<p>Edit, 2018-03-18: I've updated this document based on the feedback received in the past weeks. 
+Thanks to everybody.</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>extensibility</span>,                <span>plugins</span>,                <span>static-files</span>,                <span>images</span>,                <span>css</span>,                <span>js</span>,                <span>modules</span>,                <span>software</span>,                <span>design</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql&text=I%27ve%20just%20read%20%22How%20I%20approached%20software%20development%20and%20why%20I%20prefer%20PostgreSQL%20to%20MySQL%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql&title=How%20I%20approached%20software%20development%20and%20why%20I%20prefer%20PostgreSQL%20to%20MySQL%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql&title=How%20I%20approached%20software%20development%20and%20why%20I%20prefer%20PostgreSQL%20to%20MySQL%20-Asmir%20Mustafic&summary=This%20post%20is%20basically%20a%20PostgreSQL%20vs%20MySQL%20comparison.%20%20Working%20with%20MySQL%20has%20always%20been%20a%20pain%20for%20me%2C%20on%20the%20other%20side%20the%20experience%20with%20PostgreSQL%20was%20always%20%20just%20great%21%20That%20is%20why%20I%20prefer%20PostgreSQL.%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fhow-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/modular-application-architecture-static-assets" title="Modular Application Architecture - Static assets">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">Modular Application Architecture - Static assets</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/whats-new-in-jmsserializer-v20" title="What&#039;s new in jms/serializer v2.0">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">What&#039;s new in jms/serializer v2.0</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>

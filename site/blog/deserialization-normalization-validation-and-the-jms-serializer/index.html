@@ -1,0 +1,535 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>        <meta charset="utf-8">
+        <title>Deserialization, normalization, validation and the JMS Serializer -Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
+        <meta property="og:url" content="https://www.goetas.com/blog/deserialization-normalization-validation-and-the-jms-serializer" />
+
+        <meta name="twitter:title" content="Deserialization, normalization, validation and the JMS Serializer -Asmir Mustafic" />
+        <meta name="og:title" content="Deserialization, normalization, validation and the JMS Serializer -Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/posts/validation.jpg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/validation.jpg" />
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>        <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "Deserialization, normalization, validation and the JMS Serializer",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2017-08-21",
+         "dateModified": "2017-08-21",
+         "description": "Serializing&#x20;can&#x20;be&#x20;a&#x20;not&#x20;trivial&#x20;process,&#x20;but&#x20;when&#x20;talking&#x20;about&#x20;de-serialization,&#x20;the&#x20;problem&#x20;is&#x20;even&#x20;more&#x20;difficult.&#x20;The&#x20;source&#x20;data&#x20;&#x28;XML&#x20;or&#x20;JSON&#x29;&#x20;can&#x20;be&#x20;not&#x20;well&#x20;formatted,&#x20;well&#x20;formatted&#x20;but&#x20;not&#x20;valid&#x20;or&#x20;valid&#x20;syntactically&#x20;but&#x20;not&#x20;valid&#x20;in&#x20;our&#x20;domain.&#x20;Dividing&#x20;deserialization,&#x20;normalization,&#x20;validation&#x20;is&#x20;fundamental.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/deserialization-normalization-validation-and-the-jms-serializer"
+          }
+         }
+        </script>        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog/",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/deserialization-normalization-validation-and-the-jms-serializer",
+              "name": "Deserialization, normalization, validation and the JMS Serializer"
+            }
+          }]
+        }
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="Serializing can be a not trivial process, but when talking about de-serialization, the problem is even more difficult. The source data (XML or JSON) can be not well formatted, well formatted but not valid or valid syntactically but not valid in our domain. Dividing deserialization, normalization, validation is fundamental.">
+        <meta name="twitter:description" content="Serializing can be a not trivial process, but when talking about de-serialization, the problem is even more difficult. The source data (XML or JSON) can be not well formatted, well formatted but not valid or valid syntactically but not valid in our domain. Dividing deserialization, normalization, validation is fundamental.">
+        <meta name="og:description" content="Serializing can be a not trivial process, but when talking about de-serialization, the problem is even more difficult. The source data (XML or JSON) can be not well formatted, well formatted but not valid or valid syntactically but not valid in our domain. Dividing deserialization, normalization, validation is fundamental.">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,jms-serializer,json,yaml,xml,serialization,deserialization,symfony,symfony-form,"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact:info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Asmir Mustafic                        <span class="subtitle">Software Architect and IT Consultant</span>                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Portfolio</a></li>
+                    <li><a href="/blog/" class="active">Blog</a></li>
+                    <li><a href="/talks/">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
+
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    <article>        <div class="breadcrumb">
+           <a href="/blog//">Blog</a> &raquo;
+            <i>Deserialization, normalization, validation and the JMS Serializer</i>
+        </div>
+        <header>
+            <h1>Deserialization, normalization, validation and the JMS Serializer</h1>
+        </header>        <p class="subtitle">Serializing can be a not trivial process, but when talking about de-serialization, the problem is even more difficult. The source data (XML or JSON) can be not well formatted, well formatted but not valid or valid syntactically but not valid in our domain. Dividing deserialization, normalization, validation is fundamental.        </p>        <div class="col-md-5 hidden-xs related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/jms-serializer-error-codes/">Setup Custom error codes with jms/serializer and Symfony 5</a></li>                        </ul>
+                    </p>
+                </div>                    <div class="related-posts_container">
+                        <h4>More posts from the author</h4>                        <div class="related-posts_item">
+                            <a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30">-Multi-namespace migrations with doctrine/migrations 3.0</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/released-doctrinemigrations-30-alpha">-Released doctrine/migrations 3.0-alpha</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/make-the-difference-when-contributing-to-open-source">-Make the difference when contributing to open-source</a>
+                        </div>                        <div class="related-posts_item">
+                            <a href="/blog/how-to-use-external-services-with-the-symfony-validator">-How to use external services with the Symfony Validator</a>
+                        </div>
+                    </div>
+        </div>        <img class="hidden-xs article-img" src="/img/posts/validation.jpg" alt="" />
+
+
+        <div class="m-top-20">
+                <div class="m-top-20">
+                    <time datetime="2017-8-21">
+                        <i class="fa fa-calendar"></i>2017-08-21                    </time>
+                </div>        </div>
+
+
+
+        <div  class="m-top-20"><p>Recently, while speaking at the <a href="/project/berlin-symfony-user-group-boring-api-and-symfony-2017/">Symfony Berlin User Group</a>, 
+during the Q&amp;A session, I was asked to comment on how to solve an issue when using 
+<a href="https://github.com/FriendsOfSymfony/FOSRestBundle">FOS REST Bundle</a> and <a href="https://github.com/schmittjoh/serializer">JMS Serializer</a>.</p>
+
+<p>The JMS Serializer is a library that allows to serialize and deserialize
+and object graph into a JSON or XML representation and vice versa and in the last two years I'm doing my best as maintainer of it.</p>
+
+<p>Serializing can be a not trivial process, but when talking about de-serialization, the problem is even more difficult.
+The source data (XML or JSON) can be not well formatted, 
+well formatted but not valid or valid syntactically but not valid in our domain.</p>
+
+<p>An example of this situation can be:</p>
+
+<pre><code>// blog post article
+{
+    "author_id": 60, 
+    "price": "123.540,50",
+    "date": "2010-02-05 10:20:60+02:00",
+    "text": "hello world"
+}
+</code></pre>
+
+<p>Here we can ask our self:</p>
+
+<ul>
+<li>is <code>author_id = 60</code> a valid author id?
+
+<ul>
+<li>maybe is <code>"AUTHOR60"</code> instead of <code>60</code></li>
+<li>maybe is <code>59</code> instead of <code>60</code></li>
+</ul></li>
+<li>what is the value of <code>price</code>?</li>
+<li>is the <code>date</code> "5th of February" or "2nd of May"?</li>
+<li>is <code>text = "hello world"</code> a valid text?
+
+<ul>
+<li>maybe is too short?</li>
+<li>maybe is too long?</li>
+<li>maybe should be a valid HTML document?</li>
+</ul></li>
+</ul>
+
+<p>This and many other question may arise from few JSON lines.</p>
+
+<p>What we are talking about here is not de-serialization but we are talking about <strong>normalization</strong> and <strong>validation</strong>.</p>
+
+<h2 id="normalization">Normalization</h2>
+
+<p>Normalization is the process of translating the data from one representation to a different one 
+(eventually more convenient for some reason).</p>
+
+<p>As example:</p>
+
+<p><code>12.4872,50</code>,  <code>12 4872.50</code>, <code>124872,50</code> and <code>124872.50</code> may represent the same number, just expressed using different 
+localization standards.</p>
+
+<p>Normalizing the previously said numbers means converting all of them into a single unified format that allows us to work on them.
+Can be a <code>float</code> number or a <code>Money</code> value object or an <code>integer</code> (multiplied by 100 in this case) 
+or any other representation fits well our domain model.</p>
+
+<p>Note: normalization <strong>is about converting/translating data</strong>.</p>
+
+<h2 id="validation">Validation</h2>
+
+<p>Validation is the process of asserting if a specified information is valid for a given context.</p>
+
+<p>We can validate data either before or after the normalization phase.</p>
+
+<p><strong>Post Normalization validation</strong></p>
+
+<p>As example, given <code>124872.50</code> normalized as <code>(float)</code>.</p>
+
+<p>If interpreted as meters, this value might be valid if we are talking about distances, 
+but most probably is not valid if we are talking about human height.</p>
+
+<p>Another example can be the text <code>hello world</code> normalized as <code>(string)</code>, can be valid as "english language string" 
+but most probably is not valid as "blog post" where we might require at least 300 words.</p>
+
+<p>In the post-normalization phase, the validity of the data depends on the application domain/context.</p>
+
+<p><strong>Pre Normalization validation</strong></p>
+
+<p>As example, given the <code>12.4872.50</code> information.</p>
+
+<p>If we want to normalize it to a <code>float</code> it is really difficult to decide which number it should represent.</p>
+
+<p>Is it <code>124872.50(float)</code> or <code>12.487250(float)</code> or is just invalid? 
+If we had <code>12 4872.50</code>, representing it as <code>float</code> is a bit easier, 
+but again, is it <code>12.0(float)</code> or<code>124872.50(float)</code> or is just invalid?</p>
+
+<p>In the case of pre-normalization, the validation process overlaps with what we are able to normalize in a reliable way
+(by reliability I mean the level of error I want to allow in my application).</p>
+
+<ul>
+<li>In applications where the data should be produced by other software is a good practice to have really strict validation 
+and reduce the normalization to the minimum possible 
+by being explicit to the maximum extend by which data representations are allowed.</li>
+<li>In applications where data are produced by humans the situation is more complex and it depends 
+by how much frustration we want to inflict to the user when providing the data. 
+As example in an e-commerce shop can be a good idea to "help" a bit the user by normalizing more 
+compared to an application to fill a tax declaration form.</li>
+</ul>
+
+<p>Note: validation <strong>does not perform any data conversion</strong>.</p>
+
+<h2 id="de-serialization">De-Serialization</h2>
+
+<p>De-serialization is the process of translating a representation that can be stored or transmitted 
+into an <a href="https://en.wikipedia.org/wiki/Object_(computer_science)">object</a> state.</p>
+
+<p>Deserialization does not do explicitly validation or normalization, 
+but in order to create the object state the "deserialization engine"
+ can do implicitly some "pre-normalization validation" and normalization.</p>
+
+<p>The deserializer will not do "post-normalization validation", 
+this mean that your object graph might be in an invalid state after the deserialization process.</p>
+
+<h3 id="jms-serializer">JMS Serializer</h3>
+
+<p>This post is mainly about PHP and more in detail about the JMS Serializer and its deserialization capabilities.</p>
+
+<p>In the past different users have tried to enrich the JMS serializer ability to validate objects, 
+but mixing the deserialization, validation and normalization is a risky idea. 
+Is risky because can end up with a library not able to do well none of the three.
+Currently there are great alternatives when talking about validation or normalization.</p>
+
+<h4 id="post-normalization-validation">Post-normalization validation</h4>
+
+<p>If you want to ensure a valid object state at the end of the deserialization process, a great solution is the 
+ <a href="https://github.com/symfony/validator">Symfony Validator</a></p>
+
+<pre><code>$myObject = $serializer-&gt;deserialize('some json data here', 'MyObject', 'json');
+
+
+$errors = $validator-&gt;validate($myObject);
+
+if (count($errors)&gt;0) {
+   // do something
+} else {
+   // do something else :)
+}
+
+</code></pre>
+
+<p>The valid object state can be described using XML, YAML and annotations when working with the Symfony Validator.</p>
+
+<h4 id="pre-normalization-validation-and-normalization">Pre-normalization validation and normalization</h4>
+
+<p>At the moment there is not out there a solution to do proper normalization and pre-normalization validation of the data
+using the JMS Serializer, but luckily there is another great solution, 
+the <a href="https://github.com/symfony/form">Symfony Form</a> component.</p>
+
+<p>The Symfony form component allows you a much more granular process of "deserializing" some data into an object graph.</p>
+
+<pre><code>// just setup a fresh MyObject object (remove the dummy data)
+$form = $this-&gt;createFormBuilder(new MyObject())
+        -&gt;add('task', TextType::class)
+        -&gt;add('dueDate', DateType::class)
+        -&gt;getForm();
+
+$form-&gt;submit(json_decode('some json data here', true));
+
+
+if ($form-&gt;isValid()) {
+
+    $myObject = $form-&gt;getData();
+
+   // do something
+} else {
+   // do something else :)
+}
+
+</code></pre>
+
+<p>The data types <code>DateType</code> and <code>TextType</code> (and many others built in into symfony) have plenty of useful options 
+and configurations that allows you to customize the de-serialization process. The form component can also set to NULL 
+all the fields before starting the "conversion" process or can do just simple update to your object state 
+(something that is not possible with the JMS serializer).</p>
+
+<p>Compared to the JMS serializer, the symfony form deserialization process is much more complex
+and is not trivial to configure but it will do pre-normalization validation and normalization for you.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>With this post I'm not saying "stop using the JMS Serializer" for deserialization, what I'm saying is 
+"<strong>use the jms de-serializer in specific situations</strong>" where the validation and normalization are not fundamental.</p>
+
+<p>My personal <strong>use-case</strong> for the JMS de-serializer is to exchange data between "Queue-workers". 
+ Data are produced by a php application (using the JMS serializer) and consumed by various PHP workers 
+(data deserialized using the JMS de-serializer).
+ In my case the data are really simple and produced by reliable sources. 
+ Because of that validation and normalization and validation are almost not necessary.
+ (Some post-normalization validation is performed at application level to ensure the data received are valid, but not much)</p>
+
+<p>My personal <strong>NOT-use-case</strong> for the JMS de-serializer is the handling of POST/PUT/PATCH requests in a REST webservice.
+ The data that a public REST webservice should handle are often complex, especially if it is part of an API consumed 
+ by some user-facing frontend application.
+ The API has to validate and normalize the user input as emails, date of birth, bank transaction amounts and so on...</p>
+
+<p>What do you think? Is out there a library that handles properly all the three parts?</p>
+
+<p>Looking forward to hear your feedback!</p>
+        </div>        <div class="business_btn roomy-40-positive">        </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>php</span>,                <span>jms-serializer</span>,                <span>json</span>,                <span>yaml</span>,                <span>xml</span>,                <span>serialization</span>,                <span>deserialization</span>,                <span>symfony</span>,                <span>symfony-form</span>            </p>        <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">                <div class="related-posts_container shop-side">
+                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
+                    <p>                        Are you interested in a solution for this problem?
+                        <br>
+                        In the <a href="/shop/">shop</a> section you can find project skeletons for:                        <ul>                                <li><a href="/shop/jms-serializer-error-codes/">Setup Custom error codes with jms/serializer and Symfony 5</a></li>                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>        <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fdeserialization-normalization-validation-and-the-jms-serializer&text=I%27ve%20just%20read%20%22Deserialization%2C%20normalization%2C%20validation%20and%20the%20JMS%20Serializer%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+
+                <!-- Facebook (url) -->
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fdeserialization-normalization-validation-and-the-jms-serializer" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fdeserialization-normalization-validation-and-the-jms-serializer&title=Deserialization%2C%20normalization%2C%20validation%20and%20the%20JMS%20Serializer%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fdeserialization-normalization-validation-and-the-jms-serializer&title=Deserialization%2C%20normalization%2C%20validation%20and%20the%20JMS%20Serializer%20-Asmir%20Mustafic&summary=Serializing%20can%20be%20a%20not%20trivial%20process%2C%20but%20when%20talking%20about%20de-serialization%2C%20the%20problem%20is%20even%20more%20difficult.%20The%20source%20data%20%28XML%20or%20JSON%29%20can%20be%20not%20well%20formatted%2C%20well%20formatted%20but%20not%20valid%20or%20valid%20syntactically%20but%20not%20valid%20in%20our%20domain.%20Dividing%20deserialization%2C%20normalization%2C%20validation%20is%20fundamental.&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <!-- Google Plus (url) -->
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fdeserialization-normalization-validation-and-the-jms-serializer" target="_blank" class="share-btn google-plus">
+                    <i class="fab fa-google-plus"></i> Google +
+                </a>
+            </div>
+        </div>            <nav class="article  m-top-50 hidden-xs">
+                <div class="row">                        <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/the-way-to-the-goetas-webservicesclient-release" title="The way to the goetas-webservices/client release">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">The way to the goetas-webservices/client release</span>
+                                </a>
+                            </div>
+                        </div>                    <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
+                        <div>
+                            <a class="next" href="/blog/how-to-add-custom-error-codes-to-your-symfony-api-responses" title="How to add custom error codes to your Symfony API responses">
+                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
+                                <span class="title">How to add custom error codes to your Symfony API responses</span>
+                            </a>
+                        </div>
+                    </div>                </div>
+
+            </nav>
+    </article>    <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">                                        Want more info?                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">                                    Get in touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact" class="footeraction-lage bg-black p-top-80">        <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">Software Architect and IT Consultant.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>                                    <li class="m-top-20"><a href="/blog/how-to-use-external-services-with-the-symfony-validator/"><i class="fas fa-angle-right"></i>How to use external services with the Symfony Validator</a></li>                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>Software Architect and IT Consultant
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter -Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn -Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github -Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase -Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+                                <li><a target="_blank" href="skype:goetas?call"><i class="fab fa-skype"></i></a></li>
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div><script src="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js"></script>
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>
