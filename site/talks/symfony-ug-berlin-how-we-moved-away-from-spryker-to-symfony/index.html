@@ -4,18 +4,17 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>        <meta charset="utf-8">
-        <title>willdurand/hateoas -Asmir Mustafic</title>
+        <title>How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code) -Asmir Mustafic</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/png" href="/favicon.png">        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
         <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font"><link rel="preload" href="/js/combined-e81dafe7f138d225ac884fb450598023355b1dfd.js" as="script"><link rel="stylesheet" href="/assets/css/combined-b53d5569749f2c5474b1570997f7ba1a84f2f146.css">
-        <meta property="og:url" content="https://www.goetas.com/opensource/willdurand-hateoas" />
+        <meta property="og:url" content="https://www.goetas.com/talks/symfony-ug-berlin-how-we-moved-away-from-spryker-to-symfony" />
 
-        <meta name="twitter:title" content="willdurand/hateoas -Asmir Mustafic" />
-        <meta name="og:title" content="willdurand/hateoas -Asmir Mustafic" />
+        <meta name="twitter:title" content="How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code) -Asmir Mustafic" />
+        <meta name="og:title" content="How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code) -Asmir Mustafic" />
         <meta name="twitter:site" content="@goetas_asmir" />
-        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />            <meta name="twitter:card" content="summary" />
-            <meta name="twitter:image" content="https://www.goetas.com/img/goetas-social.jpg" />
-            <meta property="og:image" content="https://www.goetas.com/img/goetas-social.jpg" />
+        <meta name="twitter:creator" content="@goetas_asmir" />    <meta name="twitter:card" content="summary_large_image" />        <meta property="og:image" content="https://www.goetas.com/img/talks/symfony-ug-2023-06.jpeg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/talks/symfony-ug-2023-06.jpeg" />
         <script type="application/ld+json">
         {
           "@context": "http://schema.org",
@@ -38,22 +37,53 @@
             "@type": "ListItem",
             "position": 1,
             "item": {
-              "@id": "https://www.goetas.com/opensource/",
-              "name": "Open Source"
+              "@id": "https://www.goetas.com/talks/",
+              "name": "Talks"
             }
           },{
             "@type": "ListItem",
             "position": 2,
             "item": {
-              "@id": "https://www.goetas.com/opensource/willdurand-hateoas",
-              "name": "willdurand/hateoas"
+              "@id": "https://www.goetas.com/talks/symfony-ug-berlin-how-we-moved-away-from-spryker-to-symfony",
+              "name": "How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code)"
             }
           }]
         }
-        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">        <meta name="description" content="A PHP library to support implementing representations for HATEOAS REST web services">
-        <meta name="twitter:description" content="A PHP library to support implementing representations for HATEOAS REST web services">
-        <meta name="og:description" content="A PHP library to support implementing representations for HATEOAS REST web services">
-        <meta property="og:type"  content="article" />        <meta name="keywords" content="php,api,rest,hateoas,"></head>
+        </script>    <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css"><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Event",
+  "name": "How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code)",
+    "location": {
+      "@type": "Place",
+      "name": "Symfony User Group Berlin",
+      "url": "",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Berlin, Germany"
+      }
+    },
+  "startDate": "2026-06-05",
+  "endDate": "2026-06-05",
+  "url": "https://www.goetas.com/talks/symfony-ug-berlin-how-we-moved-away-from-spryker-to-symfony","image": "https://www.goetas.com/img/talks/symfony-ug-2023-06.jpeg",  "description": "How&#x20;We&#x20;Moved&#x20;Away&#x20;from&#x20;Spryker&#x20;to&#x20;Symfony&#x20;&#x28;and&#x20;Deleted&#x20;2M&#x20;Lines&#x20;of&#x20;Code&#x29;&#x0A;&#x0A;Spryker&#x20;is&#x20;an&#x20;e-commerce&#x20;platform&#x20;particularly&#x20;popular&#x20;in&#x20;Germany.&#x20;&#x0A;At&#x20;Sourceability,&#x20;we&#x20;have&#x20;encountered&#x20;the&#x20;limitations&#x20;of&#x20;Spryker&#x20;and&#x20;made&#x20;the&#x20;decision&#x20;to&#x20;migrate&#x20;away&#x20;from&#x20;it,&#x20;&#x0A;embracing&#x20;the&#x20;Symfony&#x20;full-stack&#x20;framework.&#x0A;&#x0A;In&#x20;this&#x20;talk,&#x20;I&#x20;will&#x20;share&#x20;their&#x20;journey&#x20;of&#x20;migrating&#x20;from&#x20;Spryker&#x20;to&#x20;Symfony&#x20;and&#x20;the&#x20;challenges&#x20;they&#x20;faced&#x20;along&#x20;the&#x20;way.&#x20;&#x0A;O&#x20;will&#x20;discuss&#x20;the&#x20;strategies&#x20;we&#x20;have&#x20;employed&#x20;to&#x20;successfully&#x20;transition&#x20;our&#x20;codebase&#x20;and&#x20;how&#x20;we&#x20;managed&#x20;to&#x20;remove&#x20;a&#x20;staggering&#x20;2&#x20;million&#x20;lines&#x20;of&#x20;code.",
+  "performer":  {
+      "@type": "Person",
+      "name": "Asmir Mustafic",
+      "url": "https://www.goetas.com",
+      "sameAs": [
+        "https://github.com/goetas",
+        "https://twitter.com/goetas_asmir",
+        "https://linkedin.com/in/goetas",
+        "https://www.facebook.com/goetas",
+        "https://www.facebook.com/goetasDev"
+      ]
+    }
+}
+</script>
+        <meta name="description" content="Spryker is an e-commerce platform particularly popular in Germany. At Sourceability, we have encountered the limitations of Spryker and made the decision to migrate away from it, embracing the Symfony full-stack framework. ">
+        <meta name="twitter:description" content="Spryker is an e-commerce platform particularly popular in Germany. At Sourceability, we have encountered the limitations of Spryker and made the decision to migrate away from it, embracing the Symfony full-stack framework. ">
+        <meta name="og:description" content="Spryker is an e-commerce platform particularly popular in Germany. At Sourceability, we have encountered the limitations of Spryker and made the decision to migrate away from it, embracing the Symfony full-stack framework. ">
+        <meta property="og:type"  content="article" />        <meta name="keywords" content="symfony,php,spryker,ecommerce,migration,legacy,"></head>
 
 <body data-spy="scroll" data-target=".navbar-collapse">
 
@@ -104,8 +134,8 @@
                     <li><a href="/services/">Services</a></li>
                     <li><a href="/projects/">Portfolio</a></li>
                     <li><a href="/blog/">Blog</a></li>
-                    <li><a href="/talks/">Talks</a></li>
-                    <li><a href="/opensource/" class="active">Open Source</a></li>
+                    <li><a href="/talks/" class="active">Talks</a></li>
+                    <li><a href="/opensource/">Open Source</a></li>
 
                     <li><a href="/contact/">Contact</a></li>
                 </ul>
@@ -113,75 +143,98 @@
         </div>
 
     </nav>
-    <article>        <div class="breadcrumb">
-           <a href="/opensource//">Open Source</a> &raquo;
-            <i>willdurand/hateoas</i>
+    <article><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Event",
+  "name": "How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code)",
+    "location": {
+      "@type": "Place",
+      "name": "Symfony User Group Berlin",
+      "url": "",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Berlin, Germany"
+      }
+    },
+  "startDate": "2026-06-05",
+  "endDate": "2026-06-05",
+  "url": "https://www.goetas.com/talks/symfony-ug-berlin-how-we-moved-away-from-spryker-to-symfony","image": "https://www.goetas.com/img/talks/symfony-ug-2023-06.jpeg",  "description": "How&#x20;We&#x20;Moved&#x20;Away&#x20;from&#x20;Spryker&#x20;to&#x20;Symfony&#x20;&#x28;and&#x20;Deleted&#x20;2M&#x20;Lines&#x20;of&#x20;Code&#x29;&#x0A;&#x0A;Spryker&#x20;is&#x20;an&#x20;e-commerce&#x20;platform&#x20;particularly&#x20;popular&#x20;in&#x20;Germany.&#x20;&#x0A;At&#x20;Sourceability,&#x20;we&#x20;have&#x20;encountered&#x20;the&#x20;limitations&#x20;of&#x20;Spryker&#x20;and&#x20;made&#x20;the&#x20;decision&#x20;to&#x20;migrate&#x20;away&#x20;from&#x20;it,&#x20;&#x0A;embracing&#x20;the&#x20;Symfony&#x20;full-stack&#x20;framework.&#x0A;&#x0A;In&#x20;this&#x20;talk,&#x20;I&#x20;will&#x20;share&#x20;their&#x20;journey&#x20;of&#x20;migrating&#x20;from&#x20;Spryker&#x20;to&#x20;Symfony&#x20;and&#x20;the&#x20;challenges&#x20;they&#x20;faced&#x20;along&#x20;the&#x20;way.&#x20;&#x0A;O&#x20;will&#x20;discuss&#x20;the&#x20;strategies&#x20;we&#x20;have&#x20;employed&#x20;to&#x20;successfully&#x20;transition&#x20;our&#x20;codebase&#x20;and&#x20;how&#x20;we&#x20;managed&#x20;to&#x20;remove&#x20;a&#x20;staggering&#x20;2&#x20;million&#x20;lines&#x20;of&#x20;code.",
+  "performer":  {
+      "@type": "Person",
+      "name": "Asmir Mustafic",
+      "url": "https://www.goetas.com",
+      "sameAs": [
+        "https://github.com/goetas",
+        "https://twitter.com/goetas_asmir",
+        "https://linkedin.com/in/goetas",
+        "https://www.facebook.com/goetas",
+        "https://www.facebook.com/goetasDev"
+      ]
+    }
+}
+</script>
+        <div class="breadcrumb">
+           <a href="/talks//">Talks</a> &raquo;
+            <i>How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code)</i>
         </div>
         <header>
-            <h1>willdurand/hateoas</h1>
-        </header>        <p class="subtitle">A PHP library to support implementing representations for HATEOAS REST web services        </p>        <div class="col-md-5 hidden-xs related-posts">                <div class="related-posts_container shop-side">
-                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
-                    <p>    Are you interested in this project?
-    In the <a href="/shop/">shop</a> section you can solutions for real use-cases as:                        <ul>                                <li><a href="/shop/symfony-5-rest-api/">Symfony 5 REST API</a></li>                        </ul>
-                    </p>
+            <h1>How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code)</h1>
+        </header>        <p class="subtitle">Spryker is an e-commerce platform particularly popular in Germany. At Sourceability, we have encountered the limitations of Spryker and made the decision to migrate away from it, embracing the Symfony full-stack framework.
+        </p>        <img class="hidden-xs article-img" src="/img/talks/symfony-ug-2023-06.jpeg" alt="" />
+
+
+        <div class="m-top-20">                <div class="m-top-20">
+                    <i class="fa fa-location-arrow"></i>
+                    <strong>Symfony User Group Berlin -Berlin, Germany</strong>
                 </div>
-        </div>
-
-
-        <div class="m-top-20">            <div class="m-top-20">
-                <i class="fa fa-users"></i>
-                Role:
-                <strong>maintainer</strong>
-            </div>                <div class="m-top-20">
-                    <i class="fa fa-download"></i>
-                    <a href="https://packagist.org/packages/willdurand/hateoas" target="_blank"><strong>10 489 319</strong> downloads</a>
+                <div class="m-top-20">
+                    <time datetime="2026-06-05">
+                        <i class="fa fa-calendar"></i>2026-06-05                    </time>
                 </div>        </div>
 
 
 
-        <div  class="m-top-20"><p>A PHP library to support implementing representations for HATEOAS REST web services.</p>
+        <div  class="m-top-20"><h2 id="how-we-moved-away-from-spryker-to-symfony-and-deleted-2m-lines-of-code">How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code)</h2>
 
-<p>Hypermedia As The Engine Of Application State (HATEOAS) is a constraint of the REST application architecture 
-that distinguishes it from other network application architectures.</p>
+<p>Spryker is an e-commerce platform particularly popular in Germany. 
+At Sourceability, we have encountered the limitations of Spryker and made the decision to migrate away from it, 
+embracing the Symfony full-stack framework.</p>
 
-<p>With HATEOAS, a client interacts with a network application whose application servers provide information
- dynamically through hypermedia. A REST client needs little to no prior knowledge about how to interact
-  with an application or server beyond a generic understanding of hypermedia.</p>
+<p>In this talk, I will share their journey of migrating from Spryker to Symfony and the challenges they faced along the way. 
+O will discuss the strategies we have employed to successfully transition our codebase and how we managed to remove a staggering 2 million lines of code.</p>
         </div>    <div class="business_btn roomy-40 row">
-        <div class="col-md-8">    <a title="Code for:willdurand/hateoas" href="https://github.com/willdurand/Hateoas"  rel="nofollow" target="_blank" class="btn btn-default m-top-20"> <i class="fab fa-fw fa-github"></i> Get code</a>        </div>    </div>            <p class="tags m-top-50">
-                <i class="fa fa-tags"></i>                <span>php</span>,                <span>api</span>,                <span>rest</span>,                <span>hateoas</span>            </p>        <div class="row visible-xs">
-            <div class="col-xs-12 related-posts">                <div class="related-posts_container shop-side">
-                    <h4><i class="fa fa-cart-plus"></i> Shop</h4>
-                    <p>    Are you interested in this project?
-    In the <a href="/shop/">shop</a> section you can solutions for real use-cases as:                        <ul>                                <li><a href="/shop/symfony-5-rest-api/">Symfony 5 REST API</a></li>                        </ul>
-                    </p>
-                </div>
+        <div class="col-md-8">    <a title="Slides about:How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code)" href="https://slides.com/goetas/how-we-moved-away-from-spryker-to-symfony"  rel="nofollow" target="_blank" class="btn btn-default m-top-20"> <i class="fa fa-fw fa-file"></i> Get slides</a>    <a title="External resource for:How We Moved Away from Spryker to Symfony (and Deleted 2M Lines of Code)" rel="nofollow" href="https://www.meetup.com/sfugberlin/events/294264046" target="_blank" class="btn btn-default m-top-20"> <i class="fa fa-fw fa-globe"></i> Visit</a>        </div>    </div>            <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>                <span>symfony</span>,                <span>php</span>,                <span>spryker</span>,                <span>ecommerce</span>,                <span>migration</span>,                <span>legacy</span>            </p>        <div class="row m-top-40" style="border-top: 1px dotted lightgray">
+            <div class="col-md-4 col-md-offset-3" style="padding: 20px">
+                    See the tweet on
+                    <a href="https://twitter.com/QOSSMIC/status/1671093182065459203" target="_blank">twitter.com</a> about this!
             </div>
         </div>        <div class="share-on-socials">
             <div>Share or comment on:</div>
 
             <div  class="m-top-10 share-on-socials-buttons">
                 <!-- Twitter (url, text, @mention) -->
-                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fopensource%2Fwilldurand-hateoas&text=I%27ve%20just%20read%20%22willdurand%2Fhateoas%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Ftalks%2Fsymfony-ug-berlin-how-we-moved-away-from-spryker-to-symfony&text=I%27ve%20just%20read%20%22How%20We%20Moved%20Away%20from%20Spryker%20to%20Symfony%20%28and%20Deleted%202M%20Lines%20of%20Code%29%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
                     <i class="fab fa-twitter"></i> Twitter
                 </a>
 
                 <!-- Facebook (url) -->
-                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Fopensource%2Fwilldurand-hateoas" target="_blank" class="share-btn facebook">
+                <a href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.goetas.com%2Ftalks%2Fsymfony-ug-berlin-how-we-moved-away-from-spryker-to-symfony" target="_blank" class="share-btn facebook">
                     <i class="fab fa-facebook"></i> Facebook
                 </a>
 
                 <!-- Reddit (url, title) -->
-                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fopensource%2Fwilldurand-hateoas&title=willdurand%2Fhateoas%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Ftalks%2Fsymfony-ug-berlin-how-we-moved-away-from-spryker-to-symfony&title=How%20We%20Moved%20Away%20from%20Spryker%20to%20Symfony%20%28and%20Deleted%202M%20Lines%20of%20Code%29%20-Asmir%20Mustafic" target="_blank" class="share-btn reddit">
                     <i class="fab fa-reddit"></i> Reddit
                 </a>
 
                 <!-- LinkedIn (url, title, summary, source url) -->
-                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fopensource%2Fwilldurand-hateoas&title=willdurand%2Fhateoas%20-Asmir%20Mustafic&summary=A%20PHP%20library%20to%20support%20implementing%20representations%20for%20HATEOAS%20REST%20web%20services&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Ftalks%2Fsymfony-ug-berlin-how-we-moved-away-from-spryker-to-symfony&title=How%20We%20Moved%20Away%20from%20Spryker%20to%20Symfony%20%28and%20Deleted%202M%20Lines%20of%20Code%29%20-Asmir%20Mustafic&summary=Spryker%20is%20an%20e-commerce%20platform%20particularly%20popular%20in%20Germany.%20At%20Sourceability%2C%20we%20have%20encountered%20the%20limitations%20of%20Spryker%20and%20made%20the%20decision%20to%20migrate%20away%20from%20it%2C%20embracing%20the%20Symfony%20full-stack%20framework.%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
                     <i class="fab fa-linkedin"></i> LinkedIn
                 </a>
                 <!-- Google Plus (url) -->
-                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fopensource%2Fwilldurand-hateoas" target="_blank" class="share-btn google-plus">
+                <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.goetas.com%2Ftalks%2Fsymfony-ug-berlin-how-we-moved-away-from-spryker-to-symfony" target="_blank" class="share-btn google-plus">
                     <i class="fab fa-google-plus"></i> Google +
                 </a>
             </div>
