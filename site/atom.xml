@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <title><![CDATA[Asmir Mustafic - Software Architect and IT Consultant]]></title>
+    <title><![CDATA[Asmir Mustafic - Software Architect, PHP and DevOps solutions]]></title>
     <link href="https://www.goetas.com/atom.xml" rel="self"/>
     <link href="https://www.goetas.com/"/>
-    <updated>2023-07-06T14:04:56+02:00</updated>
+    <updated>2024-03-28T20:38:42+00:00</updated>
     <id>https://www.goetas.com/</id>        <author><name><![CDATA[Asmir Mustafic]]></name><email><![CDATA[info@goetas.com]]></email>        </author>    <generator uri="http://sculpin.io/">Sculpin</generator>        <entry>
             <title>Multi-namespace migrations with doctrine/migrations 3.0</title>
             <link href="https://www.goetas.com/blog/multi-namespace-migrations-with-doctrinemigrations-30"/>
-            <updated>2020-04-05T00:00:00+02:00</updated>
+            <updated>2020-04-05T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/multi-namespace-migrations-with-doctrinemigrations-30</id>                <summary>doctrine/migrations 3.0-alpha1 has been made available last week. The main user-facing feature is the ability to define migrations into multiple folders/namespaces and to specify dependencies between migrations.
 </summary>                <content type="html"><![CDATA[<p>Last week <a href="/blog/released-doctrinemigrations-30-alpha">I've announced the first alpha release</a> 
 for <a href="https://github.com/doctrine/migrations"><code>doctrine/migrations</code> 3.0</a>.
@@ -463,7 +463,7 @@ for the symfony bundle.</p>]]></content>
         </entry>        <entry>
             <title>Released doctrine/migrations 3.0-alpha</title>
             <link href="https://www.goetas.com/blog/released-doctrinemigrations-30-alpha"/>
-            <updated>2020-03-29T00:00:00+01:00</updated>
+            <updated>2020-03-29T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/released-doctrinemigrations-30-alpha</id>                <summary>doctrine/migrations 3.0-alpha has been made available today.  This new major release is the result of almost 6 months of work, brings a completely refactored/rewritten internal structure  and many new features.
 </summary>                <content type="html"><![CDATA[<p>I'm proud to announce that the first alpha release
  for <a href="https://github.com/doctrine/migrations"><code>doctrine/migrations</code> 3.0</a> 
@@ -586,7 +586,7 @@ When the alpha and beta phase will be completed, a stable version will be made a
         </entry>        <entry>
             <title>Make the difference when contributing to open-source</title>
             <link href="https://www.goetas.com/blog/make-the-difference-when-contributing-to-open-source"/>
-            <updated>2019-10-22T00:00:00+02:00</updated>
+            <updated>2019-10-22T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/make-the-difference-when-contributing-to-open-source</id>                <summary>Collaboration in open-source it is always a hard thing.  It is a delicate balance of freedom, ideas, rules, time, money and motivation.  If you decide to contribute, make your contributions count. Do not waste precious resources.
 </summary>                <content type="html"><![CDATA[<p>Collaboration in open-source it is always a hard thing. 
 It is a delicate balance of freedom, ideas, rules, time, money and motivation and many other factors.</p>
@@ -742,7 +742,7 @@ community motivation and community interest in your contribution.</p>
         </entry>        <entry>
             <title>How to use external services with the Symfony Validator</title>
             <link href="https://www.goetas.com/blog/how-to-use-external-services-with-the-symfony-validator"/>
-            <updated>2019-10-07T00:00:00+02:00</updated>
+            <updated>2019-10-07T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/how-to-use-external-services-with-the-symfony-validator</id>                <summary>In this article we are going to see a particular case of validation using the Symfony Validator expression language  and accessing third party services.
 </summary>                <content type="html"><![CDATA[<p>Validation is one of the most common tasks when building many types of software applications.</p>
 
@@ -893,7 +893,7 @@ if you want to use the <code>is_granted</code> function that is not provided by 
         </entry>        <entry>
             <title>Changing credentials on Docker Swarm Services</title>
             <link href="https://www.goetas.com/blog/changing-credentials-on-docker-swarm-services"/>
-            <updated>2019-07-01T00:00:00+02:00</updated>
+            <updated>2019-07-01T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/changing-credentials-on-docker-swarm-services</id>                <summary>This post will give you and overview on how docker performs the authentication into image registries,
  and how changes to the credentials alters the workflow when multiple nodes are involved.
      
@@ -1020,7 +1020,7 @@ In alternative you can use the same labeling strategy described before and updat
         </entry>        <entry>
             <title>Traps on the way of Blue-Green deployments</title>
             <link href="https://www.goetas.com/blog/traps-on-the-way-of-blue-green-deployments"/>
-            <updated>2019-06-14T00:00:00+02:00</updated>
+            <updated>2019-06-14T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/traps-on-the-way-of-blue-green-deployments</id>                <summary>Docker (as well as Kubernetes) gives you a way to update your applications with no-downtime through a strategy called Blue-Green deployment. Here we can see a common trap (and solution) when building PHP-based applications and  doing blue-green deployments.
      
 </summary>                <content type="html"><![CDATA[<p>Docker (as well as Kubernetes) offers you a way to update your applications with no-downtime through a common strategy called
@@ -1147,7 +1147,7 @@ In this way, these timeouts are applied only for the worse case.</p>]]></content
         </entry>        <entry>
             <title>Why and how some people run open source projects</title>
             <link href="https://www.goetas.com/blog/why-and-how-some-people-run-open-source-projects"/>
-            <updated>2019-02-06T00:00:00+01:00</updated>
+            <updated>2019-02-06T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/why-and-how-some-people-run-open-source-projects</id>                <summary>In the past weeks I asked some people to answer few questions on how and why they maintain/develop open source projects. The results are here.
      
 </summary>                <content type="html"><![CDATA[<p>In the past weeks I asked some people to answer few questions on how and why they maintain/develop open source
@@ -1240,7 +1240,7 @@ educate their employers on the value of those contributions and why each company
         </entry>        <entry>
             <title>What&#039;s new in jms/serializer v2.0</title>
             <link href="https://www.goetas.com/blog/whats-new-in-jmsserializer-v20"/>
-            <updated>2018-09-12T00:00:00+02:00</updated>
+            <updated>2018-09-12T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/whats-new-in-jmsserializer-v20</id>                <summary>After more than a two years of work, jms/serializer v2.0 is going to see the light. Here a preview of the changes, new features and improvements that will be released soon.
 </summary>                <content type="html"><![CDATA[<p>After more than a two years of work (the <a href="https://github.com/goetas/serializer/pull/3/commits">first commit</a> 
 was on July 20 2016), <a href="https://github.com/schmittjoh/serializer">jms/serializer</a> <strong>v2.0</strong> is going to see the light.</p>
@@ -1557,7 +1557,7 @@ You can test it with your project, write documentation, tests or contribute to t
         </entry>        <entry>
             <title>How I approached software development and why I prefer PostgreSQL to MySQL</title>
             <link href="https://www.goetas.com/blog/how-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql"/>
-            <updated>2018-03-04T00:00:00+01:00</updated>
+            <updated>2018-03-04T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/how-i-approached-software-development-and-why-i-prefer-postgresql-to-mysql</id>                <summary>This post is basically a PostgreSQL vs MySQL comparison.  Working with MySQL has always been a pain for me, on the other side the experience with PostgreSQL was always  just great! That is why I prefer PostgreSQL.
 </summary>                <content type="html"><![CDATA[<p><em>This post is more a rant against MySQL (InnoDB) rather than a technical tutorial (as I was used to write in the previous months).
 Everything started with <a href="https://twitter.com/goetas_asmir/status/966743735194222592">this</a> tweet. 
@@ -1778,7 +1778,7 @@ Thanks to everybody.</p>]]></content>
         </entry>        <entry>
             <title>Modular Application Architecture - Static assets</title>
             <link href="https://www.goetas.com/blog/modular-application-architecture-static-assets"/>
-            <updated>2018-01-17T00:00:00+01:00</updated>
+            <updated>2018-01-17T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/modular-application-architecture-static-assets</id>                <summary>When developing software, sometimes we need to allow our application to have plugins or modules  developed by third parties.
 Static files as images, fonts or in general &quot;files&quot; are often part of a plugin. In this article we will se how to  deal to them and how to make them available to the core application. 
 </summary>                <content type="html"><![CDATA[<p><strong>This is the sixth post from a series of posts that will describe strategies to build 
@@ -2165,7 +2165,7 @@ If you have some feedback, do not hesitate to leave a comment!</p>]]></content>
         </entry>        <entry>
             <title>Modular Application Architecture - Considerations</title>
             <link href="https://www.goetas.com/blog/modular-application-architecture-considerations"/>
-            <updated>2018-01-03T00:00:00+01:00</updated>
+            <updated>2018-01-03T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/modular-application-architecture-considerations</id>                <summary>When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties. 
 In this post we will take a general overview on how some popular design patterns  can allow us to create plugin based applications and some considerations to keep in mind when implementing them.
 </summary>                <content type="html"><![CDATA[<p><strong>This is the fifth post from a series of posts that will describe strategies to build 
@@ -2247,7 +2247,7 @@ A part that is missing from this series of blog posts (and will be covered in th
         </entry>        <entry>
             <title>Modular Application Architecture - Inheritance</title>
             <link href="https://www.goetas.com/blog/modular-application-architecture-inheritance"/>
-            <updated>2017-12-13T00:00:00+01:00</updated>
+            <updated>2017-12-13T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/modular-application-architecture-inheritance</id>                <summary>When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties. 
 In this post we will see how &quot;inheritance&quot; can  help us to build a plugin system for our application. 
 </summary>                <content type="html"><![CDATA[<p><strong>This is the fourth post from a series of posts that will describe strategies to build 
@@ -2579,7 +2579,7 @@ will discuss strategies that are based on conventions and have similar character
         </entry>        <entry>
             <title>Modular Application Architecture - Pipelines</title>
             <link href="https://www.goetas.com/blog/modular-application-architecture-pipelines"/>
-            <updated>2017-11-30T00:00:00+01:00</updated>
+            <updated>2017-11-30T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/modular-application-architecture-pipelines</id>                <summary>When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties. 
 In this post we will see in which contexts &quot;pipelines&quot; can be used as plugin mechanism.
 </summary>                <content type="html"><![CDATA[<p><strong>This is the third post from a series of posts that will describe strategies to build 
@@ -2845,7 +2845,7 @@ debugging can be hard)  </li>
         </entry>        <entry>
             <title>Modular Application Architecture - Events</title>
             <link href="https://www.goetas.com/blog/modular-application-architecture-events"/>
-            <updated>2017-11-14T00:00:00+01:00</updated>
+            <updated>2017-11-14T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/modular-application-architecture-events</id>                <summary>When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties. 
 In this post we will start looking on how to implement a plugin-system by using &quot;events&quot;.
 </summary>                <content type="html"><![CDATA[<p><strong>This is the second post from a series of posts that will describe strategies to build 
@@ -3157,7 +3157,7 @@ extension pattern can be used.</p>
         </entry>        <entry>
             <title>Modular Application Architecture - Intro</title>
             <link href="https://www.goetas.com/blog/modular-application-architecture-intro"/>
-            <updated>2017-11-01T00:00:00+01:00</updated>
+            <updated>2017-11-01T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/modular-application-architecture-intro</id>                <summary>When developing software, sometimes we need to allow our application to have plug-ins or modules  developed by third parties.  Creating a robust architecture that allows a powerful mechanism can be challenging. In this series of posts we will see some strategies to do it. 
 </summary>                <content type="html"><![CDATA[<p><strong>This is the first post from a series of posts that will describe strategies to build 
 modular and extensible applications.</strong> (inspired by a talk from <a href="https://qafoo.com/">qafoo</a> in 2011 in Berlin)</p>
@@ -3388,13 +3388,57 @@ In the next articles we will see some strategies of interaction with the applica
         </entry>        <entry>
             <title>Immobinet at TTG 2017 Rimini</title>
             <link href="https://www.goetas.com/blog/immobinet-at-ttg-2017-rimini"/>
-            <updated>2017-10-23T00:00:00+02:00</updated>
+            <updated>2017-10-23T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/immobinet-at-ttg-2017-rimini</id>                <summary>From the 12th to the 14th of October 2017 I was presenting with Mercurio Sistemi S.r.l. &quot;Immobinet&quot;, a software  to manage touristic rentals as apartments, villas any similar types of accommodation. 
-</summary>
+</summary>                <content type="html"><![CDATA[<p><a href="/projects/immobinet">Immobinet</a> is a CRM for touristic apartments and rooms rental build by 
+<a href="http://www.mercuriosistemi.com/">Mercurio Sistemi</a>.</p>
+
+<p>Mercurio Sistemi attended the <a href="https://en.ttgincontri.it/">TTG Rimini 2017</a> presenting its software to a specialized 
+audience of people involved in the tourism marked. This year more than 75000 people appended the event and 
+more than 2500 companies participated as expositors.</p>
+
+<p>I was part of an incredible 5-people team, presenting Immobinet at this very big event.</p>
+
+<p>The reception of the audience was exceptional and we did a terrific work in giving information about Immobinet
+ to the attendees and in promoting it.
+In the next weeks we will be able also to quantify (in numbers) the success of this promotion operation.
+In some moments there was a line of people waiting to get a demo of the product.</p>
+
+<p>I would like to thank you the Mercurio Sistemi team for allowing me to participate to this event and giving me a
+change to do my best for the growth of Immobinet.</p>
+
+<p>Here also few pictures of the event:</p>
+
+<div class="lightgallery">                    
+    <a href="/img/posts/ttg-2017/22365507_532561240425377_4264691876500220043_n.jpg">
+        <div class="img">
+      <img src="/_thumbs/657050f0c869fb818de193a807db8235-200x200.jpg" />
+      </div>
+    </a>                    
+    <a href="/img/posts/ttg-2017/22384302_532704493744385_7183914414752729817_o.jpg">
+        <div class="img">
+      <img src="/_thumbs/2ca41f999ab1331e60bcc1971cd67109-200x200.jpg" />
+      </div>
+    </a>                    
+    <a href="/img/posts/ttg-2017/22519387_532732800408221_8671719633021873304_n.jpg">
+        <div class="img">
+      <img src="/_thumbs/5d254fbca853fb2a8856b5ef6ca6733d-200x200.jpg" />
+      </div>
+    </a>                    
+    <a href="/img/posts/ttg-2017/22382278_532596700421831_758480462294033408_o.jpg">
+        <div class="img">
+      <img src="/_thumbs/0d75d776f7c05c269b7b10c7cd295689-200x200.jpg" />
+      </div>
+    </a>                    
+    <a href="/img/posts/ttg-2017/22426436_532596747088493_6311101370801694545_o.jpg">
+        <div class="img">
+      <img src="/_thumbs/cf3df486c399ed72998728edb8289737-200x200.jpg" />
+      </div>
+    </a></div>]]></content>
         </entry>        <entry>
             <title>How do I deploy my Symfony API - Part 5 - Conclusion</title>
             <link href="https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-5-conclusion"/>
-            <updated>2017-10-18T00:00:00+02:00</updated>
+            <updated>2017-10-18T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-5-conclusion</id>                <summary>This is the fifth and last article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.
  This post is a conclusive post. Contains a summary and some tips. 
 </summary>                <content type="html"><![CDATA[<p><strong>This is the fifth post from a series of posts that described the whole deploy process from development to production
@@ -3582,7 +3626,7 @@ improve my application.</p>
         </entry>        <entry>
             <title>How do I deploy my Symfony API - Part 4 - Deploy</title>
             <link href="https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-4-deploy"/>
-            <updated>2017-10-10T00:00:00+02:00</updated>
+            <updated>2017-10-10T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-4-deploy</id>                <summary>This is the forth article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.
  This post focuses on the final and last step, the deploy. 
 </summary>                <content type="html"><![CDATA[<p><strong>This is the forth post from a series of posts that will describe the whole deploy process from development to production.</strong>
@@ -3828,7 +3872,7 @@ by showing some of the improvements implemented in the project that were not eas
         </entry>        <entry>
             <title>How do I deploy my Symfony API - Part 3 - Infrastructure</title>
             <link href="https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-3-infrastructure"/>
-            <updated>2017-10-04T00:00:00+02:00</updated>
+            <updated>2017-10-04T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-3-infrastructure</id>                <summary>This is the third article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.
  This post focuses on the AWS and instances configuration. 
 </summary>                <content type="html"><![CDATA[<p><strong>This is the third post from a series of posts that will describe the whole deploy process from development to production.</strong>
@@ -4117,7 +4161,7 @@ setup.</p>]]></content>
         </entry>        <entry>
             <title>How do I deploy my Symfony API - Part 2 - Build</title>
             <link href="https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-2-build"/>
-            <updated>2017-09-27T00:00:00+02:00</updated>
+            <updated>2017-09-27T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-2-build</id>                <summary>This is the second article from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.
  This post focuses on the build process, executed on a continuous integration server. 
 </summary>                <content type="html"><![CDATA[<p><strong>This is the second post from a series of posts that will describe the whole deploy process from development to production.</strong>
@@ -4441,7 +4485,7 @@ As <a href="/blog/how-do-i-deploy-my-symfony-api-part-1/#db-postgres">already ha
         </entry>        <entry>
             <title>How do I deploy my Symfony API - Part 1 - Development</title>
             <link href="https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-1-development"/>
-            <updated>2017-09-20T00:00:00+02:00</updated>
+            <updated>2017-09-20T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/how-do-i-deploy-my-symfony-api-part-1-development</id>                <summary>This is the first from a series of blog posts on how to deploy a symfony PHP based application to a docker swarm cluster hosted on Amazon EC2 instances.
  This post focuses on the development environment. 
 </summary>                <content type="html"><![CDATA[<p>In this blog post I'm going to share the deploy strategy I've used to deploy an API-centric application to AWS for a customer.</p>
@@ -4778,7 +4822,7 @@ to the live environment.</p>
         </entry>        <entry>
             <title>How to add custom error codes to your Symfony API responses</title>
             <link href="https://www.goetas.com/blog/how-to-add-custom-error-codes-to-your-symfony-api-responses"/>
-            <updated>2017-09-12T00:00:00+02:00</updated>
+            <updated>2017-09-12T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/how-to-add-custom-error-codes-to-your-symfony-api-responses</id>                <content type="html"><![CDATA[<p>When writing APIs, a proper error handling is fundamental.</p>
 
 <p>HTTP status codes are a great start, but often when we deal with user inputs is not enough. 
@@ -5113,7 +5157,7 @@ Content-Type: application/json
         </entry>        <entry>
             <title>Deserialization, normalization, validation and the JMS Serializer</title>
             <link href="https://www.goetas.com/blog/deserialization-normalization-validation-and-the-jms-serializer"/>
-            <updated>2017-08-21T00:00:00+02:00</updated>
+            <updated>2017-08-21T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/deserialization-normalization-validation-and-the-jms-serializer</id>                <summary>Serializing can be a not trivial process, but when talking about de-serialization, the problem is even more difficult. The source data (XML or JSON) can be not well formatted, well formatted but not valid or valid syntactically but not valid in our domain. Dividing deserialization, normalization, validation is fundamental.</summary>                <content type="html"><![CDATA[<p>Recently, while speaking at the <a href="/project/berlin-symfony-user-group-boring-api-and-symfony-2017/">Symfony Berlin User Group</a>, 
 during the Q&amp;A session, I was asked to comment on how to solve an issue when using 
 <a href="https://github.com/FriendsOfSymfony/FOSRestBundle">FOS REST Bundle</a> and <a href="https://github.com/schmittjoh/serializer">JMS Serializer</a>.</p>
@@ -5319,7 +5363,7 @@ and is not trivial to configure but it will do pre-normalization validation and 
         </entry>        <entry>
             <title>The way to the goetas-webservices/client release</title>
             <link href="https://www.goetas.com/blog/the-way-to-the-goetas-webservicesclient-release"/>
-            <updated>2016-10-04T00:00:00+02:00</updated>
+            <updated>2016-10-04T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/the-way-to-the-goetas-webservicesclient-release</id>                <summary>After many years of work, finally I have released a fully PHP based SOAP client up to date with the latest best practice.</summary>                <content type="html"><![CDATA[<p>I started to work on this project (let's say technology) almost 10 years ago 
 while was working at <a href="http://www.mercuriosistemi.com/">Mercurio Sistemi</a>...</p>
 
@@ -5403,7 +5447,7 @@ or tweet me at <a href="https://twitter.com/goetas_asmir">@goetas</a></p>]]></co
         </entry>        <entry>
             <title>Some notes about JMS Serializer (plus v1.3.0 release)</title>
             <link href="https://www.goetas.com/blog/some-notes-about-jms-serializer-plus-v130-release"/>
-            <updated>2016-08-21T00:00:00+02:00</updated>
+            <updated>2016-08-21T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/some-notes-about-jms-serializer-plus-v130-release</id>                <summary>It is almost a month that I started as maintainer of JMS Serializer and today I&#039;m proud to announce the release v1.3.0 of JMS Serializer that contains many bug fixes and the new method &quot;hasData&quot; for generic serialization visitors (JSON/YAML)</summary>                <content type="html"><![CDATA[<p>It is almost a month that I started as maintainer of <a href="https://github.com/schmittjoh/serializer">JMS Serializer</a> 
 (<a href="http://jmsyst.com/libs/serializer">here</a> is available the official documentation).
 I started to contribute to this project almost two years ago, with some small pull requests
@@ -5445,7 +5489,7 @@ or tweet me at <a href="https://twitter.com/goetas_asmir">@goetas</a></p>]]></co
         </entry>        <entry>
             <title>Available as Software Architect and Consultant</title>
             <link href="https://www.goetas.com/blog/available-as-software-architect-and-consultant"/>
-            <updated>2016-08-10T00:00:00+02:00</updated>
+            <updated>2016-08-10T00:00:00+00:00</updated>
             <id>https://www.goetas.com/blog/available-as-software-architect-and-consultant</id>                <summary>Starting from September 2016 I&#039;m available as Software Architect and Consultant. Mainly PHP applications, infrastructure setup, deployment process and workflow management.</summary>                <content type="html"><![CDATA[<p>After spending almost 15 years in the IT industry, mainly as PHP developer, 
 I have decided to start a new and exciting activity as Independent Consultant and Software Architect.</p>
 
@@ -5458,14 +5502,14 @@ I invite you to have a look at my
         </entry>        <entry>
             <title>Redovisningsdatum</title>
             <link href="https://www.goetas.com/projects/redovisningsdatum"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/projects/redovisningsdatum</id>                <summary>A web platform that helps to keep track of the most important reports to file for your company
 </summary>                <content type="html"><![CDATA[<p>Redovisningsdatum is a digital service that helps business owners and accounting firms in Sweden
  to be reminded of when financial reports are to be reported to Swedish authorities and other public actors</p>]]></content>
         </entry>        <entry>
             <title>PINT</title>
             <link href="https://www.goetas.com/projects/pint"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/projects/pint</id>                <summary>PINT, San Diego Web Development and Design</summary>                <content type="html"><![CDATA[<p>Software engineer Consultant for <a href="https://www.pint.com/" title="" rel="noreferrer">PINT</a>.</p>
 
 <p><a href="https://www.pint.com/" title="" rel="noreferrer">PINT Inc.</a> (headquarter in San Diego, CA) 
@@ -5476,13 +5520,13 @@ UX design, user experience, analytics, search marketing, and optimization to glo
         </entry>        <entry>
             <title>YoCutie</title>
             <link href="https://www.goetas.com/projects/yocutie"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/projects/yocutie</id>                <summary>Free Dating platform</summary>                <content type="html"><![CDATA[<p>YoCutie is a 100% free dating app.
 As a backend lead I'm responsible for the whole backend infrastructure that is necessary to support the company business.</p>]]></content>
         </entry>        <entry>
             <title>LaCure</title>
             <link href="https://www.goetas.com/projects/lacure"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/projects/lacure</id>                <summary>LaCure offers booking services for luxury villa accommodations.</summary>                <content type="html"><![CDATA[<p>In collaboration with the rest of the company I have planed a transition from a legacy PHP3/4 codebase
 (including a complex CRM for the booking management and invoicing) 
 to a modern PHP 7 application based on Symfony framework and its components.</p>
@@ -5514,14 +5558,14 @@ necessary workforce and skills, cost estimation, technical solutions and impleme
         </entry>        <entry>
             <title>SolidOpinion</title>
             <link href="https://www.goetas.com/projects/solidopinion"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/projects/solidopinion</id>                <summary>SolidOpinion is a startup, that revolutionize the way comments can be used to engage users and produce value for publishers</summary>                <content type="html"><![CDATA[<p>SolidOpinion by allowing users to comment on websites collects hundreds of thousands of comments a day.</p>
 
 <p>I've helped SolidOpinion to perform some ETL (extract, transform, load) and helped to ease the analysis the collected data.</p>]]></content>
         </entry>        <entry>
             <title>Collabout.com</title>
             <link href="https://www.goetas.com/projects/collabout"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/projects/collabout</id>                <summary>Collabout is a platform created to connect event organizers with partners  that might be interested in sponsoring their events.
  
 </summary>                <content type="html"><![CDATA[<p>Collabout is a platform created to connect event organizers with partners that might be interested in sponsoring 
@@ -5529,7 +5573,7 @@ their events in order to get visibility, contacts, ideas and many other advantag
         </entry>        <entry>
             <title>Synergist</title>
             <link href="https://www.goetas.com/projects/synergistio"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/projects/synergistio</id>                <summary>synergist.io is a secure cloud platform to negotiate contracts in real-time.</summary>                <content type="html"><![CDATA[<p>synergist.io is a secure cloud platform to negotiate contracts in real-time.</p>
 
 <h2 id="the-product">The product</h2>
@@ -5553,7 +5597,7 @@ The CI pipeline implemented was clean and included secrets and log management to
         </entry>        <entry>
             <title>Nestpick</title>
             <link href="https://www.goetas.com/projects/nestpick"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/projects/nestpick</id>                <summary>An online medium-long term apartment and room rental web platform.</summary>                <content type="html"><![CDATA[<p>Nestpick is a company that allows to rent homes or apartments to people for a mid-long term (from 1 month to 1 year).
 The company was Founded by Fabian Dudek when he was just 20. Rocket Internet (and others) invested more than 10M euro
 in the idea.</p>
@@ -5603,7 +5647,7 @@ of delivering new feature.</p>]]></content>
         </entry>        <entry>
             <title>ImmobiNet</title>
             <link href="https://www.goetas.com/projects/immobinet"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/projects/immobinet</id>                <summary>Immobinet is a CRM for touristic apartments and rooms rental.</summary>                <content type="html"><![CDATA[<p>Immobinet is a CRM for touristic apartments and rooms rental.</p>
 
 <p>Suppose a company that has to manage 10, 20, 100 or 1000 properties; 
@@ -5645,7 +5689,7 @@ and Mercurio Sistemi continued to deliver the product in the excellent was as it
         </entry>        <entry>
             <title>Lignano.it</title>
             <link href="https://www.goetas.com/projects/lignanoit"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/projects/lignanoit</id>                <summary>A booking.com competitor for hotel and apartment reservations.</summary>                <content type="html"><![CDATA[<p>Lignano.it is one of the biggest projects I've ever worked.</p>
 
 <p>It is a website were is possible to 
@@ -5697,7 +5741,7 @@ delivering great performance and exceptional consistency</li>
         </entry>        <entry>
             <title>jms/serializer</title>
             <link href="https://www.goetas.com/opensource/jms-serializer"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/jms-serializer</id>                <summary>This library allows you to serialize/deserialize data of any complexity. It supports XML, JSON, and YAML.</summary>                <content type="html"><![CDATA[<p>This library allows you to (de-)serialize data of any complexity. Currently, it supports XML, JSON, and YAML.</p>
 
 <p>It also provides you with a rich tool-set to adapt the output to your specific needs.</p>
@@ -5715,7 +5759,7 @@ delivering great performance and exceptional consistency</li>
         </entry>        <entry>
             <title>goetas-webservices/xsd2php</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicesxsd2php"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicesxsd2php</id>                <summary>Convert XSD into PHP classes, and serialize/unserialze instances from/into XML</summary>                <content type="html"><![CDATA[<p>With <code>goetas/xsd2php</code> you can convert any XSD/WSDL definition into PHP classes.</p>
 
 <p>XSD2PHP can also generate <a href="https://github.com/schmittjoh/serializer">JMS Serializer</a> 
@@ -5723,7 +5767,7 @@ compatible metadata that can be used to serialize/unserialize the object instanc
         </entry>        <entry>
             <title>masterminds/html5-php</title>
             <link href="https://www.goetas.com/opensource/mastermindshtml5-php"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/mastermindshtml5-php</id>                <summary>An HTML5 parser and serializer for PHP</summary>                <content type="html"><![CDATA[<p>An <a href="https://en.wikipedia.org/wiki/HTML5">HTML5</a> parser and serializer for PHP.</p>
 
 <p>Allows to read and write HTML5 documents. Internally it uses DOM, 
@@ -5731,7 +5775,7 @@ that enables interoperability with many XML related tools.</p>]]></content>
         </entry>        <entry>
             <title>doctrine/migrations</title>
             <link href="https://www.goetas.com/opensource/doctrine-migrations"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/doctrine-migrations</id>                <summary>Doctrine Database Migrations Library</summary>                <content type="html"><![CDATA[<p>The Doctrine Migrations project offers additional functionality on top of the DBAL and ORM 
 for versioning your database schema. 
 It makes it easy and safe to deploy changes to it in a way that can be 
@@ -5739,7 +5783,7 @@ reviewed and tested before being deployed to production.</p>]]></content>
         </entry>        <entry>
             <title>goetas-webservices/soap-client</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicessoap-client"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicessoap-client</id>                <summary>PHP implementation of SOAP 1.1 client specifications</summary>                <content type="html"><![CDATA[<p>PHP implementation of SOAP 1.1 client specifications.</p>
 
 <p>Strengths:</p>
@@ -5755,23 +5799,23 @@ reviewed and tested before being deployed to production.</p>]]></content>
         </entry>        <entry>
             <title>goetas-webservices/soap-reader</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicessoap-reader"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicessoap-reader</id>                <summary>Read any SOAP definitions programmatically with PHP.</summary>                <content type="html"><![CDATA[<p>Read <a href="https://en.wikipedia.org/wiki/SOAP">SOAP</a> definitions contained into 
  <a href="https://en.wikipedia.org/wiki/Web_Services_Description_Language">WSDL</a> files programmatically with PHP.</p>]]></content>
         </entry>        <entry>
             <title>goetas-webservices/wsdl-reader</title>
             <link href="https://www.goetas.com/opensource/goetas-webserviceswsdl-reader"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webserviceswsdl-reader</id>                <summary>Read any WSDL files programmatically with PHP.</summary>                <content type="html"><![CDATA[<p>Read <a href="https://en.wikipedia.org/wiki/Web_Services_Description_Language">WSDL</a> files programmatically with PHP.</p>]]></content>
         </entry>        <entry>
             <title>goetas-webservices/xsd-reader</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicesxsd-reader"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicesxsd-reader</id>                <summary>Read any XML Schema (XSD) programmatically with PHP.</summary>                <content type="html"><![CDATA[<p>Read any <a href="https://en.wikipedia.org/wiki/XML_schema">XML Schema</a> (XSD) programmatically with PHP.</p>]]></content>
         </entry>        <entry>
             <title>willdurand/hateoas-bundle</title>
             <link href="https://www.goetas.com/opensource/willdurand-hateoas-bundle"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/willdurand-hateoas-bundle</id>                <summary>Integration of the willdurand/hateoas library into Symfony.</summary>                <content type="html"><![CDATA[<p>Integration of the willdurand/hateoas library into Symfony.</p>
 
 <p>Hypermedia As The Engine Of Application State (HATEOAS) is a constraint of the REST application architecture 
@@ -5783,7 +5827,7 @@ that distinguishes it from other network application architectures.</p>
         </entry>        <entry>
             <title>willdurand/hateoas</title>
             <link href="https://www.goetas.com/opensource/willdurand-hateoas"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/willdurand-hateoas</id>                <summary>A PHP library to support implementing representations for HATEOAS REST web services</summary>                <content type="html"><![CDATA[<p>A PHP library to support implementing representations for HATEOAS REST web services.</p>
 
 <p>Hypermedia As The Engine Of Application State (HATEOAS) is a constraint of the REST application architecture 
@@ -5795,7 +5839,7 @@ that distinguishes it from other network application architectures.</p>
         </entry>        <entry>
             <title>goetas/twital</title>
             <link href="https://www.goetas.com/opensource/twital"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/twital</id>                <summary>Twital is a plugin for Twig (a template engine for PHP) that adds some shortcuts and makes Twig&#039;s syntax more suitable for HTML based (XML, HTML5, XHTML, SGML) templates.</summary>                <content type="html"><![CDATA[<p>Twital is a plugin for <a href="http://twig.sensiolabs.org/">Twig</a> (a template engine for PHP) 
 that adds some shortcuts and makes Twig's syntax more suitable for HTML based (XML, HTML5, XHTML, SGML) templates.
 Twital takes inspiration from <a href="http://phptal.org/">PHPTal</a>, <a href="http://en.wikipedia.org/wiki/Template_Attribute_Language">TAL</a> 
@@ -5804,7 +5848,7 @@ mixing their language syntaxes with the powerful Twig templating engine system.<
         </entry>        <entry>
             <title>hautelook/TemplatedUriBundle</title>
             <link href="https://www.goetas.com/opensource/hautelook-templated-uri-bundle"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/hautelook-templated-uri-bundle</id>                <summary>Symfony Bundle for the hautelook/TemplatedUriRouter. Provides a RFC-6570 compatible Symfony router and URL Generator.</summary>                <content type="html"><![CDATA[<p>Symfony Bundle for the <a href="https://github.com/hautelook/TemplatedUriRouter">https://github.com/hautelook/TemplatedUriRouter</a>
 library. 
 <code>hautelook/TemplatedUriRouter</code> provides a <a href="https://tools.ietf.org/html/rfc6570">RFC-6570</a> compatible 
@@ -5812,21 +5856,21 @@ Symfony router and URL Generator.</p>]]></content>
         </entry>        <entry>
             <title>hautelook/TemplatedUriRouter</title>
             <link href="https://www.goetas.com/opensource/hautelook-templated-uri-router"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/opensource/hautelook-templated-uri-router</id>                <summary>Symfony UrlGenerator that provides a RFC-6570 compatible router and URL Generator.</summary>                <content type="html"><![CDATA[<p>Symfony UrlGenerator that provides a <a href="https://tools.ietf.org/html/rfc6570">RFC-6570</a> compatible router and URL Generator.</p>]]></content>
         </entry>        <entry>
             <title>Roberto Fantuzzo</title>
             <link href="https://www.goetas.com/testimonials/roberto-fantuzzo"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/testimonials/roberto-fantuzzo</id>                <summary>For more than 10 years Asmir contributed to the success of my company</summary>
         </entry>        <entry>
             <title>Mladen Stific</title>
             <link href="https://www.goetas.com/testimonials/mladen-stific"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/testimonials/mladen-stific</id>                <summary>Asmir helped us to setup our continuous delivery pipeline and to deliver features in less time with less bugs</summary>
         </entry>        <entry>
             <title>Mats Kyllenius</title>
             <link href="https://www.goetas.com/testimonials/mats-kyllenius"/>
-            <updated>2023-07-06T14:04:56+02:00</updated>
+            <updated>2024-03-28T20:38:42+00:00</updated>
             <id>https://www.goetas.com/testimonials/mats-kyllenius</id>                <summary>Asmir is a really talented full-stack developer. Apart from that, he is also a very good general discussion partner in a development project, with great business insight.</summary>
         </entry></feed>
