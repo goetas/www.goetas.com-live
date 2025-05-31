@@ -3,11 +3,265 @@
     <title><![CDATA[Asmir Mustafic - Software Engineering, PHP and DevOps solutions]]></title>
     <link href="https://www.goetas.com/atom.xml" rel="self"/>
     <link href="https://www.goetas.com/"/>
-    <updated>2025-05-24T19:21:15+00:00</updated>
+    <updated>2025-05-31T21:25:18+00:00</updated>
     <id>https://www.goetas.com/</id>
             <author>
             <name><![CDATA[Asmir Mustafic]]></name>            <email><![CDATA[info@goetas.com]]></email>        </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title>Dependency Injection: Why it matters not only for testing</title>
+            <link href="https://www.goetas.com/blog/dependency-injection-why-it-matters-not-only-for-testing/"/>
+            <updated>2025-06-01T00:00:00+00:00</updated>
+            <id>https://www.goetas.com/blog/dependency-injection-why-it-matters-not-only-for-testing</id>
+                            <summary>Most articles highlight how Dependency Injection simplifies testing and improves modularity and maintainability.  In this post I will show how DI accelerates development and boosts developer experience
+</summary>
+                                        <content type="html"><![CDATA[<p>Dependency Injection (DI) is a topic that many of you might have already heard about it.
+Mostly is discussed how it helps with testing and how it improves application modularity, 
+in this post I will try to show how dependency injection helps with development speed developer experience (DX).</p>
+
+<h2 id="what-is-dependency-injection%3F">What is Dependency Injection?</h2>
+
+<p>Dependency Injection is a way to provide an object’s dependencies (other objects it needs to work) 
+from the outside rather than having it construct them internally.</p>
+
+<p><strong>Without DI:</strong></p>
+
+<pre><code class="java">class UserService {
+    private Database db;
+
+    public UserService() {
+        this.db = new MysqlDatabase(); // hardcoded dependency
+    }
+
+    public void updateBirthday(User user) {
+       this.db.updateBirthday(user.id, user.birthday);
+    }
+}
+</code></pre>
+
+<p><strong>Without DI (even worse?):</strong></p>
+
+<pre><code class="java">class UserService {
+    public void updateBirthday(Context context, User user) {
+       context.getDatabase().updateBirthday(user.id, user.birthday); // dependency on global context and its internal state
+    }
+}
+</code></pre>
+
+<p>These two examples show how the <code>UserService</code> class is tightly coupled to a specific <code>Database</code> implementation or a global context.</p>
+
+<p><strong>With DI:</strong></p>
+
+<pre><code class="java">class UserService {
+    private Database db;
+
+    public UserService(Database db) {
+        this.db = db; // injected from outside
+    }
+
+    public void updateBirthday(User user) {
+       this.db.updateBirthday(user.id, user.birthday);
+    }
+}
+</code></pre>
+
+<p>This allows for greater flexibility, as you can easily swap out the <code>Database</code> implementation without changing the <code>UserService</code> code.</p>
+
+<h3 id="how-di-helps-with-testing">How DI Helps with Testing</h3>
+
+<p>Dependency Injection makes unit testing easier because you can inject mocks or stubs instead of real implementations.</p>
+
+<pre><code class="java">@Test
+public void testUserService() {
+    Database mockDb = mock(Database.class);
+    UserService service = new UserService(mockDb);
+
+    // run assertions on service behavior
+}
+</code></pre>
+
+<p>No need to mock static singletons or global services. Dependencies are passed in cleanly.</p>
+
+<h3 id="to-not-be-confused-with-service-locator-and-similar-patterns">To not be confused with Service Locator (and similar patterns)</h3>
+
+<p>Sometimes Dependency Injection is confused with the Service Locator pattern or static access patterns.</p>
+
+<p>The Service Locator is a pattern that provides a way to retrieve dependencies from a central registry.</p>
+
+<pre><code class="java">class UserService {
+    private Database db;
+
+    public UserService(ServiceLocator locator) {
+        this.db = locator.get('database');
+    }
+}
+</code></pre>
+
+<p>Here, the class fetches its own dependencies. This hides the real dependencies and makes testing harder 
+(it is necessary to mock the <code>ServiceLocator</code> as well).</p>
+
+<p>With static access (sometimes seen as Facade pattern), it is even more problematic.</p>
+
+<pre><code class="java">class UserService {
+    private Database db;
+
+    public UserService() {
+        this.db = Context.getDatabase(); // static access, or Facade pattern
+    }
+}
+</code></pre>
+
+<p>Testing becomes difficult because you cannot easily replace the static context with a mock or stub, you are forced to rely
+on whatever is offered by the static context, which is often a singleton or global service.</p>
+
+<p>Ordinary code suffers as well, at the point in time when <code>Context.getDatabase()</code> has been called,
+you have no guarantee that the database parameters have been set correctly (hostname, user, password, etc).</p>
+
+<h2 id="dependency-injection-assisted-by-modern-frameworks">Dependency Injection assisted by modern frameworks</h2>
+
+<p>Many modern frameworks provide built-in support for Dependency Injection, making it easier to manage dependencies.</p>
+
+<p>Without Framework support:</p>
+
+<pre><code class="java">var udpLogger = new UdpLogger();
+var logger = new Logger();
+var userRepo = new UserRepository();
+if (developmentMode) {
+    var userService = new UserService(userRepo, logger);
+} else {
+    var userService = new UserService(userRepo, udpLogger);
+}
+</code></pre>
+
+<p>As you can see, the code is not very clean, and it is hard to manage dependencies.</p>
+
+<p>With Framework support:</p>
+
+<pre><code class="java">@Component
+@Profile("production")
+class UdpLogger 
+{
+    // implementation details
+}
+
+@Component
+@Profile("development")
+class Logger 
+{
+    // implementation details
+}
+
+@Component
+class UserRepository 
+{
+    // implementation details
+}
+
+@Component
+class UserService 
+{
+    // implementation details
+}
+</code></pre>
+
+<p>As you can see, we have added a few <code>@Component</code> annotations and 
+the framework takes care of managing dependencies for us.</p>
+
+<p>Depending on the framework and programming language, you can use annotations, XML Configurations, 
+or other mechanisms to define how dependencies are wired together. 
+Most programming languages have frameworks that support Dependency Injection, 
+it does not matter if you are using Java, PHP, Python, or JavaScript.</p>
+
+<h2 id="developer-experience%3A-the-real-win-of-dependency-injection">Developer Experience: The Real Win of Dependency Injection</h2>
+
+<p><strong>The biggest, and often underappreciated, benefit of Dependency Injection is developer experience.</strong></p>
+
+<p>With Dependency Injection assisted by frameworks:</p>
+
+<ul>
+<li>Developers instantly know where and how dependencies are provided. 
+There is no need to search through the codebase to find out how a class is constructed or what its dependencies are, nor
+there is need to read documentation.</li>
+<li>Teams follow the same conventions. 
+When everyone uses Dependency Injection, the codebase becomes more consistent and easier to navigate. There is no
+dependency on the taste a single developer (or a few) had.</li>
+</ul>
+
+<p>Without DI assisted by frameworks, every developer might wire dependencies differently:</p>
+
+<pre><code class="java">// Dev A (with DI)
+var userService = new UserService(new UserRepository(new Logger()));
+userService.updateBirthday(user);
+
+// Dev B (with DI)
+var db = createDb();
+var userService = buildUserService(db);
+userService.updateBirthday(user);
+
+// Dev C (No DI, with Service Locator)
+var locator.create('database', new MysqlDatabase());
+var userService = new UserService(locator);
+userService.updateBirthday(user);
+
+// Dev D (No DI, Static method class or Facade)
+Context.setDatabase(new MysqlDatabase());
+var userService = new UserService();
+userService.updateBirthday(user);
+
+// Dev E (No DI, with context passed around on method calls)
+context.setDatabase(new MysqlDatabase());
+var userService = new UserService();
+userService.updateBirthday(context, user);
+</code></pre>
+
+<p>In all these examples, when the <code>UserService</code> will need a new dependency to implement some new feature,
+the developer will have to figure out how to wire it up independently of having used or not Dependency Injection.</p>
+
+<p>When using Dependency Injection assisted by frameworks, if the <code>UserService</code> needs a new dependency it can <strong>just</strong> 
+ask it, and the framework will take care of wiring it up.</p>
+
+<pre><code class="java">@Component
+class UserService {
+    private Database db;
+    private PresentCalculator presentCalculator;
+
+    public UserService(Database db, PresentCalculator presentCalculator) {
+        this.db = db;
+        this.presentCalculator = presentCalculator;  
+    }
+
+    public void updateBirthday(User user) {
+       this.db.updateBirthday(user.id, user.birthday, presentCalculator.calculatePresent(user.birthday));
+    }
+}
+</code></pre>
+
+<p>If the <code>PresentCalculator</code> is already available in the framework, 
+the developer can just use it without worrying about how to instantiate it or where it comes from.</p>
+
+<p>If the <code>PresentCalculator</code> is a new class, the developer can create it and annotate it with <code>@Component</code>,</p>
+
+<pre><code class="java">@Component
+class PresentCalculator {
+    // implementation details
+}
+</code></pre>
+
+<p>This way, <strong>the developer can focus on the business logic</strong> rather than worrying about how to make things work together.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this post I have tired to show how Dependency Injection is not just a testing tool, or a way to improve maintainability,
+but a powerful pattern that enhances developer experience and accelerates development speed.</p>
+
+<p>Dependency Injection, despite having decades of history, and wide adoption in languages such as Java, PHP, .NET,
+seems to be still underappreciated in many communities, especially in the JavaScript world.</p>
+
+<p>In the next post, I will discuss  the state of Dependency Injection in JavaScript and TypeScript, and why some 
+or the reasons to not do so are not valid anymore.</p>
+]]></content>
+            
+        </entry>
             <entry>
             <title>Multi-namespace migrations with doctrine/migrations 3.0</title>
             <link href="https://www.goetas.com/blog/multi-namespace-migrations-with-doctrinemigrations-30/"/>
@@ -5589,7 +5843,7 @@ I invite you to have a look at my
             <entry>
             <title>GetYourGuide</title>
             <link href="https://www.goetas.com/projects/getyourguide/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/getyourguide</id>
                             <summary>Online marketplace for travel activities.
 </summary>
@@ -5607,7 +5861,7 @@ getyourguide.press+1Wikipedia+1</p>
             <entry>
             <title>Sourceability</title>
             <link href="https://www.goetas.com/projects/sourceability/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/sourceability</id>
                             <summary>Global distributor of electronic components
 </summary>
@@ -5620,7 +5874,7 @@ getyourguide.press+1Wikipedia+1</p>
             <entry>
             <title>Redovisningsdatum</title>
             <link href="https://www.goetas.com/projects/redovisningsdatum/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/redovisningsdatum</id>
                             <summary>A web platform that helps to keep track of the most important reports to file for your company
 </summary>
@@ -5632,7 +5886,7 @@ getyourguide.press+1Wikipedia+1</p>
             <entry>
             <title>PINT</title>
             <link href="https://www.goetas.com/projects/pint/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/pint</id>
                             <summary>PINT, San Diego Web Development and Design</summary>
                                         <content type="html"><![CDATA[<p>Software engineer Consultant for <a href="https://www.pint.com/" title="" rel="noreferrer">PINT</a>.</p>
@@ -5648,7 +5902,7 @@ UX design, user experience, analytics, search marketing, and optimization to glo
             <entry>
             <title>YoCutie</title>
             <link href="https://www.goetas.com/projects/yocutie/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/yocutie</id>
                             <summary>Free Dating platform</summary>
                                         <content type="html"><![CDATA[<p>YoCutie is a 100% free dating app.
@@ -5659,7 +5913,7 @@ As a backend lead I'm responsible for the whole backend infrastructure that is n
             <entry>
             <title>LaCure</title>
             <link href="https://www.goetas.com/projects/lacure/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/lacure</id>
                             <summary>LaCure offers booking services for luxury villa accommodations.</summary>
                                         <content type="html"><![CDATA[<p>In collaboration with the rest of the company I have planed a transition from a legacy PHP3/4 codebase
@@ -5696,7 +5950,7 @@ necessary workforce and skills, cost estimation, technical solutions and impleme
             <entry>
             <title>SolidOpinion</title>
             <link href="https://www.goetas.com/projects/solidopinion/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/solidopinion</id>
                             <summary>SolidOpinion is a startup, that revolutionize the way comments can be used to engage users and produce value for publishers</summary>
                                         <content type="html"><![CDATA[<p>SolidOpinion by allowing users to comment on websites collects hundreds of thousands of comments a day.</p>
@@ -5708,7 +5962,7 @@ necessary workforce and skills, cost estimation, technical solutions and impleme
             <entry>
             <title>Collabout.com</title>
             <link href="https://www.goetas.com/projects/collabout/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/collabout</id>
                             <summary>Collabout is a platform created to connect event organizers with partners  that might be interested in sponsoring their events.
  
@@ -5721,7 +5975,7 @@ their events in order to get visibility, contacts, ideas and many other advantag
             <entry>
             <title>Synergist</title>
             <link href="https://www.goetas.com/projects/synergistio/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/synergistio</id>
                             <summary>synergist.io is a secure cloud platform to negotiate contracts in real-time.</summary>
                                         <content type="html"><![CDATA[<p>synergist.io is a secure cloud platform to negotiate contracts in real-time.</p>
@@ -5750,7 +6004,7 @@ The CI pipeline implemented was clean and included secrets and log management to
             <entry>
             <title>Nestpick</title>
             <link href="https://www.goetas.com/projects/nestpick/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/nestpick</id>
                             <summary>An online medium-long term apartment and room rental web platform.</summary>
                                         <content type="html"><![CDATA[<p>Nestpick is a company that allows to rent homes or apartments to people for a mid-long term (from 1 month to 1 year).
@@ -5805,7 +6059,7 @@ of delivering new feature.</p>
             <entry>
             <title>ImmobiNet</title>
             <link href="https://www.goetas.com/projects/immobinet/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/immobinet</id>
                             <summary>Immobinet is a CRM for touristic apartments and rooms rental.</summary>
                                         <content type="html"><![CDATA[<p>Immobinet is a CRM for touristic apartments and rooms rental.</p>
@@ -5852,7 +6106,7 @@ and Mercurio Sistemi continued to deliver the product in the excellent was as it
             <entry>
             <title>Lignano.it</title>
             <link href="https://www.goetas.com/projects/lignanoit/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/projects/lignanoit</id>
                             <summary>A booking.com competitor for hotel and apartment reservations.</summary>
                                         <content type="html"><![CDATA[<p>Lignano.it is one of the biggest projects I've ever worked.</p>
@@ -5909,7 +6163,7 @@ delivering great performance and exceptional consistency</li>
             <entry>
             <title>jms/serializer</title>
             <link href="https://www.goetas.com/opensource/jms-serializer/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/jms-serializer</id>
                             <summary>This library allows you to serialize/deserialize data of any complexity. It supports XML, JSON, and YAML.</summary>
                                         <content type="html"><![CDATA[<p>This library allows you to (de-)serialize data of any complexity. Currently, it supports XML, JSON, and YAML.</p>
@@ -5932,7 +6186,7 @@ delivering great performance and exceptional consistency</li>
             <entry>
             <title>goetas-webservices/xsd2php</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicesxsd2php/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicesxsd2php</id>
                             <summary>Convert XSD into PHP classes, and serialize/unserialze instances from/into XML</summary>
                                         <content type="html"><![CDATA[<p>With <code>goetas/xsd2php</code> you can convert any XSD/WSDL definition into PHP classes.</p>
@@ -5945,7 +6199,7 @@ compatible metadata that can be used to serialize/unserialize the object instanc
             <entry>
             <title>masterminds/html5-php</title>
             <link href="https://www.goetas.com/opensource/mastermindshtml5-php/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/mastermindshtml5-php</id>
                             <summary>An HTML5 parser and serializer for PHP</summary>
                                         <content type="html"><![CDATA[<p>An <a href="https://en.wikipedia.org/wiki/HTML5">HTML5</a> parser and serializer for PHP.</p>
@@ -5958,7 +6212,7 @@ that enables interoperability with many XML related tools.</p>
             <entry>
             <title>doctrine/migrations</title>
             <link href="https://www.goetas.com/opensource/doctrine-migrations/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/doctrine-migrations</id>
                             <summary>Doctrine Database Migrations Library</summary>
                                         <content type="html"><![CDATA[<p>The Doctrine Migrations project offers additional functionality on top of the DBAL and ORM 
@@ -5971,7 +6225,7 @@ reviewed and tested before being deployed to production.</p>
             <entry>
             <title>goetas-webservices/soap-client</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicessoap-client/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicessoap-client</id>
                             <summary>PHP implementation of SOAP 1.1 client specifications</summary>
                                         <content type="html"><![CDATA[<p>PHP implementation of SOAP 1.1 client specifications.</p>
@@ -5992,7 +6246,7 @@ reviewed and tested before being deployed to production.</p>
             <entry>
             <title>goetas-webservices/soap-reader</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicessoap-reader/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicessoap-reader</id>
                             <summary>Read any SOAP definitions programmatically with PHP.</summary>
                                         <content type="html"><![CDATA[<p>Read <a href="https://en.wikipedia.org/wiki/SOAP">SOAP</a> definitions contained into 
@@ -6003,7 +6257,7 @@ reviewed and tested before being deployed to production.</p>
             <entry>
             <title>goetas-webservices/wsdl-reader</title>
             <link href="https://www.goetas.com/opensource/goetas-webserviceswsdl-reader/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webserviceswsdl-reader</id>
                             <summary>Read any WSDL files programmatically with PHP.</summary>
                                         <content type="html"><![CDATA[<p>Read <a href="https://en.wikipedia.org/wiki/Web_Services_Description_Language">WSDL</a> files programmatically with PHP.</p>
@@ -6013,7 +6267,7 @@ reviewed and tested before being deployed to production.</p>
             <entry>
             <title>goetas-webservices/xsd-reader</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicesxsd-reader/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicesxsd-reader</id>
                             <summary>Read any XML Schema (XSD) programmatically with PHP.</summary>
                                         <content type="html"><![CDATA[<p>Read any <a href="https://en.wikipedia.org/wiki/XML_schema">XML Schema</a> (XSD) programmatically with PHP.</p>
@@ -6023,7 +6277,7 @@ reviewed and tested before being deployed to production.</p>
             <entry>
             <title>willdurand/hateoas-bundle</title>
             <link href="https://www.goetas.com/opensource/willdurand-hateoas-bundle/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/willdurand-hateoas-bundle</id>
                             <summary>Integration of the willdurand/hateoas library into Symfony.</summary>
                                         <content type="html"><![CDATA[<p>Integration of the willdurand/hateoas library into Symfony.</p>
@@ -6040,7 +6294,7 @@ that distinguishes it from other network application architectures.</p>
             <entry>
             <title>willdurand/hateoas</title>
             <link href="https://www.goetas.com/opensource/willdurand-hateoas/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/willdurand-hateoas</id>
                             <summary>A PHP library to support implementing representations for HATEOAS REST web services</summary>
                                         <content type="html"><![CDATA[<p>A PHP library to support implementing representations for HATEOAS REST web services.</p>
@@ -6057,7 +6311,7 @@ that distinguishes it from other network application architectures.</p>
             <entry>
             <title>goetas/twital</title>
             <link href="https://www.goetas.com/opensource/twital/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/twital</id>
                             <summary>Twital is a plugin for Twig (a template engine for PHP) that adds some shortcuts and makes Twig&#039;s syntax more suitable for HTML based (XML, HTML5, XHTML, SGML) templates.</summary>
                                         <content type="html"><![CDATA[<p>Twital is a plugin for <a href="http://twig.sensiolabs.org/">Twig</a> (a template engine for PHP) 
@@ -6071,7 +6325,7 @@ mixing their language syntaxes with the powerful Twig templating engine system.<
             <entry>
             <title>hautelook/TemplatedUriBundle</title>
             <link href="https://www.goetas.com/opensource/hautelook-templated-uri-bundle/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/hautelook-templated-uri-bundle</id>
                             <summary>Symfony Bundle for the hautelook/TemplatedUriRouter. Provides a RFC-6570 compatible Symfony router and URL Generator.</summary>
                                         <content type="html"><![CDATA[<p>Symfony Bundle for the <a href="https://github.com/hautelook/TemplatedUriRouter">https://github.com/hautelook/TemplatedUriRouter</a>
@@ -6084,7 +6338,7 @@ Symfony router and URL Generator.</p>
             <entry>
             <title>hautelook/TemplatedUriRouter</title>
             <link href="https://www.goetas.com/opensource/hautelook-templated-uri-router/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/opensource/hautelook-templated-uri-router</id>
                             <summary>Symfony UrlGenerator that provides a RFC-6570 compatible router and URL Generator.</summary>
                                         <content type="html"><![CDATA[<p>Symfony UrlGenerator that provides a <a href="https://tools.ietf.org/html/rfc6570">RFC-6570</a> compatible router and URL Generator.</p>
@@ -6094,7 +6348,7 @@ Symfony router and URL Generator.</p>
             <entry>
             <title>Roberto Fantuzzo</title>
             <link href="https://www.goetas.com/testimonials/roberto-fantuzzo/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/testimonials/roberto-fantuzzo</id>
                             <summary>For more than 10 years Asmir contributed to the success of my company</summary>
                         
@@ -6102,7 +6356,7 @@ Symfony router and URL Generator.</p>
             <entry>
             <title>Mladen Stific</title>
             <link href="https://www.goetas.com/testimonials/mladen-stific/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/testimonials/mladen-stific</id>
                             <summary>Asmir helped us to setup our continuous delivery pipeline and to deliver features in less time with less bugs</summary>
                         
@@ -6110,7 +6364,7 @@ Symfony router and URL Generator.</p>
             <entry>
             <title>Mats Kyllenius</title>
             <link href="https://www.goetas.com/testimonials/mats-kyllenius/"/>
-            <updated>2025-05-24T19:21:15+00:00</updated>
+            <updated>2025-05-31T21:25:18+00:00</updated>
             <id>https://www.goetas.com/testimonials/mats-kyllenius</id>
                             <summary>Asmir is a really talented full-stack developer. Apart from that, he is also a very good general discussion partner in a development project, with great business insight.</summary>
                         

@@ -1917,3 +1917,13 @@ article .test_item {
 .shop-item-side-small p{
     font-size: 14px;
 }
+
+.layout-post h2,
+.layout-post h3,
+.layout-post h4,
+.layout-post h5,
+.layout-post h6
+{
+    margin-top: 30px;
+    color: black;
+}

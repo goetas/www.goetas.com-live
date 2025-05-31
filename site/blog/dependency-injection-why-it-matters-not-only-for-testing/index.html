@@ -6,11 +6,11 @@
 <head>
 
                 <meta charset="utf-8">
-        <title>The way to the goetas-webservices/client release - Asmir Mustafic</title>
+        <title>Dependency Injection: Why it matters not only for testing - Asmir Mustafic</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/png" href="/favicon.png">
 
-                <link rel="canonical" href="https://www.goetas.com/blog/the-way-to-the-goetas-webservicesclient-release/">
+                <link rel="canonical" href="https://www.goetas.com/blog/dependency-injection-why-it-matters-not-only-for-testing/">
         <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
         <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font">
 
@@ -18,16 +18,16 @@
 
         <link rel="stylesheet" href="/assets/css/combined-290b696597440bb7fbb06e00ec4beaadbd291e6b.css">
         
-        <meta property="og:url" content="https://www.goetas.com/blog/the-way-to-the-goetas-webservicesclient-release" />
+        <meta property="og:url" content="https://www.goetas.com/blog/dependency-injection-why-it-matters-not-only-for-testing" />
 
-        <meta name="twitter:title" content="The way to the goetas-webservices/client release - Asmir Mustafic" />
-        <meta name="og:title" content="The way to the goetas-webservices/client release - Asmir Mustafic" />
+        <meta name="twitter:title" content="Dependency Injection: Why it matters not only for testing - Asmir Mustafic" />
+        <meta name="og:title" content="Dependency Injection: Why it matters not only for testing - Asmir Mustafic" />
         <meta name="twitter:site" content="@goetas_asmir" />
         <meta name="twitter:creator" content="@goetas_asmir" />
 
             <meta name="twitter:card" content="summary_large_image" />
-            <meta property="og:image" content="https://www.goetas.com/img/posts/webservice.jpeg" />
-        <meta property="twitter:image" content="https://www.goetas.com/img/posts/webservice.jpeg" />
+            <meta property="og:image" content="https://www.goetas.com/img/posts/di/di.jpg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/di/di.jpg" />
     
         <script type="application/ld+json">
         {
@@ -49,11 +49,11 @@
         {
          "@context": "http://schema.org",
          "@type": "BlogPosting",
-         "headline": "The way to the goetas-webservices/client release",
+         "headline": "Dependency Injection: Why it matters not only for testing",
          "image": "http://example.com/image.jpg",
-         "datePublished": "2016-10-04",
-         "dateModified": "2016-10-04",
-         "description": "After&#x20;many&#x20;years&#x20;of&#x20;work,&#x20;finally&#x20;I&#x20;have&#x20;released&#x20;a&#x20;fully&#x20;PHP&#x20;based&#x20;SOAP&#x20;client&#x20;up&#x20;to&#x20;date&#x20;with&#x20;the&#x20;latest&#x20;best&#x20;practice.",
+         "datePublished": "2025-06-01",
+         "dateModified": "2025-06-01",
+         "description": "Most&#x20;articles&#x20;highlight&#x20;how&#x20;Dependency&#x20;Injection&#x20;simplifies&#x20;testing&#x20;and&#x20;improves&#x20;modularity&#x20;and&#x20;maintainability.&#x20;&#x20;In&#x20;this&#x20;post&#x20;I&#x20;will&#x20;show&#x20;how&#x20;DI&#x20;accelerates&#x20;development&#x20;and&#x20;boosts&#x20;developer&#x20;experience",
          "author": {
             "@type": "Person",
               "name": "Asmir Mustafic",
@@ -73,7 +73,7 @@
           },
           "mainEntityOfPage": {
            "@type": "WebPage",
-           "@id": "https://www.goetas.com/blog/the-way-to-the-goetas-webservicesclient-release/"
+           "@id": "https://www.goetas.com/blog/dependency-injection-why-it-matters-not-only-for-testing/"
           }
          }
         </script>
@@ -93,20 +93,20 @@
             "@type": "ListItem",
             "position": 2,
             "item": {
-              "@id": "https://www.goetas.com/blog/the-way-to-the-goetas-webservicesclient-release/",
-              "name": "The way to the goetas-webservices/client release"
+              "@id": "https://www.goetas.com/blog/dependency-injection-why-it-matters-not-only-for-testing/",
+              "name": "Dependency Injection: Why it matters not only for testing"
             }
           }]
         }
         </script>
         <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">
 
-                <meta name="description" content="After many years of work, finally I have released a fully PHP based SOAP client up to date with the latest best practice.">
-        <meta name="twitter:description" content="After many years of work, finally I have released a fully PHP based SOAP client up to date with the latest best practice.">
-        <meta name="og:description" content="After many years of work, finally I have released a fully PHP based SOAP client up to date with the latest best practice.">
+                <meta name="description" content="Most articles highlight how Dependency Injection simplifies testing and improves modularity and maintainability.  In this post I will show how DI accelerates development and boosts developer experience ">
+        <meta name="twitter:description" content="Most articles highlight how Dependency Injection simplifies testing and improves modularity and maintainability.  In this post I will show how DI accelerates development and boosts developer experience ">
+        <meta name="og:description" content="Most articles highlight how Dependency Injection simplifies testing and improves modularity and maintainability.  In this post I will show how DI accelerates development and boosts developer experience ">
         <meta property="og:type"  content="article" />
     
-            <meta name="keywords" content="php, xml, soap, webservices, rest, ">
+            <meta name="keywords" content="">
     
 </head>
 
@@ -178,15 +178,16 @@
            <a href="/blog//">Blog</a> &raquo;
 
             
-            <i>The way to the goetas-webservices/client release</i>
+            <i>Dependency Injection: Why it matters not only for testing</i>
         </div>
         
         <header>
-            <h1>The way to the goetas-webservices/client release</h1>
+            <h1>Dependency Injection: Why it matters not only for testing</h1>
         </header>
 
                 <p class="subtitle">
-                            After many years of work, finally I have released a fully PHP based SOAP client up to date with the latest best practice.
+                            Most articles highlight how Dependency Injection simplifies testing and improves modularity and maintainability.  In this post I will show how DI accelerates development and boosts developer experience
+
                     </p>
 
         
@@ -196,40 +197,17 @@
             
                         
                     
-                <div class="col-md-5 hidden-xs related-posts">
-                                
-                                
-                                                <div class="related-posts_container">
-                        <h4>More posts from the author</h4>
-                                        
-                                                                                                    <div class="related-posts_item">
-                            <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing">- Dependency Injection: Why it matters not only for testing</a>
-                        </div>
-                                                                                                        <div class="related-posts_item">
-                            <a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30">- Multi-namespace migrations with doctrine/migrations 3.0</a>
-                        </div>
-                                                                                                        <div class="related-posts_item">
-                            <a href="/blog/released-doctrinemigrations-30-alpha">- Released doctrine/migrations 3.0-alpha</a>
-                        </div>
-                                                                                                        <div class="related-posts_item">
-                            <a href="/blog/make-the-difference-when-contributing-to-open-source">- Make the difference when contributing to open-source</a>
-                        </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                    </div>
-                            
-        </div>
         
-                        <img class="hidden-xs article-img" src="/img/posts/webservice.jpeg" alt="" />
-                
+                        
 
 
         <div class="m-top-20">
                                     
             
                 <div class="m-top-20">
-                    <time datetime="2016-10-4">
+                    <time datetime="2025-6-1">
                         <i class="fa fa-calendar"></i>
-                        2016-10-04                    </time>
+                        2025-06-01                    </time>
                 </div>
 
                         
@@ -240,86 +218,250 @@
         <div  class="m-top-20 layout-post">
             
 
-            <p>I started to work on this project (let's say technology) almost 10 years ago 
-while was working at <a href="http://www.mercuriosistemi.com/">Mercurio Sistemi</a>...</p>
+            <p>Dependency Injection (DI) is a topic that many of you might have already heard about it.
+Mostly is discussed how it helps with testing and how it improves application modularity, 
+in this post I will try to show how dependency injection helps with development speed developer experience (DX).</p>
 
-<p>Everything started with a customer that had an already existing <a href="https://en.wikipedia.org/wiki/SOAP">SOAP webservice</a>, 
-this webservice was necessary to integrate their existing Visual Basic (.NET ? ) application stack with a new PHP website.
-Fortunately PHP had already "ext-soap" that allows to communicate with it and the task was pretty easy.</p>
+<h2 id="what-is-dependency-injection%3F">What is Dependency Injection?</h2>
 
-<p>This is how I was introduced to SOAP...</p>
+<p>Dependency Injection is a way to provide an object’s dependencies (other objects it needs to work) 
+from the outside rather than having it construct them internally.</p>
 
-<p>After some time and many completed integrations, client and server side, I was looking enviously to some .NET and Java 
-developers, and how easy, "safe", was working for them with SOAP webservices.</p>
+<p><strong>Without DI:</strong></p>
 
-<p>This was mainly because of some commodities their programming language and IDE was providing them.
-Auto completion, static checks, code generation were just great, and their job essentially was just about choosing the 
-right variable name or method call from a list provided by their IDE.
-Of course if something was wrong, their IDE or some software tool will warn them, telling: "hei! here something is wrong
-fix it, otherwise yor webservice will not work well".</p>
+<pre><code class="java">class UserService {
+    private Database db;
 
-<p>That was just great, errors were discovered even before saving the file containing the code, and often errors were 
-auto fix-able by this set of tools.
-PHP on the other hand was a jungle... tons of arrays, stdClass instances, caches to be refreshed, and even more 
-variables, properties that needs to be guessed by the developer and so on.</p>
+    public UserService() {
+        this.db = new MysqlDatabase(); // hardcoded dependency
+    }
 
-<p>I tried many libraries but not a single one was close to the .NET webservices implementation or Java Axis and similar.</p>
+    public void updateBirthday(User user) {
+       this.db.updateBirthday(user.id, user.birthday);
+    }
+}
+</code></pre>
 
-<p>Things got even worse when I had to integrate in our system an <a href="https://en.wikipedia.org/wiki/OpenTravel_Alliance">OTA</a> 
-company. OTA is a set of specifications built on top of XML on how to communicate between travel-focused companies as flights companies, 
-hotel chains, car rentals and so on.
-OTA is a great set of standards but for the PHP soap ecosystem, is just crazy complex.</p>
+<p><strong>Without DI (even worse?):</strong></p>
 
-<p>I started blinding some scripts to generate PHP classes from the <a href="https://en.wikipedia.org/wiki/XML_schema">XML Schema</a>
-definitions provided by the Open Travel Alliance, to have some hints by my IDE, in order to increase productivity, and
-reduce bugs.</p>
+<pre><code class="java">class UserService {
+    public void updateBirthday(Context context, User user) {
+       context.getDatabase().updateBirthday(user.id, user.birthday); // dependency on global context and its internal state
+    }
+}
+</code></pre>
 
-<p>To me was looking the right way... in the mean while I have released <a href="https://github.com/goetas/xsd2php">goetas/xsd2php</a>
-(used to generate PHP classes) and a set of other libraries as <a href="https://github.com/goetas/webservices">goetas/webservices</a>
-that essentially was my final goal, a fully PHP based SOAP client and server.</p>
+<p>These two examples show how the <code>UserService</code> class is tightly coupled to a specific <code>Database</code> implementation or a global context.</p>
 
-<p>But as every developer should do, for me the result was not good enough and I continued working on it.
-Was not good because there were still so many things not working well, complex xml parsing done on each webservice call, 
-no tests, some edge cases were just not working, and the whole result was looking really unstable.</p>
+<p><strong>With DI:</strong></p>
 
-<p>So I decided to restart from scratch (almost from scratch).</p>
+<pre><code class="java">class UserService {
+    private Database db;
 
-<p><a href="https://github.com/schmittjoh/serializer">jms/serializer</a> was mature enough to do the XML serialization/deserialization
- even for some really complex cases, PSR-7 was out and great HTTP clients were available.</p>
+    public UserService(Database db) {
+        this.db = db; // injected from outside
+    }
 
-<p>This put on me even more motivation and the current result is good enough, of course there is plenty of work that still 
-has to be done! Multiple things needs to be added, improved, fixed, and so on, but I decided that was the time 
-to release <a href="https://github.com/goetas-webservices/soap-client">goetas-webservices/soap-client</a>!</p>
+    public void updateBirthday(User user) {
+       this.db.updateBirthday(user.id, user.birthday);
+    }
+}
+</code></pre>
 
-<p>The project is released under a <a href="https://en.wikipedia.org/wiki/MIT_License">MIT</a> license 
-and is freely available on <a href="https://github.com/goetas-webservices/soap-client">GitHub</a>.</p>
+<p>This allows for greater flexibility, as you can easily swap out the <code>Database</code> implementation without changing the <code>UserService</code> code.</p>
 
-<p>Some of the strengths of the project are:</p>
+<h3 id="how-di-helps-with-testing">How DI Helps with Testing</h3>
+
+<p>Dependency Injection makes unit testing easier because you can inject mocks or stubs instead of real implementations.</p>
+
+<pre><code class="java">@Test
+public void testUserService() {
+    Database mockDb = mock(Database.class);
+    UserService service = new UserService(mockDb);
+
+    // run assertions on service behavior
+}
+</code></pre>
+
+<p>No need to mock static singletons or global services. Dependencies are passed in cleanly.</p>
+
+<h3 id="to-not-be-confused-with-service-locator-and-similar-patterns">To not be confused with Service Locator (and similar patterns)</h3>
+
+<p>Sometimes Dependency Injection is confused with the Service Locator pattern or static access patterns.</p>
+
+<p>The Service Locator is a pattern that provides a way to retrieve dependencies from a central registry.</p>
+
+<pre><code class="java">class UserService {
+    private Database db;
+
+    public UserService(ServiceLocator locator) {
+        this.db = locator.get('database');
+    }
+}
+</code></pre>
+
+<p>Here, the class fetches its own dependencies. This hides the real dependencies and makes testing harder 
+(it is necessary to mock the <code>ServiceLocator</code> as well).</p>
+
+<p>With static access (sometimes seen as Facade pattern), it is even more problematic.</p>
+
+<pre><code class="java">class UserService {
+    private Database db;
+
+    public UserService() {
+        this.db = Context.getDatabase(); // static access, or Facade pattern
+    }
+}
+</code></pre>
+
+<p>Testing becomes difficult because you cannot easily replace the static context with a mock or stub, you are forced to rely
+on whatever is offered by the static context, which is often a singleton or global service.</p>
+
+<p>Ordinary code suffers as well, at the point in time when <code>Context.getDatabase()</code> has been called,
+you have no guarantee that the database parameters have been set correctly (hostname, user, password, etc).</p>
+
+<h2 id="dependency-injection-assisted-by-modern-frameworks">Dependency Injection assisted by modern frameworks</h2>
+
+<p>Many modern frameworks provide built-in support for Dependency Injection, making it easier to manage dependencies.</p>
+
+<p>Without Framework support:</p>
+
+<pre><code class="java">var udpLogger = new UdpLogger();
+var logger = new Logger();
+var userRepo = new UserRepository();
+if (developmentMode) {
+    var userService = new UserService(userRepo, logger);
+} else {
+    var userService = new UserService(userRepo, udpLogger);
+}
+</code></pre>
+
+<p>As you can see, the code is not very clean, and it is hard to manage dependencies.</p>
+
+<p>With Framework support:</p>
+
+<pre><code class="java">@Component
+@Profile("production")
+class UdpLogger 
+{
+    // implementation details
+}
+
+@Component
+@Profile("development")
+class Logger 
+{
+    // implementation details
+}
+
+@Component
+class UserRepository 
+{
+    // implementation details
+}
+
+@Component
+class UserService 
+{
+    // implementation details
+}
+</code></pre>
+
+<p>As you can see, we have added a few <code>@Component</code> annotations and 
+the framework takes care of managing dependencies for us.</p>
+
+<p>Depending on the framework and programming language, you can use annotations, XML Configurations, 
+or other mechanisms to define how dependencies are wired together. 
+Most programming languages have frameworks that support Dependency Injection, 
+it does not matter if you are using Java, PHP, Python, or JavaScript.</p>
+
+<h2 id="developer-experience%3A-the-real-win-of-dependency-injection">Developer Experience: The Real Win of Dependency Injection</h2>
+
+<p><strong>The biggest, and often underappreciated, benefit of Dependency Injection is developer experience.</strong></p>
+
+<p>With Dependency Injection assisted by frameworks:</p>
 
 <ul>
-<li>Pure PHP, no dependencies on ext-soap</li>
-<li>Extensible (JMS event listeners support)</li>
-<li>PSR-7 HTTP messaging compatible</li>
-<li>Multi HTTP client (guzzle, buzz, curl, react)</li>
-<li>No WSDL/XSD parsing on production</li>
-<li>IDE type hinting support</li>
+<li>Developers instantly know where and how dependencies are provided. 
+There is no need to search through the codebase to find out how a class is constructed or what its dependencies are, nor
+there is need to read documentation.</li>
+<li>Teams follow the same conventions. 
+When everyone uses Dependency Injection, the codebase becomes more consistent and easier to navigate. There is no
+dependency on the taste a single developer (or a few) had.</li>
 </ul>
 
-<p>So, if you need a SOAP client for your project, give it a try!</p>
+<p>Without DI assisted by frameworks, every developer might wire dependencies differently:</p>
 
-<p>In the mean while I have in plan to release soon also a fully PHP SOAP server. 
-You can <a href="https://twitter.com/goetas_asmir">follow me</a>, if you are interested to know more about it.</p>
+<pre><code class="java">// Dev A (with DI)
+var userService = new UserService(new UserRepository(new Logger()));
+userService.updateBirthday(user);
 
-<p>A note that has to be said about this is that, in the last years 
-<a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>
-arrived and changed completely the way on how webservices are built, somehow deprecating SOAP. 
-I see also on the way also <a href="https://en.wikipedia.org/wiki/GraphQL">GraphQL</a> trying to deprecate REST too.</p>
+// Dev B (with DI)
+var db = createDb();
+var userService = buildUserService(db);
+userService.updateBirthday(user);
 
-<p>So, was it worth working on this project? Definitely yes! I have learned a lot, and I think there are still many 
-developers struggling with legacy applications every day as I did.</p>
+// Dev C (No DI, with Service Locator)
+var locator.create('database', new MysqlDatabase());
+var userService = new UserService(locator);
+userService.updateBirthday(user);
 
-<p>If somebody has some feedback, please just drop me a line at <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x67;&#111;&#x65;&#116;&#x61;&#115;&#x40;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;">goetas@gmail.com</a> 
-or tweet me at <a href="https://twitter.com/goetas_asmir">@goetas</a></p>
+// Dev D (No DI, Static method class or Facade)
+Context.setDatabase(new MysqlDatabase());
+var userService = new UserService();
+userService.updateBirthday(user);
+
+// Dev E (No DI, with context passed around on method calls)
+context.setDatabase(new MysqlDatabase());
+var userService = new UserService();
+userService.updateBirthday(context, user);
+</code></pre>
+
+<p>In all these examples, when the <code>UserService</code> will need a new dependency to implement some new feature,
+the developer will have to figure out how to wire it up independently of having used or not Dependency Injection.</p>
+
+<p>When using Dependency Injection assisted by frameworks, if the <code>UserService</code> needs a new dependency it can <strong>just</strong> 
+ask it, and the framework will take care of wiring it up.</p>
+
+<pre><code class="java">@Component
+class UserService {
+    private Database db;
+    private PresentCalculator presentCalculator;
+
+    public UserService(Database db, PresentCalculator presentCalculator) {
+        this.db = db;
+        this.presentCalculator = presentCalculator;  
+    }
+
+    public void updateBirthday(User user) {
+       this.db.updateBirthday(user.id, user.birthday, presentCalculator.calculatePresent(user.birthday));
+    }
+}
+</code></pre>
+
+<p>If the <code>PresentCalculator</code> is already available in the framework, 
+the developer can just use it without worrying about how to instantiate it or where it comes from.</p>
+
+<p>If the <code>PresentCalculator</code> is a new class, the developer can create it and annotate it with <code>@Component</code>,</p>
+
+<pre><code class="java">@Component
+class PresentCalculator {
+    // implementation details
+}
+</code></pre>
+
+<p>This way, <strong>the developer can focus on the business logic</strong> rather than worrying about how to make things work together.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this post I have tired to show how Dependency Injection is not just a testing tool, or a way to improve maintainability,
+but a powerful pattern that enhances developer experience and accelerates development speed.</p>
+
+<p>Dependency Injection, despite having decades of history, and wide adoption in languages such as Java, PHP, .NET,
+seems to be still underappreciated in many communities, especially in the JavaScript world.</p>
+
+<p>In the next post, I will discuss  the state of Dependency Injection in JavaScript and TypeScript, and why some 
+or the reasons to not do so are not valid anymore.</p>
 
         </div>
 
@@ -336,38 +478,26 @@ or tweet me at <a href="https://twitter.com/goetas_asmir">@goetas</a></p>
                             
                     <p class="tags m-top-50">
                 <i class="fa fa-tags"></i>
-                                <span>php</span>,                                 <span>xml</span>,                                 <span>soap</span>,                                 <span>webservices</span>,                                 <span>rest</span>                            </p>
+                            </p>
         
-                <div class="row visible-xs">
-            <div class="col-xs-12 related-posts">
-                                    
-                                    
-            </div>
-        </div>
         
-                <div class="row m-top-40" style="border-top: 1px dotted lightgray">
-            <div class="col-md-4 col-md-offset-3" style="padding: 20px">
-                    See the tweet on
-                    <a href="780742109691248642" target="_blank">twitter.com</a> about this!
-            </div>
-        </div>
         
                 <div class="share-on-socials">
             <div>Share or comment on:</div>
 
             <div  class="m-top-10 share-on-socials-buttons">
                 <!-- Twitter (url, text, @mention) -->
-                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fthe-way-to-the-goetas-webservicesclient-release&text=I%27ve%20just%20read%20%22The%20way%20to%20the%20goetas-webservices%2Fclient%20release%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fdependency-injection-why-it-matters-not-only-for-testing&text=I%27ve%20just%20read%20%22Dependency%20Injection%3A%20Why%20it%20matters%20not%20only%20for%20testing%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
                     <i class="fab fa-twitter"></i> X / Twitter
                 </a>
 
                 <!-- Reddit (url, title) -->
-                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fthe-way-to-the-goetas-webservicesclient-release&title=The%20way%20to%20the%20goetas-webservices%2Fclient%20release%20-%20Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fdependency-injection-why-it-matters-not-only-for-testing&title=Dependency%20Injection%3A%20Why%20it%20matters%20not%20only%20for%20testing%20-%20Asmir%20Mustafic" target="_blank" class="share-btn reddit">
                     <i class="fab fa-reddit"></i> Reddit
                 </a>
 
                 <!-- LinkedIn (url, title, summary, source url) -->
-                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fthe-way-to-the-goetas-webservicesclient-release&title=The%20way%20to%20the%20goetas-webservices%2Fclient%20release%20-%20Asmir%20Mustafic&summary=After%20many%20years%20of%20work%2C%20finally%20I%20have%20released%20a%20fully%20PHP%20based%20SOAP%20client%20up%20to%20date%20with%20the%20latest%20best%20practice.&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fdependency-injection-why-it-matters-not-only-for-testing&title=Dependency%20Injection%3A%20Why%20it%20matters%20not%20only%20for%20testing%20-%20Asmir%20Mustafic&summary=Most%20articles%20highlight%20how%20Dependency%20Injection%20simplifies%20testing%20and%20improves%20modularity%20and%20maintainability.%20%20In%20this%20post%20I%20will%20show%20how%20DI%20accelerates%20development%20and%20boosts%20developer%20experience%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
                     <i class="fab fa-linkedin"></i> LinkedIn
                 </a>
             </div>
@@ -378,21 +508,13 @@ or tweet me at <a href="https://twitter.com/goetas_asmir">@goetas</a></p>
 
                                             <div class="col-md-5   article-pagination article-pagination-prev">
                             <div>
-                                <a class="previous" href="/blog/some-notes-about-jms-serializer-plus-v130-release/" title="Some notes about JMS Serializer (plus v1.3.0 release)">
+                                <a class="previous" href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/" title="Multi-namespace migrations with doctrine/migrations 3.0">
                                     <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
-                                    <span class="title">Some notes about JMS Serializer (plus v1.3.0 release)</span>
+                                    <span class="title">Multi-namespace migrations with doctrine/migrations 3.0</span>
                                 </a>
                             </div>
                         </div>
-                                                            <div class="col-md-5 col-md-offset-2  article-pagination article-pagination-next">
-                        <div>
-                            <a class="next" href="/blog/deserialization-normalization-validation-and-the-jms-serializer/" title="Deserialization, normalization, validation and the JMS Serializer">
-                                <span class="article-pagination-icon"><i class="fa fa-chevron-circle-right"></i> Next</span>
-                                <span class="title">Deserialization, normalization, validation and the JMS Serializer</span>
-                            </a>
-                        </div>
-                    </div>
-                                    </div>
+                                                        </div>
 
             </nav>
         
@@ -406,14 +528,14 @@ or tweet me at <a href="https://twitter.com/goetas_asmir">@goetas</a></p>
                     <div class="col-md-8">
                         <div class="action_item text-center">
                             <h4 class="text-white text-uppercase">
-                                                                                                            Do you need something similar for your company?
+                                                                                                            Want more info?
                                                                                                 </h4>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="action_btn text-left sm-text-center">
                             <a href="/contact/" class="btn btn-default">
-                                                                    Contact me now!
+                                                                    Get in touch
                                 </a>
                         </div>
                     </div>
