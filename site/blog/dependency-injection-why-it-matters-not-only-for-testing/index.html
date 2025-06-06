@@ -197,6 +197,19 @@
             
                         
                     
+                <div class="col-md-5 hidden-xs related-posts">
+                                
+                                
+                                <!--                -->
+                    <div class="related-posts_container">
+                        <h4>Related</h4>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="related-posts_item">
+                            Dependency Injection: Why it matters not only for testing
+                        </div>
+                                                
+                    </div>
+                            
+        </div>
         
                         
 
@@ -464,6 +477,33 @@ with dependency injection assisted by frameworks, there is no need to figure out
 When developers are not sure how to wire things together, they might end up creating complex solutions that are hard to maintain.
 With Dependency Injection, developers can focus on the business logic and let the framework handle the rest.</p>
 
+<h3 id="too-much-magic%3F">Too much magic?</h3>
+
+<p>Some developers argue that Dependency Injection assisted by frameworks add too much "magic" to the code,
+making it harder to understand. By consequence, they prefer to avoid it and stick to manual dependency wiring.
+Unfortunately, this often leads to over-engineered solutions, where developers try to create complex wiring systems
+(that only a handful of people in a company understand)
+reducing the benefits of Dependency Injection when it comes to DX.</p>
+
+<h3 id="don%27t-like-annotations%3F">Don't like Annotations?</h3>
+
+<p>Some developers dislike annotations or decorators, also some languages (as .NET) have not yet adopted them and prefer to 
+wire dependencies using ordinary code. There is a framework for PHP that takes Dependency Injection to the next level.</p>
+
+<p>Symfony Dependency Injection component allows you to define the wiring concise configuration file, 
+leaving the codebase clean and almost unaware of the underlying DI framework.</p>
+
+<pre><code class="yaml">services:
+    App\Service\UserService:
+        arguments:
+            - '@App\Repository\UserRepository'
+            - '@App\Service\PresentCalculator'
+</code></pre>
+
+<p>With the Symfony Dependency Injection component, you can define how dependencies are wired together in a YAML file, and 
+no annotations are needed in the codebase. They syntax is simple and easy to read, and has many other features such as
+auto wiring, service tags, and more.</p>
+
 <h2 id="conclusion">Conclusion</h2>
 
 <p>In this post I have tired to show how Dependency Injection is not just a testing tool, or a way to improve maintainability,
@@ -492,6 +532,12 @@ of the excuses to not do so are not valid anymore.</p>
                 <i class="fa fa-tags"></i>
                                 <span>design-patterns</span>,                                 <span>dependency-injection</span>,                                 <span>software-development</span>,                                 <span>testing</span>,                                 <span>developer-experience</span>                            </p>
         
+                <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">
+                                    
+                                    
+            </div>
+        </div>
         
         
                 <div class="share-on-socials">
