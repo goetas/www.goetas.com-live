@@ -3,11 +3,315 @@
     <title><![CDATA[Asmir Mustafic - Lead Software Engineer and Manager]]></title>
     <link href="https://www.goetas.com/atom.xml" rel="self"/>
     <link href="https://www.goetas.com/"/>
-    <updated>2025-06-07T06:07:14+00:00</updated>
+    <updated>2025-06-18T05:53:10+00:00</updated>
     <id>https://www.goetas.com/</id>
             <author>
             <name><![CDATA[Asmir Mustafic]]></name>            <email><![CDATA[info@goetas.com]]></email>        </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title>Why JavaScript Deserves Dependency Injection</title>
+            <link href="https://www.goetas.com/blog/why-javascript-deserves-dependency-injection/"/>
+            <updated>2025-06-18T00:00:00+00:00</updated>
+            <id>https://www.goetas.com/blog/why-javascript-deserves-dependency-injection</id>
+                            <summary>The evolution of JavaScript from client-side to server-side has invalidated many reasons for avoiding Dependency Injection. This post explores how Dependency Injection can be used in JavaScript and highlights its advantages beyond testing.
+</summary>
+                                        <content type="html"><![CDATA[<p>In my <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/">previous post</a>, 
+I discussed Dependency Injection (DI) and how it improves overall developer experience (DX).</p>
+
+<p>This post focuses on JavaScript developers and addresses some of the most common reasons for avoiding DI.</p>
+
+<p>Dependency Injection isn’t a new concept. It has been widely used in ecosystems like Java, .NET, PHP, and others. 
+It is not magic—it is simply a way to organize code so that dependencies are provided externally rather than hardcoded internally.</p>
+
+<h2 id="starting-from-the-beginning">Starting from the Beginning</h2>
+
+<p>JavaScript began as a frontend language for browsers, where the code needed to be transferred over the network. 
+In that context, there were valid reasons to avoid DI frameworks:</p>
+
+<ul>
+<li><strong>Bundle size matters</strong>: A centralized DI container can increase code size, and workarounds to avoid this are often complex.</li>
+<li><strong>Bundle chunking/tree shaking</strong>: Splitting dependencies becomes more challenging.</li>
+<li><strong>Minification issues</strong>: DI metadata (such as variable names) can be removed during minification, breaking reflection-based DI frameworks.</li>
+<li><strong>Immature decorators</strong>: JavaScript decorators are not yet fully mature, making them harder to use for DI compared to annotations in languages like Java or PHP.</li>
+</ul>
+
+<p>These constraints led JavaScript developers to adopt a mindset of keeping things as simple as possible.</p>
+
+<h2 id="enter-node.js">Enter Node.js</h2>
+
+<p>With the advent of Node.js, JavaScript expanded to server-side applications, enabling services, APIs, and background jobs.</p>
+
+<p>On the server, the constraints changed:</p>
+
+<ul>
+<li><strong>No network concerns</strong>: Bundle size is no longer a critical issue.</li>
+<li><strong>No need for minification</strong>: Code does not need to be minified for server-side applications.</li>
+<li><strong>Cheap resources</strong>: Disk space and RAM are inexpensive.</li>
+</ul>
+
+<p>The valid reasons for avoiding DI in browser-based JavaScript disappeared in the server context. 
+However, the mindset of "keeping things simple" persisted.</p>
+
+<h2 id="the-myth-of-the-%22simple%22-codebase">The Myth of the "Simple" Codebase</h2>
+
+<p>What happens in these “simple” codebases? For small libraries or single-endpoint services, this approach may work. 
+But as the codebase grows to 10k lines, 50k lines, or more, the simplicity fades.</p>
+
+<p>Large JavaScript projects often consist of tens or hundreds of files that manually import the same services, 
+wiring dependencies between functions/classes in inconsistent ways. 
+Global patches are applied because there’s no clean way to swap dependencies during testing. 
+Suddenly, 30% of your code is not business logic — it’s wiring.</p>
+
+<p>When changes are needed, such as adding a dependency to an existing function/class, 
+developers must hunt down every instance where it is directly used. How is that simple? 
+Onboarding new developers becomes a challenge.</p>
+
+<h2 id="javascript-with-and-without-di">JavaScript with and without DI</h2>
+
+<p>JavaScript supports multiple paradigms, including functional, object-oriented, and procedural styles. 
+When using an object-oriented style, JavaScript’s classes and decorators can implement Dependency Injection 
+in a way similar to what is done in Java or PHP.</p>
+
+<p>Let’s consider a simple example of a service that reads a configuration file and returns a server URL.</p>
+
+<h3 id="without-di">Without DI</h3>
+
+<p>A plain TypeScript implementation without DI might look like this:</p>
+
+<pre><code class="typescript">// server-url-provider.ts
+import fs from 'fs';
+
+export function getServerURL(fileName: string): string {
+  const json = JSON.parse(fs.readFileSync(fileName, 'utf-8'));
+  return json.url;
+}
+</code></pre>
+
+<pre><code class="typescript">// main.ts (the main entry point of the application)
+import { getServerURL } from './server-url-provider';
+const serverURL = getServerURL('config.json');
+</code></pre>
+
+<p>This seems simple, but:</p>
+
+<ol>
+<li>How can you test <code>getServerURL</code> without creating a physical file to read?</li>
+<li>What if you need to include the currently logged-in user in the <code>getServerURL</code> function to provide a different path based on the user?</li>
+</ol>
+
+<p>For problem #1, over time JavaScript has developed various patching techniques to test some "hard-to-test" code using 
+various mocking libraries and relying on global state.
+Most of them wouldn't be needed if Dependency Injection was more common in JavaScript.</p>
+
+<p><a href="https://www.browserstack.com/guide/jest-mock-fetch-requests">This example</a> shows how to mock the <code>fetch</code> API using Jest. 
+It works but overrides the global <code>fetch</code> function, which can lead to unexpected behavior in other parts of the codebase.</p>
+
+<p>For problem #2, you might try to add a second argument to the <code>getServerURL</code> function to pass the user information:</p>
+
+<pre><code class="typescript">import fs from 'fs';
+
+export function getServerURL(fileName: string, userId: string): string {
+  const json = JSON.parse(fs.readFileSync(`users/${userId}/` + fileName, 'utf-8'));
+  return json.url;
+}
+</code></pre>
+
+<p>This approach has drawbacks: <strong><code>getServerURL</code> might be used in dozens of places,
+and you would need to update all of them to pass the user information.</strong></p>
+
+<p>Alternatively, you might try to use a global state to get the user information, like this:</p>
+
+<pre><code class="typescript">import fs from 'fs';
+import session from 'app/session';
+
+export function getServerURL(fileName: string): string {
+  const json = JSON.parse(fs.readFileSync(`users/${session.getUser().id}/` + fileName, 'utf-8'));
+  return json.url;
+}
+</code></pre>
+
+<p>While this approach seems better, it introduces a global state dependency (<code>session</code>), making the code harder to test and reason about.
+Another example: what happens if there is no session because the code is running a background job? 
+The <code>getServerURL</code> function becomes tightly coupled to the session management, making it less reusable in contexts where sessions are absent.</p>
+
+<h3 id="with-di">With DI</h3>
+
+<p>In this example, I will use <a href="https://inversify.io/">InversifyJS</a> DI framework to show how you can achieve better modularity and testability.</p>
+
+<p>We define a <code>Reader</code> interface that abstracts the file reading functionality.</p>
+
+<pre><code class="typescript">// reader.ts
+export interface Reader {
+  read(fileName: string): string;
+}
+</code></pre>
+
+<p>Then we implement a <code>ServerUrlProvider</code> class that uses this interface to read the data and return it as a string.</p>
+
+<pre><code class="typescript">// server-url-provider.ts 
+import { Reader } from './reader';
+import { inject, injectable } from 'inversify';
+
+@injectable()
+export class ServerUrlProvider {
+    constructor(@inject('Reader') private fileReader: Reader) {
+    }
+
+    getServerURL(fileName: string): string {
+        const json = JSON.parse(this.fileReader.read(fileName));
+        return json.url;
+    }
+}
+</code></pre>
+
+<p>You can see that the <code>ServerUrlProvider</code> class depends on a <code>Reader</code> interface 
+but is totally unaware of the actual implementation of that interface.</p>
+
+<p>Note the use of decorators from InversifyJS:</p>
+
+<ul>
+<li>The <code>@injectable()</code> decorator marks the class as injectable, allowing it to be used in the DI container.</li>
+<li>The <code>@inject()</code> decorator specifies that the <code>fileReader</code> dependency should be injected into the constructor, 
+searching in the DI container for a dependency registered under the name <code>Reader</code>.</li>
+</ul>
+
+<pre><code class="typescript">// file-system-reader.ts 
+import fs from 'fs';
+import { injectable } from 'inversify';
+
+@injectable()
+export class FileSystemReader implements Reader {
+  read(fileName: string): string {
+    return fs.readFileSync(fileName, 'utf-8');
+  }
+}
+</code></pre>
+
+<p>This is just one possible implementation of the <code>Reader</code> interface. You can have multiple implementations, 
+such as reading from a database, an API, or even a mock file system.</p>
+
+<p>Then we can define a Dependency Injection container to manage our dependencies:</p>
+
+<pre><code class="typescript">// di.ts (Dependency Injection Container definition)
+import { Container } from 'inversify';
+import { ServerUrlProvider } from './server-url-provider';
+import { Reader } from './reader';
+import { FileSystemReader } from './file-system-reader';
+
+const container: Container = new Container();
+
+container.bind&lt;Reader&gt;('Reader').to(FileSystemReader);
+container.bind&lt;ServerUrlProvider&gt;('ServerUrlProvider').to(ServerUrlProvider);
+
+export default container;
+</code></pre>
+
+<p>This part is where the all the available services are defined. 
+It is important to notice that at this point we are not worrying about 
+resolving the dependencies; we are just defining them.
+The DI container will take care of invoking the constructors and passing the needed dependencies them when needed.
+Order of definition does not matter either.</p>
+
+<p>If you have circular dependencies, there are ways to resolve them, but I would recommend avoiding them as much as possible.</p>
+
+<p>JavaScript DI frameworks like <a href="https://github.com/microsoft/tsyringe">microsoft/tsyringe</a> do not require this last step, 
+but they do not fully support interfaces (because of the way TypeScript is translated into JavaScript).</p>
+
+<p>Finally, we can use the <code>ServerUrlProvider</code> in our main application code:</p>
+
+<pre><code class="typescript">// main.ts
+import 'reflect-metadata';
+import container from './di';
+
+const serverUrlProvider: ServerUrlProvider = container.get('ServerUrlProvider');
+
+const serverURL = serverUrlProvider.getServerURL('config.json');
+</code></pre>
+
+<p>This version may seem verbose, but it shines when complexity increases.</p>
+
+<h4 id="testing">Testing</h4>
+
+<p>Testing the <code>ServerUrlProvider</code> is straightforward. You can create a mock <code>Reader</code> implementation that returns predefined JSON data.</p>
+
+<pre><code class="typescript"><br />const mockReader = new class implements Reader {
+   read(fileName: string): string {
+      return '{"url": "http://localhost:3000"}'; // Mocked response
+   }
+}();
+
+const provider = new ServerUrlProvider(mockReader);
+const serverURL = provider.getServerURL('config.json');
+expect(serverURL).toBe('http://localhost:3000');
+</code></pre>
+
+<p>As you can see, the test does not depend on any file system operations, nor does it need complex mocking libraries.</p>
+
+<h4 id="adding-new-dependencies">Adding New Dependencies</h4>
+
+<p><strong>If you need the currently logged-in user, you can simply inject a <code>CurrentUserProvider</code> service. 
+   You do not need to worry about finding all the places where <code>ServerUrlProvider</code> was used, 
+   nor do you need to worry about the dependencies needed for the <code>CurrentUserProvider</code> service.</strong></p>
+
+<p>Adding a new dependency to the <code>ServerUrlProvider</code> is as simple as:</p>
+
+<pre><code class="typescript">// server-url-provider.ts 
+
+@injectable()
+export class ServerUrlProvider {
+    constructor(
+        @inject('Reader') private fileReader: Reader,
+        @inject('CurrentUserProvider') private currentUserProvider: CurrentUserProvider,
+    ) {}
+}
+</code></pre>
+
+<p>If <code>CurrentUserProvider</code> is already registered in the DI container, no additional changes are needed.</p>
+
+<p>No need to worry about finding all the places where <code>ServerUrlProvider</code> was used.
+Of course, if we did not already have <code>CurrentUserProvider</code>, we would need to implement and register it, but that 
+would have been done anyway, even if we were not using DI.</p>
+
+<p>With DI, we can have different implementations of the <code>CurrentUserProvider</code> service based on the context (web or background job), 
+and our <code>ServerUrlProvider</code> does not need to know about it.</p>
+
+<pre><code class="typescript">container.bind&lt;CurrentUserProvider&gt;('CurrentUserProvider').to( 
+    backgroundJob 
+            ? ConsoleCurrentUserProvider
+            : SessionCurrentUserProvider
+);
+
+</code></pre>
+
+<h2 id="dx-developer-experience">DX (developer experience)</h2>
+
+<p>As I mentioned in my <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/">previous post</a>,
+an advantage of Dependency Injection is that as a developer, you do not need to worry if a service "can get the dependencies it needs".
+Questions as "Can I use this service in this context?" or "Does the parent scope/function have all the dependencies it needs this service?"</p>
+
+<p>When the service is registered in the DI container (in our example <code>CurrentUserProvider</code>), 
+it is guaranteed that any service requesting it with the<code>@inject</code> decorator, will be able to obtain it when declared as constructor argument.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Dependency Injection is a powerful design pattern that significantly improves the maintainability, testability, and scalability of JavaScript applications. 
+It is especially valuable as codebases grow in size and complexity.</p>
+
+<p>Even languages not traditionally associated with DI, such as Go (<a href="https://github.com/uber-go/dig">1</a>) or Rust (<a href="https://docs.rs/shaku/latest/shaku/">2</a>), 
+are adopting it to manage complexity.</p>
+
+<p>If you are using frameworks like <a href="https://nestjs.com/">NestJS</a> or <a href="https://angular.io/">Angular</a>, you are likely already using DI. 
+For custom applications, consider using frameworks like <a href="https://inversify.io/">InversifyJS</a> or <a href="https://github.com/microsoft/tsyringe">microsoft/tsyringe</a>.</p>
+
+<p>In my <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/#developer-experience%3A-the-real-win-of-dependency-injection">previous post</a>, I mentioned some of the DI benefits regarding developer experience.</p>
+
+<h2 id="looking-ahead">Looking Ahead</h2>
+
+<p>While this post focuses on DI in an object-oriented style, JavaScript also supports functional programming. 
+In my next post, I will explore how DI can be applied in a functional programming style.</p>
+]]></content>
+            
+        </entry>
             <entry>
             <title>Dependency Injection: Why it matters not only for testing</title>
             <link href="https://www.goetas.com/blog/dependency-injection-why-it-matters-not-only-for-testing/"/>
@@ -5882,7 +6186,7 @@ I invite you to have a look at my
             <entry>
             <title>GetYourGuide</title>
             <link href="https://www.goetas.com/projects/getyourguide/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/getyourguide</id>
                             <summary>Online marketplace for travel activities.
 </summary>
@@ -5900,7 +6204,7 @@ getyourguide.press+1Wikipedia+1</p>
             <entry>
             <title>Sourceability</title>
             <link href="https://www.goetas.com/projects/sourceability/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/sourceability</id>
                             <summary>Global distributor of electronic components
 </summary>
@@ -5913,7 +6217,7 @@ getyourguide.press+1Wikipedia+1</p>
             <entry>
             <title>Redovisningsdatum</title>
             <link href="https://www.goetas.com/projects/redovisningsdatum/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/redovisningsdatum</id>
                             <summary>A web platform that helps to keep track of the most important reports to file for your company
 </summary>
@@ -5925,7 +6229,7 @@ getyourguide.press+1Wikipedia+1</p>
             <entry>
             <title>PINT</title>
             <link href="https://www.goetas.com/projects/pint/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/pint</id>
                             <summary>PINT, San Diego Web Development and Design</summary>
                                         <content type="html"><![CDATA[<p>Software engineer Consultant for <a href="https://www.pint.com/" title="" rel="noreferrer">PINT</a>.</p>
@@ -5941,7 +6245,7 @@ UX design, user experience, analytics, search marketing, and optimization to glo
             <entry>
             <title>YoCutie</title>
             <link href="https://www.goetas.com/projects/yocutie/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/yocutie</id>
                             <summary>Free Dating platform</summary>
                                         <content type="html"><![CDATA[<p>YoCutie is a 100% free dating app.
@@ -5952,7 +6256,7 @@ As a backend lead I'm responsible for the whole backend infrastructure that is n
             <entry>
             <title>LaCure</title>
             <link href="https://www.goetas.com/projects/lacure/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/lacure</id>
                             <summary>LaCure offers booking services for luxury villa accommodations.</summary>
                                         <content type="html"><![CDATA[<p>In collaboration with the rest of the company I have planed a transition from a legacy PHP3/4 codebase
@@ -5989,7 +6293,7 @@ necessary workforce and skills, cost estimation, technical solutions and impleme
             <entry>
             <title>SolidOpinion</title>
             <link href="https://www.goetas.com/projects/solidopinion/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/solidopinion</id>
                             <summary>SolidOpinion is a startup, that revolutionize the way comments can be used to engage users and produce value for publishers</summary>
                                         <content type="html"><![CDATA[<p>SolidOpinion by allowing users to comment on websites collects hundreds of thousands of comments a day.</p>
@@ -6001,7 +6305,7 @@ necessary workforce and skills, cost estimation, technical solutions and impleme
             <entry>
             <title>Collabout.com</title>
             <link href="https://www.goetas.com/projects/collabout/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/collabout</id>
                             <summary>Collabout is a platform created to connect event organizers with partners  that might be interested in sponsoring their events.
  
@@ -6014,7 +6318,7 @@ their events in order to get visibility, contacts, ideas and many other advantag
             <entry>
             <title>Synergist</title>
             <link href="https://www.goetas.com/projects/synergistio/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/synergistio</id>
                             <summary>synergist.io is a secure cloud platform to negotiate contracts in real-time.</summary>
                                         <content type="html"><![CDATA[<p>synergist.io is a secure cloud platform to negotiate contracts in real-time.</p>
@@ -6043,7 +6347,7 @@ The CI pipeline implemented was clean and included secrets and log management to
             <entry>
             <title>Nestpick</title>
             <link href="https://www.goetas.com/projects/nestpick/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/nestpick</id>
                             <summary>An online medium-long term apartment and room rental web platform.</summary>
                                         <content type="html"><![CDATA[<p>Nestpick is a company that allows to rent homes or apartments to people for a mid-long term (from 1 month to 1 year).
@@ -6098,7 +6402,7 @@ of delivering new feature.</p>
             <entry>
             <title>ImmobiNet</title>
             <link href="https://www.goetas.com/projects/immobinet/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/immobinet</id>
                             <summary>Immobinet is a CRM for touristic apartments and rooms rental.</summary>
                                         <content type="html"><![CDATA[<p>Immobinet is a CRM for touristic apartments and rooms rental.</p>
@@ -6145,7 +6449,7 @@ and Mercurio Sistemi continued to deliver the product in the excellent was as it
             <entry>
             <title>Lignano.it</title>
             <link href="https://www.goetas.com/projects/lignanoit/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/projects/lignanoit</id>
                             <summary>A booking.com competitor for hotel and apartment reservations.</summary>
                                         <content type="html"><![CDATA[<p>Lignano.it is one of the biggest projects I've ever worked.</p>
@@ -6202,7 +6506,7 @@ delivering great performance and exceptional consistency</li>
             <entry>
             <title>jms/serializer</title>
             <link href="https://www.goetas.com/opensource/jms-serializer/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/jms-serializer</id>
                             <summary>This library allows you to serialize/deserialize data of any complexity. It supports XML, JSON, and YAML.</summary>
                                         <content type="html"><![CDATA[<p>This library allows you to (de-)serialize data of any complexity. Currently, it supports XML, JSON, and YAML.</p>
@@ -6225,7 +6529,7 @@ delivering great performance and exceptional consistency</li>
             <entry>
             <title>goetas-webservices/xsd2php</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicesxsd2php/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicesxsd2php</id>
                             <summary>Convert XSD into PHP classes, and serialize/unserialze instances from/into XML</summary>
                                         <content type="html"><![CDATA[<p>With <code>goetas/xsd2php</code> you can convert any XSD/WSDL definition into PHP classes.</p>
@@ -6238,7 +6542,7 @@ compatible metadata that can be used to serialize/unserialize the object instanc
             <entry>
             <title>masterminds/html5-php</title>
             <link href="https://www.goetas.com/opensource/mastermindshtml5-php/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/mastermindshtml5-php</id>
                             <summary>An HTML5 parser and serializer for PHP</summary>
                                         <content type="html"><![CDATA[<p>An <a href="https://en.wikipedia.org/wiki/HTML5">HTML5</a> parser and serializer for PHP.</p>
@@ -6251,7 +6555,7 @@ that enables interoperability with many XML related tools.</p>
             <entry>
             <title>doctrine/migrations</title>
             <link href="https://www.goetas.com/opensource/doctrine-migrations/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/doctrine-migrations</id>
                             <summary>Doctrine Database Migrations Library</summary>
                                         <content type="html"><![CDATA[<p>The Doctrine Migrations project offers additional functionality on top of the DBAL and ORM 
@@ -6264,7 +6568,7 @@ reviewed and tested before being deployed to production.</p>
             <entry>
             <title>goetas-webservices/soap-client</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicessoap-client/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicessoap-client</id>
                             <summary>PHP implementation of SOAP 1.1 client specifications</summary>
                                         <content type="html"><![CDATA[<p>PHP implementation of SOAP 1.1 client specifications.</p>
@@ -6285,7 +6589,7 @@ reviewed and tested before being deployed to production.</p>
             <entry>
             <title>goetas-webservices/soap-reader</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicessoap-reader/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicessoap-reader</id>
                             <summary>Read any SOAP definitions programmatically with PHP.</summary>
                                         <content type="html"><![CDATA[<p>Read <a href="https://en.wikipedia.org/wiki/SOAP">SOAP</a> definitions contained into 
@@ -6296,7 +6600,7 @@ reviewed and tested before being deployed to production.</p>
             <entry>
             <title>goetas-webservices/wsdl-reader</title>
             <link href="https://www.goetas.com/opensource/goetas-webserviceswsdl-reader/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webserviceswsdl-reader</id>
                             <summary>Read any WSDL files programmatically with PHP.</summary>
                                         <content type="html"><![CDATA[<p>Read <a href="https://en.wikipedia.org/wiki/Web_Services_Description_Language">WSDL</a> files programmatically with PHP.</p>
@@ -6306,7 +6610,7 @@ reviewed and tested before being deployed to production.</p>
             <entry>
             <title>goetas-webservices/xsd-reader</title>
             <link href="https://www.goetas.com/opensource/goetas-webservicesxsd-reader/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/goetas-webservicesxsd-reader</id>
                             <summary>Read any XML Schema (XSD) programmatically with PHP.</summary>
                                         <content type="html"><![CDATA[<p>Read any <a href="https://en.wikipedia.org/wiki/XML_schema">XML Schema</a> (XSD) programmatically with PHP.</p>
@@ -6316,7 +6620,7 @@ reviewed and tested before being deployed to production.</p>
             <entry>
             <title>willdurand/hateoas-bundle</title>
             <link href="https://www.goetas.com/opensource/willdurand-hateoas-bundle/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/willdurand-hateoas-bundle</id>
                             <summary>Integration of the willdurand/hateoas library into Symfony.</summary>
                                         <content type="html"><![CDATA[<p>Integration of the willdurand/hateoas library into Symfony.</p>
@@ -6333,7 +6637,7 @@ that distinguishes it from other network application architectures.</p>
             <entry>
             <title>willdurand/hateoas</title>
             <link href="https://www.goetas.com/opensource/willdurand-hateoas/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/willdurand-hateoas</id>
                             <summary>A PHP library to support implementing representations for HATEOAS REST web services</summary>
                                         <content type="html"><![CDATA[<p>A PHP library to support implementing representations for HATEOAS REST web services.</p>
@@ -6350,7 +6654,7 @@ that distinguishes it from other network application architectures.</p>
             <entry>
             <title>goetas/twital</title>
             <link href="https://www.goetas.com/opensource/twital/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/twital</id>
                             <summary>Twital is a plugin for Twig (a template engine for PHP) that adds some shortcuts and makes Twig&#039;s syntax more suitable for HTML based (XML, HTML5, XHTML, SGML) templates.</summary>
                                         <content type="html"><![CDATA[<p>Twital is a plugin for <a href="http://twig.sensiolabs.org/">Twig</a> (a template engine for PHP) 
@@ -6364,7 +6668,7 @@ mixing their language syntaxes with the powerful Twig templating engine system.<
             <entry>
             <title>hautelook/TemplatedUriBundle</title>
             <link href="https://www.goetas.com/opensource/hautelook-templated-uri-bundle/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/hautelook-templated-uri-bundle</id>
                             <summary>Symfony Bundle for the hautelook/TemplatedUriRouter. Provides a RFC-6570 compatible Symfony router and URL Generator.</summary>
                                         <content type="html"><![CDATA[<p>Symfony Bundle for the <a href="https://github.com/hautelook/TemplatedUriRouter">https://github.com/hautelook/TemplatedUriRouter</a>
@@ -6377,7 +6681,7 @@ Symfony router and URL Generator.</p>
             <entry>
             <title>hautelook/TemplatedUriRouter</title>
             <link href="https://www.goetas.com/opensource/hautelook-templated-uri-router/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/opensource/hautelook-templated-uri-router</id>
                             <summary>Symfony UrlGenerator that provides a RFC-6570 compatible router and URL Generator.</summary>
                                         <content type="html"><![CDATA[<p>Symfony UrlGenerator that provides a <a href="https://tools.ietf.org/html/rfc6570">RFC-6570</a> compatible router and URL Generator.</p>
@@ -6387,7 +6691,7 @@ Symfony router and URL Generator.</p>
             <entry>
             <title>Roberto Fantuzzo</title>
             <link href="https://www.goetas.com/testimonials/roberto-fantuzzo/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/testimonials/roberto-fantuzzo</id>
                             <summary>For more than 10 years Asmir contributed to the success of my company</summary>
                         
@@ -6395,7 +6699,7 @@ Symfony router and URL Generator.</p>
             <entry>
             <title>Mladen Stific</title>
             <link href="https://www.goetas.com/testimonials/mladen-stific/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/testimonials/mladen-stific</id>
                             <summary>Asmir helped us to setup our continuous delivery pipeline and to deliver features in less time with less bugs</summary>
                         
@@ -6403,7 +6707,7 @@ Symfony router and URL Generator.</p>
             <entry>
             <title>Mats Kyllenius</title>
             <link href="https://www.goetas.com/testimonials/mats-kyllenius/"/>
-            <updated>2025-06-07T06:07:14+00:00</updated>
+            <updated>2025-06-18T05:53:10+00:00</updated>
             <id>https://www.goetas.com/testimonials/mats-kyllenius</id>
                             <summary>Asmir is a really talented full-stack developer. Apart from that, he is also a very good general discussion partner in a development project, with great business insight.</summary>
                         

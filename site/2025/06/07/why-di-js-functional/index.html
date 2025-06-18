@@ -26,8 +26,8 @@
         <meta name="twitter:creator" content="@goetas_asmir" />
 
             <meta name="twitter:card" content="summary_large_image" />
-            <meta property="og:image" content="https://www.goetas.com/img/posts/di/di.jpg" />
-        <meta property="twitter:image" content="https://www.goetas.com/img/posts/di/di.jpg" />
+            <meta property="og:image" content="https://www.goetas.com/img/posts/di/di-js-fn.jpg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/di/di-js-fn.jpg" />
     
         <script type="application/ld+json">
         {
@@ -206,6 +206,9 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <div class="related-posts_item">
                             <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/">Dependency Injection: Why it matters not only for testing</a>
                         </div>
+                                                                                <div class="related-posts_item">
+                            <a href="/blog/why-javascript-deserves-dependency-injection/">Why JavaScript Deserves Dependency Injection</a>
+                        </div>
                                                 
                     </div>
                             
@@ -231,72 +234,30 @@
         <div  class="m-top-20 layout-post">
             
 
-            <p>In my <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/">previous post</a>, 
-I discussed Dependency Injection (DI) and how it improves overall developer experience (DX).</p>
+            <p>In my <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/">first post</a>, 
+about Dependency Injection (DI) I have talked on how it improves developer experience,
+then in my <a href="/blog/why-javascript-deserves-dependency-injection/">second post</a> 
+I have focused on why DI is not that common in the JavaScript ecosystem. 
+I also have shown how it can be implemented in TypeScript
+when writing code in a object-oriented style.</p>
 
-<p>In this post I will focus more on JavaScript developers and some of the most common excuses to avoid it.</p>
-
-<p>Dependency injection isn’t a new concept. It’s been around for decades in other ecosystems — Java, .NET, PHP and others. 
-It’s not magic, it is a way to organize code so that dependencies are provided from the outside instead of hardcoded inside.</p>
-
-<h2 id="let%E2%80%99s-start-from-the-start">Let’s start from the start</h2>
-
-<p>JavaScript started as a frontend language, in the browser, in that world, the code needs to be transferred over the network.
-In that context, there are (were?) valid reasons to avoid DI frameworks:</p>
-
-<ul>
-<li>Bundle size matters, a centralized DI container can bloat your code as it might need to include all dependencies 
-(and the workarounds to avoid that are often complex)</li>
-<li>Bundle chunking / tree shaking makes it harder to split dependencies</li>
-<li>Javascript minification can remove DI metadata (such as variable names), breaking reflection-based DI frameworks</li>
-<li>Javascript decorators are not yet mature, making it hard to use them for DI (when compared to languages like Java or PHP where annotations are widely used)</li>
-</ul>
-
-<p>These constraints led Javascript developers to a mindset of keeping things simple as much as possible.</p>
-
-<h2 id="but-then-node.js-came-along">But then Node.js came along</h2>
-
-<p>Suddenly, JavaScript could be run server-side,  and it pawed the way for services, APIs, background jobs.</p>
-
-<p>On the server, the constraints changed, is no network to worry about. By consequence:</p>
-
-<ul>
-<li>No need to worry about bundle size</li>
-<li>Minification is not a needed</li>
-<li>Disk space and RAM are cheap</li>
-</ul>
-
-<p>All the valid reasons to avoid DI when running your code in the browser disappeared in the server context.</p>
-
-<p>Unfortunately, the mindset did not adapt, "We like to keep things simple" was still the mantra.</p>
-
-<h3 id="the-%22simple%22-codebase-myth">The "Simple" Codebase Myth</h3>
-
-<p>But what ends up happening in these “simple” codebases? For a small library or a one-endpoint service, sure, it might work.
-But what happens to a codebase that grows to 10k lines, 50k lines, or more?</p>
-
-<p>Any large Javascript project is made of tens (hundreds)? files that all import the same services manually, 
-wiring dependencies between functions/classes <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/#developer-experience%3A-the-real-win-of-dependency-injection">in the most creative way</a>.
-Patching things globally because there’s no clean way to swap dependencies during testing.
-Suddenly, 30% of your code is not business logic — it’s wiring.
-And when something needs to change (like adding a dependency to an existing function/class), 
-you're hunting down every place it was directly used. How is that simple?
-On-boarding new developers? Good luck.</p>
+<p>This post is a follow-up to the second one, and I will focus on how to use DI in JavaScript when using a functional programming style.</p>
 
 <h2 id="javascript-with-and-without-di">JavaScript with and without DI</h2>
 
-<p>JavaScript is a language that allows multiple paradigms, and it can be used in a functional, object-oriented, or procedural style.
-When using and object-oriented style, JavaScript has a classes and decorators, which can be used to implement Dependency Injection
-in a very similar way to what shown in my <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/">previous post</a>.</p>
+<blockquote>
+  <p>For simplicity of reading this post, 
+  I will repeat the same example as in my <a href="/blog/why-javascript-deserves-dependency-injection/#without-di">previous post</a>.</p>
+</blockquote>
 
-<p>Let's consider a simple example of a service that reads a configuration file and returns a server URL.</p>
+<p>Let’s consider a simple example of a service that reads a configuration file and returns a server URL.</p>
 
 <h3 id="without-di">Without DI</h3>
 
-<p>A plain Typescript implementation without DI might look like this:</p>
+<p>A plain TypeScript implementation without DI might look like this:</p>
 
-<pre><code class="typescript">// config-service.ts (a service that reads a configuration file and returns a server URL)
-import fs from 'fs'
+<pre><code class="typescript">// server-url-provider.ts
+import fs from 'fs';
 
 export function getServerURL(fileName: string): string {
   const json = JSON.parse(fs.readFileSync(fileName, 'utf-8'));
@@ -304,85 +265,107 @@ export function getServerURL(fileName: string): string {
 }
 
 // main.ts (the main entry point of the application)
-import { getServerURL } from './config-service';
+import { getServerURL } from './server-url-provider';
 const serverURL = getServerURL('config.json');
 </code></pre>
 
-<p>Seems simple, right? But:</p>
+<p>This seems simple, but:</p>
 
 <ol>
-<li>How to test <code>getServerURL</code> without actually having to create a file to read by it?</li>
-<li>What if we need to the currently logged-in user in the <code>getServerURL</code> function? (to provide a different URL based on the user?)</li>
+<li>How can you test <code>getServerURL</code> without creating a physical file to read?</li>
+<li>What if you need to include the currently logged-in user in the <code>getServerURL</code> function to provide a different path based on the user?</li>
 </ol>
 
-<p>- <strong><code>getServerURL</code> might be used in dozens of places, and we would need to change all of them to pass the user information</strong>.
-- or we would have to find a way to  extract the user information from some global state, which is not a good practice.</p>
+<p>For problem the #1, overtime Javascript has developed various patching techniques to test some "hard-to-test" code using 
+various mocking libraries and relying on global state. 
+Most of them wouldn't be needed if Dependency was more common in Javascript.</p>
 
-<p>None of the two problems have a good solution in the above code.
-The problem n.2 is the most common scenario in any <strong>evolving company</strong>.</p>
+<p>In <a href="https://www.browserstack.com/guide/jest-mock-fetch-requests">this example</a> shows how to mock the <code>fetch</code> API using Jest,
+it works but it overrides the global <code>fetch</code> function, which can lead to unexpected behavior in other parts of the codebase.</p>
+
+<p>For problem the #2, you might try to add a second argument to the <code>getServerURL</code> function to pass the user information:</p>
+
+<pre><code class="typescript">import fs from 'fs';
+
+export function getServerURL(fileName: string, userId: string): string {
+  const json = JSON.parse(fs.readFileSync(`users/${userId} /` + fileName , 'utf-8'));
+  return json.url;
+}
+</code></pre>
+
+<p>This approach has drawbacks: <strong><code>getServerURL</code> might be used in dozens of places, 
+and you would need to update all of them to pass the user information.</strong></p>
+
+<p>Alternatively, you might try to use a global state to get the user information, like this:</p>
+
+<pre><code class="typescript">import fs from 'fs';
+import session from 'app/session';
+
+export function getServerURL(fileName: string): string {
+  const json = JSON.parse(fs.readFileSync(`users/${session.getUser().id} /` + fileName , 'utf-8'));
+  return json.url;
+}
+</code></pre>
+
+<p>While this approach seems better, it introduces a global state dependency (<code>session</code>), making the code harder to test and reason about.
+Another example, what happens if there is no session because the code is running a background job?
+The <code>getServerURL</code> function becomes tightly coupled to the session management, making it less reusable in contextes where sessions are absent.</p>
 
 <h3 id="with-di">With DI</h3>
 
-<p>Many developers prefer to use JavaScript in a functional style, a better version of the above cod look like this:</p>
+<p>A better version of the above code, using Dependency Injection could look like this:</p>
 
-<pre><code class="typescript">// config-service.ts (a service that reads a configuration file and returns a server URL)
-import fs from 'fs'
+<pre><code class="typescript">// server-url-provider.ts (a service that reads a configuration file and returns a server URL)
 
-type Reader = (fileName: string) =&gt; string;
-type ServerUrlProvider = (fileName: string) =&gt; string;
+export type Reader = (fileName: string) =&gt; string;
+export type ServerUrlProvider = (fileName: string) =&gt; string;
 
-export const fileReader: Reader = (fileName: string): string {
-  return  fs.readFileSync(fileName);
-}
-
-export const getServerURL: ServerUrlProvider = (fileReader: Reader, fileName: string): string {
-    const json = JSON.parse(fileReader(fileName));
-    return json.url;
-}
-
-// main.ts (the main entry point of the application)
-import { getServerURL } from './config-service';
-const serverURL = getServerURL(fileReader, 'config.json');
-</code></pre>
-
-<p>This version is a bit more flexible, as it allows to pass a custom <code>fileReader</code> function, improving testability.</p>
-
-<p>However,the problem n.2 remains. We need to hunt down all the places where <code>getServerURL</code> was used and change them to pass them additional
-dependencies when needed.</p>
-
-<p>We could make it better:</p>
-
-<pre><code class="typescript">// file-reader.ts (a simple file reader implementation)
-import fs from 'fs'
-
-type Reader = (fileName: string) =&gt; string;
-type ServerUrlProvider = (fileName: string) =&gt; string;
-
-export const fileReader: Reader = (fileName: string): string {
-  return fs.readFileSync(fileName);
-}
-// server-url.ts (a service that reads a configuration file and returns a server URL)
-export function createGetServerUrl(fileReader: Reader): ServerUrlProvider {
-  return function (fileName: string): string {
+export const createGetServerUrl = (fileReader: Reader): ServerUrlProvider =&gt; {
+  return (fileName: string): string =&gt; {
     const json = JSON.parse(fileReader(fileName));
     return json.url;
   };
 }
+</code></pre>
 
-// di.ts (Dependency Injection Container definition)
-import { createGetServerUrl } from './config-service';
-import { fileReader } from './file-reader';
+<p><strong>The key part here is that <code>createGetServerUrl</code> takes as argument the dependencies the inner function needs to operate on,
+while the inner function (<code>ServerUrlProvider</code>) has as arguments what it needs to operate on (in this case, just the <code>fileName</code>).</strong></p>
 
-export const getCreateGetServerUrl = () :ServerUrlProvider =&gt; createGetServerUrl(fileReader);
+<p>By decoupling the dependencies from the function itself, we can:
+1. Easily test the function by passing a mock implementation of the dependencies.
+2. Add additional dependencies without changing the function signature or hunting down all the places where the function is used.</p>
 
+<pre><code class="typescript">// file-reader.ts (a simple file reader implementation)
+import fs from 'fs'
 
-// main.ts (the main entry point of the application)
-import { getCreateGetServerUrl } from './di'
+export const fileReader: Reader = (fileName: string): string =&gt; {
+  return fs.readFileSync(fileName);
+}
+</code></pre>
 
-export const getServerURL = getCreateGetServerUrl();
+<p>This will be our file reader service. We could also implement a mock version of it for testing purposes.</p>
 
+<pre><code class="typescript">// di.ts (Dependency Injection Container definition)
+import { container } from "tsyringe";
+
+import { createGetServerUrl, ServerUrlProvider } from './server-url-provider';
+import { fileReader, Reader } from './file-reader';
+
+container.register&lt;Reader&gt;("Reader", { useValue: fileReader });
+container.register&lt;ServerUrlProvider&gt;("ServerUrlProvider", {
+    useFactory: (c) =&gt; createGetServerUrl(c.resolve&lt;Reader&gt;("Reader"))
+});
+</code></pre>
+
+<p>This is the Dependency Injection container definition, where we register our services.</p>
+
+<pre><code class="typescript">// main.ts (the main entry point of the application)
+import { container } from "tsyringe";
+const getServerURL = container.resolve&lt;ServerUrlProvider&gt;("ServerUrlProvider");
 const serverURL = getServerURL('config.json');
 </code></pre>
+
+<p>And finally we can get the function from the DI container and use it in our application code.</p>
 
 <p>This looks much better. We have decoupled the dependencies from the function itself.
 The function creation is now separated from its invocation.</p>
@@ -393,180 +376,55 @@ The function creation is now separated from its invocation.</p>
 The only place that needs to be updated is the service creation <code>di.ts</code>.</li>
 </ol>
 
-<p>You might ask why do we <code>getCreateGetServerUrl</code> instead of exporting <code>createGetServerUrl</code> directly. 
-By doing that we delay the dependency resolution until the function is actually used in the application since some dependencies might not be ready yet.</p>
+<p>Implementing now the <code>getServerURL</code> function to include the currently logged-in user is easy.</p>
 
-<pre><code class="typescript">// file-reader.ts (a simple file reader implementation)
-import fs from 'fs'
+<pre><code class="typescript">// current-user.ts (a service that provides the currently logged-in user)
+export type CurrentUserProvider = () =&gt; User;
 
-type Reader = (fileName: string) =&gt; string;
-
-@injectable()
-export const fileReader: Reader = (fileName: string): string {
-  return fs.readFileSync(fileName);
+export const createCurrentUserProvider = (session: Session): CurrentUserProvider =&gt; {
+  return (): User =&gt; {
+      // Logic to get the currently logged-in user
+  };
 }
-@injectable()
-export function createGetServerUrl(@inject() fileReader: Reader): ServerUrlProvider {
-  return function (fileName: string): string {
-    const json = JSON.parse(fileReader(fileName));
+</code></pre>
+
+<p>This could be a service that reads the session and returns the currently logged-in user.</p>
+
+<pre><code class="typescript">// server-url-provider.ts (a service that reads a configuration file and returns a server URL)
+export const createGetServerUrl = (fileReader: Reader, userProvider: CurrentUserProvider): ServerUrlProvider =&gt; {
+  return (fileName: string): string =&gt; {
+    const json = JSON.parse(fileReader(`users/${userProvider().id}/` + fileName));
     return json.url;
   };
 }
-
-// di.ts (Dependency Injection Container definition)
-
-export const getServerURL = DI.get('createGetServerUrl');
-
 </code></pre>
 
-<pre><code class="typescript">// main.ts (the main entry point of the application)
-import { getServerURL } from './di';
-const getServerURL = DI.get('ServerUrlProvider');
-const serverURL = getServerURL('config.json');
-</code></pre>
-
-<p>Seems simple, right? But:</p>
-
-<ol>
-<li>How to test <code>getServerURL</code> without actually having to create a file to read by it?</li>
-<li>What if we need to the currently logged-in user in the <code>getServerURL</code> function? (to provide a different URL based on the user?) 
-
-<ul>
-<li><strong><code>getServerURL</code> might be used in dozens of places, and we would need to change all of them to pass the user information</strong>. </li>
-<li>or we would have to find a way to  extract the user information from some global state, which is not a good practice.</li>
-</ul></li>
-</ol>
-
-<p>None of the two problems have a good solution in the above code. 
-The problem n.2 is the most common scenario in any <strong>evolving company</strong>.</p>
-
-<h3 id="with-di">With DI</h3>
-
-<p>When using a DI framework as <a href="https://inversify.io/">InversifyJS</a>, we might do something like this:</p>
-
-<pre><code class="typescript">// reader.ts (define our Reader interface)
-export interface Reader {
-  readFile(fileName: string): string;
-}
-</code></pre>
-
-<pre><code class="typescript">// config-service.ts (and example service that uses the Reader interface to read a configuration file)
-import Reader from './reader'
-import { inject, injectable } from 'inversify';
-
-@injectable()
-export class ConfigService {
-    constructor(@inject('Reader') private fileReader: Reader) {
-    }
-
-    getServerURL(fileName: string): string {
-        const json = JSON.parse(fileReader.readFile(this.fileName));
-        return json.url;
-    }
-}
-</code></pre>
-
-<p>You can see that the <code>ConfigService</code> class depends on a <code>Reader</code> interface,  but is totally unaware of the actual implementation of that interface.</p>
-
-<pre><code class="typescript">// file-system-reader.ts 
-import fs from 'fs'
-import { injectable } from 'inversify';
-
-@injectable()
-export class FileSystemReader implements Reader {
-  readFile(fileName: string): string {
-    return fs.readFileSync(fileName, 'utf-8')
-  }
-}
-</code></pre>
-
-<p>This is just one possible implementation of the <code>Reader</code> interface, you can have multiple implementations, such as reading from a database or an API 
-or being just a mock file system.</p>
+<p>Then we can register it in the DI container:</p>
 
 <pre><code class="typescript">// di.ts (Dependency Injection Container definition)
-import { Container, inject, injectable } from 'inversify';
-import {ConfigService} from './config-service'
-import {Reader} from './reader'
-import {FileSystemReader} from './file-system-reader'
 
-const container: Container = new Container();
+container.register&lt;CurrentUserProvider&gt;("CurrentUserProvider", {
+    useFactory: (c) =&gt; createCurrentUserProvider(c.resolve&lt;Session&gt;("Session")) // assuming Session already is registered in the container
+});
 
-container.bind&lt;Reader&gt;('Reader').to(FileSystemReader);
-container.bind&lt;ConfigService&gt;('ConfigService').to(ConfigService);
+// And then we can use it in the ServerUrlProvider
+container.register&lt;ServerUrlProvider&gt;("ServerUrlProvider", {
+    useFactory: (c) =&gt; createGetServerUrl(
+        c.resolve&lt;Reader&gt;("FileReader"), 
+        c.resolve&lt;CurrentUserProvider&gt;("CurrentUserProvider")
+    )
+});
 
-export default container;
 </code></pre>
 
-<p>This part is where the Dependencies are defined. 
-It is important to notice that at this point we are not worrying about 
-resolving the dependencies, we are just defining them.
-Order does not matter either.</p>
+<p>That's it!</p>
 
-<p>This part is fairly "mechanical", in frameworks like SpringBoot (Java) or Symfony (PHP), 
-this file is not needed as it is done automatically.
-In JavaScript, needs to be done manually, hopefully, some frameworks will provide this functionality in the future. 
-<a href="https://nestjs.com/">NestJS</a> or <a href="https://angular.io/">Angular</a>  are already heading in this direction.</p>
+<p>As you might have noticed,  we did not change anything in the <code>main.ts</code> file, 
+we did not need to hunt down all the places where <code>getServerURL</code> was used. 
+And our code is easily testable.</p>
 
-<pre><code class="typescript">// main.ts (the main entry point of the application)
-import container from './di'
-
-const configService: ConfigService = container.get('ConfigService');
-
-const serverURL = configService.getServerURL('config.json');
-</code></pre>
-
-<p>And finally we call the <code>getServerURL</code> to get the server URL.</p>
-
-<p>This version might look a bit verbose, but it <strong>it shines when complexity increases</strong>.</p>
-
-<ol>
-<li>Testing the <code>ConfigService</code> is now straightforward. You can create a mock <code>Reader</code> implementation that returns a predefined JSON string</li>
-<li><strong>If you need the currently logged-in user you can simply inject a <code>CurrentUserProvider</code> service. 
-You do not need to worry about finding all the places where <code>ConfigService</code> was used, 
-nor you need to worry about the dependencies needed for the <code>CurrentUserProvider</code> service.</strong></li>
-</ol>
-
-<pre><code class="typescript">// config-service.ts 
-
-@injectable()
-export class ConfigService {
-    constructor(
-        @inject('Reader') private fileReader: Reader,
-        @inject('CurrentUserProvider') private currentUserProvider: CurrentUserProvider,
-    ) {
-    }
-
-    // ...
-}
-</code></pre>
-
-<p>If the <code>CurrentUserProvider</code> was already registered in the DI container by some of our colleagues, the work is done.
-No need to worry about finding all the places where <code>ConfigService</code> was used.</p>
-
-<p>Of course, if we did not have already <code>CurrentUserProvider</code> we would need to implement and register it, but that 
-would have been done anyway, even if we were not using DI.</p>
-
-<h2 id="javascript-is-special%2C-but-not-that-much">JavaScript Is Special, but not that much</h2>
-
-<p>The idea that JavaScript is some “special case” where dependency injection doesn’t apply is flawed. 
-Every language thinks that, until it doesn’t.</p>
-
-<p>Go developers used to hate DI. Then Uber built Dig. Rust has shaku. Python has Dependency Injector. 
-Even dynamic languages are using it now—because it helps.</p>
-
-<p>JavaScript developers moved to the backend but brought along their frontend baggage. 
-The “we don’t need that” attitude worked when your code ran in the browser.
-It doesn’t scale when you’re building services, APIs, and large systems.</p>
-
-<p>You don’t have to go full Spring or Angular. 
-But pretending DI is “too complex” while manually wiring everything yourself is just denial.</p>
-
-<p>It’s time to grow up the stack. 
-Use the right patterns for the job. And stop pretending dependency injection is some enterprise-only monster.</p>
-
-<p>It’s just architecture. And it makes your life easier.</p>
-
-<h2 id="conclusion">Conclusion</h2>
+<p>Using a DI framework like tsyringe it is not mandatory, but it certainly helps. 
+What is important is to decouple the function creation from its invocation.</p>
 
 <h2 id="conclusion-2.0">Conclusion (2.0)</h2>
 
@@ -589,7 +447,7 @@ However, I hope that this post will help some developers to see the value of Dep
                             
                     <p class="tags m-top-50">
                 <i class="fa fa-tags"></i>
-                                <span>design-patterns</span>,                                 <span>dependency-injection</span>,                                 <span>software-development</span>,                                 <span>testing</span>,                                 <span>developer-experience</span>,                                 <span>javascript</span>,                                 <span>typescript</span>                            </p>
+                                <a href="/blog/tags/design-patterns/" rel="nofollow">design-patterns</a>,                                 <a href="/blog/tags/dependency-injection/" rel="nofollow">dependency-injection</a>,                                 <a href="/blog/tags/software-development/" rel="nofollow">software-development</a>,                                 <a href="/blog/tags/testing/" rel="nofollow">testing</a>,                                 <a href="/blog/tags/developer-experience/" rel="nofollow">developer-experience</a>,                                 <a href="/blog/tags/javascript/" rel="nofollow">javascript</a>,                                 <a href="/blog/tags/typescript/" rel="nofollow">typescript</a>                            </p>
         
                 <div class="row visible-xs">
             <div class="col-xs-12 related-posts">
@@ -683,10 +541,10 @@ However, I hope that this post will help some developers to see the value of Dep
                                 &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
                             </h5>
                             <ul class="m-top-20">
+                                                                    <li class="m-top-20"><a href="/blog/why-javascript-deserves-dependency-injection/"><i class="fas fa-angle-right"></i>Why JavaScript Deserves Dependency Injection</a></li>
                                                                     <li class="m-top-20"><a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/"><i class="fas fa-angle-right"></i>Dependency Injection: Why it matters not only for testing</a></li>
                                                                     <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>
                                                                     <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>
-                                                                    <li class="m-top-20"><a href="/blog/make-the-difference-when-contributing-to-open-source/"><i class="fas fa-angle-right"></i>Make the difference when contributing to open-source</a></li>
                                                             </ul>
                         </div><!-- End off widget item -->
                     </div><!-- End off col-md-3 -->

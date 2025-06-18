@@ -1,0 +1,710 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+
+                <meta charset="utf-8">
+        <title>Why JavaScript Deserves Dependency Injection - Asmir Mustafic</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon.png">
+
+                <link rel="canonical" href="https://www.goetas.com/blog/why-javascript-deserves-dependency-injection/">
+        <link rel="preload" href="/assets/webfonts/fa-brands-400.woff2" as="font">
+        <link rel="preload" href="/assets/webfonts/fa-solid-900.woff2" as="font">
+
+        <link rel="preload" href="/js/combined-89009af45ae96d51be4ea3b08dcbe284e02c8589.js" as="script">
+
+        <link rel="stylesheet" href="/assets/css/combined-290b696597440bb7fbb06e00ec4beaadbd291e6b.css">
+        
+        <meta property="og:url" content="https://www.goetas.com/blog/why-javascript-deserves-dependency-injection" />
+
+        <meta name="twitter:title" content="Why JavaScript Deserves Dependency Injection - Asmir Mustafic" />
+        <meta name="og:title" content="Why JavaScript Deserves Dependency Injection - Asmir Mustafic" />
+        <meta name="twitter:site" content="@goetas_asmir" />
+        <meta name="twitter:creator" content="@goetas_asmir" />
+
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta property="og:image" content="https://www.goetas.com/img/posts/di/keep-simple-js.jpg" />
+        <meta property="twitter:image" content="https://www.goetas.com/img/posts/di/keep-simple-js.jpg" />
+    
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Asmir Mustafic",
+          "url": "https://www.goetas.com",
+          "sameAs": [
+            "https://github.com/goetas",
+            "https://twitter.com/goetas_asmir",
+            "https://linkedin.com/in/goetas",
+            "https://www.facebook.com/goetas",
+            "https://www.facebook.com/goetasDev"
+          ]
+        }
+        </script>
+    
+            <script type="application/ld+json">
+        {
+         "@context": "http://schema.org",
+         "@type": "BlogPosting",
+         "headline": "Why JavaScript Deserves Dependency Injection",
+         "image": "http://example.com/image.jpg",
+         "datePublished": "2025-06-18",
+         "dateModified": "2025-06-18",
+         "description": "The&#x20;evolution&#x20;of&#x20;JavaScript&#x20;from&#x20;client-side&#x20;to&#x20;server-side&#x20;has&#x20;invalidated&#x20;many&#x20;reasons&#x20;for&#x20;avoiding&#x20;Dependency&#x20;Injection.&#x20;This&#x20;post&#x20;explores&#x20;how&#x20;Dependency&#x20;Injection&#x20;can&#x20;be&#x20;used&#x20;in&#x20;JavaScript&#x20;and&#x20;highlights&#x20;its&#x20;advantages&#x20;beyond&#x20;testing.",
+         "author": {
+            "@type": "Person",
+              "name": "Asmir Mustafic",
+              "url": "https://www.goetas.com",
+              "sameAs": [
+                "https://github.com/goetas",
+                "https://twitter.com/goetas_asmir",
+                "https://linkedin.com/in/goetas",
+                "https://www.facebook.com/goetas",
+                "https://www.facebook.com/goetasDev"
+              ]
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Asmir Mustafic",
+            "logo": "https://www.goetas.com/favicon.ico"
+          },
+          "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https://www.goetas.com/blog/why-javascript-deserves-dependency-injection/"
+          }
+         }
+        </script>
+    
+            <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.goetas.com/blog//",
+              "name": "Blog"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.goetas.com/blog/why-javascript-deserves-dependency-injection/",
+              "name": "Why JavaScript Deserves Dependency Injection"
+            }
+          }]
+        }
+        </script>
+        <link rel="stylesheet" href="/js/highlight/styles/qtcreator_light.css">
+
+                <meta name="description" content="The evolution of JavaScript from client-side to server-side has invalidated many reasons for avoiding Dependency Injection. This post explores how Dependency Injection can be used in JavaScript and highlights its advantages beyond testing. ">
+        <meta name="twitter:description" content="The evolution of JavaScript from client-side to server-side has invalidated many reasons for avoiding Dependency Injection. This post explores how Dependency Injection can be used in JavaScript and highlights its advantages beyond testing. ">
+        <meta name="og:description" content="The evolution of JavaScript from client-side to server-side has invalidated many reasons for avoiding Dependency Injection. This post explores how Dependency Injection can be used in JavaScript and highlights its advantages beyond testing. ">
+        <meta property="og:type"  content="article" />
+    
+            <meta name="keywords" content="design-patterns, dependency-injection, software-development, testing, developer-experience, javascript, typescript, ">
+    
+</head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<div class="culmn">
+    <!--Home page style-->
+    <nav class="navbar navbar-default bootsnav navbar-fixed">
+        <div class="navbar-top bg-grey fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-callus text-left sm-text-center">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="mailto:info@goetas.com"><i class="fas fa-envelope"></i> Contact: info@goetas.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 hidden-xs">
+                        <div class="navbar-socail text-right sm-text-center">
+                            <ul class="list-inline">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase - Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">
+                    Asmir Mustafic
+                                            <span class="subtitle">Lead Software Engineer and Manager</span>
+                                    </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- navbar menu -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/" >Services</a></li>
+                    <li><a href="/projects/" >Projects</a></li>
+                    <li><a href="/blog/"  class="active">Blog</a></li>
+                    <li><a href="/talks/" >Talks</a></li>
+                    <li><a href="/opensource/" >Open Source</a></li>
+
+                    <li><a href="/contact/" >Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+    
+    <article>
+        
+                <div class="breadcrumb">
+           <a href="/blog/">Blog</a> &raquo;
+
+            
+            <i>Why JavaScript Deserves Dependency Injection</i>
+        </div>
+        
+        <header>
+            <h1>Why JavaScript Deserves Dependency Injection</h1>
+        </header>
+
+                <p class="subtitle">
+                            The evolution of JavaScript from client-side to server-side has invalidated many reasons for avoiding Dependency Injection. This post explores how Dependency Injection can be used in JavaScript and highlights its advantages beyond testing.
+
+                    </p>
+
+        
+        
+        
+        
+            
+                        
+                    
+                <div class="col-md-5 hidden-xs related-posts">
+                                
+                                
+                                <!--                -->
+                    <div class="related-posts_container">
+                        <h4>Related</h4>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="related-posts_item">
+                            <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/">Dependency Injection: Why it matters not only for testing</a>
+                        </div>
+                                                                                <div class="related-posts_item">
+                            Why JavaScript Deserves Dependency Injection
+                        </div>
+                                                
+                    </div>
+                            
+        </div>
+        
+                        
+
+
+        <div class="m-top-20">
+                                    
+            
+                <div class="m-top-20">
+                    <time datetime="2025-6-18">
+                        <i class="fa fa-calendar"></i>
+                        2025-06-18                    </time>
+                </div>
+
+                        
+                    </div>
+
+
+
+        <div  class="m-top-20 layout-post">
+            
+
+            <p>In my <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/">previous post</a>, 
+I discussed Dependency Injection (DI) and how it improves overall developer experience (DX).</p>
+
+<p>This post focuses on JavaScript developers and addresses some of the most common reasons for avoiding DI.</p>
+
+<p>Dependency Injection isn’t a new concept. It has been widely used in ecosystems like Java, .NET, PHP, and others. 
+It is not magic—it is simply a way to organize code so that dependencies are provided externally rather than hardcoded internally.</p>
+
+<h2 id="starting-from-the-beginning">Starting from the Beginning</h2>
+
+<p>JavaScript began as a frontend language for browsers, where the code needed to be transferred over the network. 
+In that context, there were valid reasons to avoid DI frameworks:</p>
+
+<ul>
+<li><strong>Bundle size matters</strong>: A centralized DI container can increase code size, and workarounds to avoid this are often complex.</li>
+<li><strong>Bundle chunking/tree shaking</strong>: Splitting dependencies becomes more challenging.</li>
+<li><strong>Minification issues</strong>: DI metadata (such as variable names) can be removed during minification, breaking reflection-based DI frameworks.</li>
+<li><strong>Immature decorators</strong>: JavaScript decorators are not yet fully mature, making them harder to use for DI compared to annotations in languages like Java or PHP.</li>
+</ul>
+
+<p>These constraints led JavaScript developers to adopt a mindset of keeping things as simple as possible.</p>
+
+<h2 id="enter-node.js">Enter Node.js</h2>
+
+<p>With the advent of Node.js, JavaScript expanded to server-side applications, enabling services, APIs, and background jobs.</p>
+
+<p>On the server, the constraints changed:</p>
+
+<ul>
+<li><strong>No network concerns</strong>: Bundle size is no longer a critical issue.</li>
+<li><strong>No need for minification</strong>: Code does not need to be minified for server-side applications.</li>
+<li><strong>Cheap resources</strong>: Disk space and RAM are inexpensive.</li>
+</ul>
+
+<p>The valid reasons for avoiding DI in browser-based JavaScript disappeared in the server context. 
+However, the mindset of "keeping things simple" persisted.</p>
+
+<h2 id="the-myth-of-the-%22simple%22-codebase">The Myth of the "Simple" Codebase</h2>
+
+<p>What happens in these “simple” codebases? For small libraries or single-endpoint services, this approach may work. 
+But as the codebase grows to 10k lines, 50k lines, or more, the simplicity fades.</p>
+
+<p>Large JavaScript projects often consist of tens or hundreds of files that manually import the same services, 
+wiring dependencies between functions/classes in inconsistent ways. 
+Global patches are applied because there’s no clean way to swap dependencies during testing. 
+Suddenly, 30% of your code is not business logic — it’s wiring.</p>
+
+<p>When changes are needed, such as adding a dependency to an existing function/class, 
+developers must hunt down every instance where it is directly used. How is that simple? 
+Onboarding new developers becomes a challenge.</p>
+
+<h2 id="javascript-with-and-without-di">JavaScript with and without DI</h2>
+
+<p>JavaScript supports multiple paradigms, including functional, object-oriented, and procedural styles. 
+When using an object-oriented style, JavaScript’s classes and decorators can implement Dependency Injection 
+in a way similar to what is done in Java or PHP.</p>
+
+<p>Let’s consider a simple example of a service that reads a configuration file and returns a server URL.</p>
+
+<h3 id="without-di">Without DI</h3>
+
+<p>A plain TypeScript implementation without DI might look like this:</p>
+
+<pre><code class="typescript">// server-url-provider.ts
+import fs from 'fs';
+
+export function getServerURL(fileName: string): string {
+  const json = JSON.parse(fs.readFileSync(fileName, 'utf-8'));
+  return json.url;
+}
+</code></pre>
+
+<pre><code class="typescript">// main.ts (the main entry point of the application)
+import { getServerURL } from './server-url-provider';
+const serverURL = getServerURL('config.json');
+</code></pre>
+
+<p>This seems simple, but:</p>
+
+<ol>
+<li>How can you test <code>getServerURL</code> without creating a physical file to read?</li>
+<li>What if you need to include the currently logged-in user in the <code>getServerURL</code> function to provide a different path based on the user?</li>
+</ol>
+
+<p>For problem #1, over time JavaScript has developed various patching techniques to test some "hard-to-test" code using 
+various mocking libraries and relying on global state.
+Most of them wouldn't be needed if Dependency Injection was more common in JavaScript.</p>
+
+<p><a href="https://www.browserstack.com/guide/jest-mock-fetch-requests">This example</a> shows how to mock the <code>fetch</code> API using Jest. 
+It works but overrides the global <code>fetch</code> function, which can lead to unexpected behavior in other parts of the codebase.</p>
+
+<p>For problem #2, you might try to add a second argument to the <code>getServerURL</code> function to pass the user information:</p>
+
+<pre><code class="typescript">import fs from 'fs';
+
+export function getServerURL(fileName: string, userId: string): string {
+  const json = JSON.parse(fs.readFileSync(`users/${userId}/` + fileName, 'utf-8'));
+  return json.url;
+}
+</code></pre>
+
+<p>This approach has drawbacks: <strong><code>getServerURL</code> might be used in dozens of places,
+and you would need to update all of them to pass the user information.</strong></p>
+
+<p>Alternatively, you might try to use a global state to get the user information, like this:</p>
+
+<pre><code class="typescript">import fs from 'fs';
+import session from 'app/session';
+
+export function getServerURL(fileName: string): string {
+  const json = JSON.parse(fs.readFileSync(`users/${session.getUser().id}/` + fileName, 'utf-8'));
+  return json.url;
+}
+</code></pre>
+
+<p>While this approach seems better, it introduces a global state dependency (<code>session</code>), making the code harder to test and reason about.
+Another example: what happens if there is no session because the code is running a background job? 
+The <code>getServerURL</code> function becomes tightly coupled to the session management, making it less reusable in contexts where sessions are absent.</p>
+
+<h3 id="with-di">With DI</h3>
+
+<p>In this example, I will use <a href="https://inversify.io/">InversifyJS</a> DI framework to show how you can achieve better modularity and testability.</p>
+
+<p>We define a <code>Reader</code> interface that abstracts the file reading functionality.</p>
+
+<pre><code class="typescript">// reader.ts
+export interface Reader {
+  read(fileName: string): string;
+}
+</code></pre>
+
+<p>Then we implement a <code>ServerUrlProvider</code> class that uses this interface to read the data and return it as a string.</p>
+
+<pre><code class="typescript">// server-url-provider.ts 
+import { Reader } from './reader';
+import { inject, injectable } from 'inversify';
+
+@injectable()
+export class ServerUrlProvider {
+    constructor(@inject('Reader') private fileReader: Reader) {
+    }
+
+    getServerURL(fileName: string): string {
+        const json = JSON.parse(this.fileReader.read(fileName));
+        return json.url;
+    }
+}
+</code></pre>
+
+<p>You can see that the <code>ServerUrlProvider</code> class depends on a <code>Reader</code> interface 
+but is totally unaware of the actual implementation of that interface.</p>
+
+<p>Note the use of decorators from InversifyJS:</p>
+
+<ul>
+<li>The <code>@injectable()</code> decorator marks the class as injectable, allowing it to be used in the DI container.</li>
+<li>The <code>@inject()</code> decorator specifies that the <code>fileReader</code> dependency should be injected into the constructor, 
+searching in the DI container for a dependency registered under the name <code>Reader</code>.</li>
+</ul>
+
+<pre><code class="typescript">// file-system-reader.ts 
+import fs from 'fs';
+import { injectable } from 'inversify';
+
+@injectable()
+export class FileSystemReader implements Reader {
+  read(fileName: string): string {
+    return fs.readFileSync(fileName, 'utf-8');
+  }
+}
+</code></pre>
+
+<p>This is just one possible implementation of the <code>Reader</code> interface. You can have multiple implementations, 
+such as reading from a database, an API, or even a mock file system.</p>
+
+<p>Then we can define a Dependency Injection container to manage our dependencies:</p>
+
+<pre><code class="typescript">// di.ts (Dependency Injection Container definition)
+import { Container } from 'inversify';
+import { ServerUrlProvider } from './server-url-provider';
+import { Reader } from './reader';
+import { FileSystemReader } from './file-system-reader';
+
+const container: Container = new Container();
+
+container.bind&lt;Reader&gt;('Reader').to(FileSystemReader);
+container.bind&lt;ServerUrlProvider&gt;('ServerUrlProvider').to(ServerUrlProvider);
+
+export default container;
+</code></pre>
+
+<p>This part is where the all the available services are defined. 
+It is important to notice that at this point we are not worrying about 
+resolving the dependencies; we are just defining them.
+The DI container will take care of invoking the constructors and passing the needed dependencies them when needed.
+Order of definition does not matter either.</p>
+
+<p>If you have circular dependencies, there are ways to resolve them, but I would recommend avoiding them as much as possible.</p>
+
+<p>JavaScript DI frameworks like <a href="https://github.com/microsoft/tsyringe">microsoft/tsyringe</a> do not require this last step, 
+but they do not fully support interfaces (because of the way TypeScript is translated into JavaScript).</p>
+
+<p>Finally, we can use the <code>ServerUrlProvider</code> in our main application code:</p>
+
+<pre><code class="typescript">// main.ts
+import 'reflect-metadata';
+import container from './di';
+
+const serverUrlProvider: ServerUrlProvider = container.get('ServerUrlProvider');
+
+const serverURL = serverUrlProvider.getServerURL('config.json');
+</code></pre>
+
+<p>This version may seem verbose, but it shines when complexity increases.</p>
+
+<h4 id="testing">Testing</h4>
+
+<p>Testing the <code>ServerUrlProvider</code> is straightforward. You can create a mock <code>Reader</code> implementation that returns predefined JSON data.</p>
+
+<pre><code class="typescript"><br />const mockReader = new class implements Reader {
+   read(fileName: string): string {
+      return '{"url": "http://localhost:3000"}'; // Mocked response
+   }
+}();
+
+const provider = new ServerUrlProvider(mockReader);
+const serverURL = provider.getServerURL('config.json');
+expect(serverURL).toBe('http://localhost:3000');
+</code></pre>
+
+<p>As you can see, the test does not depend on any file system operations, nor does it need complex mocking libraries.</p>
+
+<h4 id="adding-new-dependencies">Adding New Dependencies</h4>
+
+<p><strong>If you need the currently logged-in user, you can simply inject a <code>CurrentUserProvider</code> service. 
+   You do not need to worry about finding all the places where <code>ServerUrlProvider</code> was used, 
+   nor do you need to worry about the dependencies needed for the <code>CurrentUserProvider</code> service.</strong></p>
+
+<p>Adding a new dependency to the <code>ServerUrlProvider</code> is as simple as:</p>
+
+<pre><code class="typescript">// server-url-provider.ts 
+
+@injectable()
+export class ServerUrlProvider {
+    constructor(
+        @inject('Reader') private fileReader: Reader,
+        @inject('CurrentUserProvider') private currentUserProvider: CurrentUserProvider,
+    ) {}
+}
+</code></pre>
+
+<p>If <code>CurrentUserProvider</code> is already registered in the DI container, no additional changes are needed.</p>
+
+<p>No need to worry about finding all the places where <code>ServerUrlProvider</code> was used.
+Of course, if we did not already have <code>CurrentUserProvider</code>, we would need to implement and register it, but that 
+would have been done anyway, even if we were not using DI.</p>
+
+<p>With DI, we can have different implementations of the <code>CurrentUserProvider</code> service based on the context (web or background job), 
+and our <code>ServerUrlProvider</code> does not need to know about it.</p>
+
+<pre><code class="typescript">container.bind&lt;CurrentUserProvider&gt;('CurrentUserProvider').to( 
+    backgroundJob 
+            ? ConsoleCurrentUserProvider
+            : SessionCurrentUserProvider
+);
+
+</code></pre>
+
+<h2 id="dx-developer-experience">DX (developer experience)</h2>
+
+<p>As I mentioned in my <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/">previous post</a>,
+an advantage of Dependency Injection is that as a developer, you do not need to worry if a service "can get the dependencies it needs".
+Questions as "Can I use this service in this context?" or "Does the parent scope/function have all the dependencies it needs this service?"</p>
+
+<p>When the service is registered in the DI container (in our example <code>CurrentUserProvider</code>), 
+it is guaranteed that any service requesting it with the<code>@inject</code> decorator, will be able to obtain it when declared as constructor argument.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Dependency Injection is a powerful design pattern that significantly improves the maintainability, testability, and scalability of JavaScript applications. 
+It is especially valuable as codebases grow in size and complexity.</p>
+
+<p>Even languages not traditionally associated with DI, such as Go (<a href="https://github.com/uber-go/dig">1</a>) or Rust (<a href="https://docs.rs/shaku/latest/shaku/">2</a>), 
+are adopting it to manage complexity.</p>
+
+<p>If you are using frameworks like <a href="https://nestjs.com/">NestJS</a> or <a href="https://angular.io/">Angular</a>, you are likely already using DI. 
+For custom applications, consider using frameworks like <a href="https://inversify.io/">InversifyJS</a> or <a href="https://github.com/microsoft/tsyringe">microsoft/tsyringe</a>.</p>
+
+<p>In my <a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/#developer-experience%3A-the-real-win-of-dependency-injection">previous post</a>, I mentioned some of the DI benefits regarding developer experience.</p>
+
+<h2 id="looking-ahead">Looking Ahead</h2>
+
+<p>While this post focuses on DI in an object-oriented style, JavaScript also supports functional programming. 
+In my next post, I will explore how DI can be applied in a functional programming style.</p>
+
+        </div>
+
+
+
+                <div class="business_btn roomy-40-positive">
+            
+
+
+
+
+        </div>
+        
+                            
+                    <p class="tags m-top-50">
+                <i class="fa fa-tags"></i>
+                                <a href="/blog/tags/design-patterns/" rel="nofollow">design-patterns</a>,                                 <a href="/blog/tags/dependency-injection/" rel="nofollow">dependency-injection</a>,                                 <a href="/blog/tags/software-development/" rel="nofollow">software-development</a>,                                 <a href="/blog/tags/testing/" rel="nofollow">testing</a>,                                 <a href="/blog/tags/developer-experience/" rel="nofollow">developer-experience</a>,                                 <a href="/blog/tags/javascript/" rel="nofollow">javascript</a>,                                 <a href="/blog/tags/typescript/" rel="nofollow">typescript</a>                            </p>
+        
+                <div class="row visible-xs">
+            <div class="col-xs-12 related-posts">
+                                    
+                                    
+            </div>
+        </div>
+        
+        
+                <div class="share-on-socials">
+            <div>Share or comment on:</div>
+
+            <div  class="m-top-10 share-on-socials-buttons">
+                <!-- Twitter (url, text, @mention) -->
+                <a href="http://twitter.com/share?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fwhy-javascript-deserves-dependency-injection&text=I%27ve%20just%20read%20%22Why%20JavaScript%20Deserves%20Dependency%20Injection%22%20by%20%40goetas_asmir" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i> X / Twitter
+                </a>
+
+                <!-- Reddit (url, title) -->
+                <a href="http://reddit.com/submit?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fwhy-javascript-deserves-dependency-injection&title=Why%20JavaScript%20Deserves%20Dependency%20Injection%20-%20Asmir%20Mustafic" target="_blank" class="share-btn reddit">
+                    <i class="fab fa-reddit"></i> Reddit
+                </a>
+
+                <!-- LinkedIn (url, title, summary, source url) -->
+                <a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.goetas.com%2Fblog%2Fwhy-javascript-deserves-dependency-injection&title=Why%20JavaScript%20Deserves%20Dependency%20Injection%20-%20Asmir%20Mustafic&summary=The%20evolution%20of%20JavaScript%20from%20client-side%20to%20server-side%20has%20invalidated%20many%20reasons%20for%20avoiding%20Dependency%20Injection.%20This%20post%20explores%20how%20Dependency%20Injection%20can%20be%20used%20in%20JavaScript%20and%20highlights%20its%20advantages%20beyond%20testing.%0A&source=https://www.goetas.com" target="_blank" class="share-btn linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+            </div>
+        </div>
+        
+                    <nav class="article  m-top-50 hidden-xs">
+                <div class="row">
+
+                                            <div class="col-md-5   article-pagination article-pagination-prev">
+                            <div>
+                                <a class="previous" href="/blog/dependency-injection-why-it-matters-not-only-for-testing/" title="Dependency Injection: Why it matters not only for testing">
+                                    <span class="article-pagination-icon"><i class="fa fa-chevron-circle-left"></i> Previous </span>
+                                    <span class="title">Dependency Injection: Why it matters not only for testing</span>
+                                </a>
+                            </div>
+                        </div>
+                                                        </div>
+
+            </nav>
+        
+    </article>
+
+        <!--Call to  action section-->
+    <section id="action" class="action bg-primary roomy-40">
+        <div class="container">
+            <div class="row">
+                <div class="maine_action">
+                    <div class="col-md-8">
+                        <div class="action_item text-center">
+                            <h4 class="text-white text-uppercase">
+                                                                                                            Want more info?
+                                                                                                </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="action_btn text-left sm-text-center">
+                            <a href="/contact/" class="btn btn-default">
+                                                                    Get in touch
+                                </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer id="contact" class="footer action-lage bg-black p-top-80">
+                <div class="container">
+            <div class="row">
+                <div class="widget_area">
+                    <div class="col-md-3">
+                        <div class="widget_item widget_about">
+                            <h5 class="text-white">About</h5>
+                            <p class="m-top-20">
+                                Lead Software Engineer and Manager.
+                                <br>
+                                Helping companies to solve architecture and infrastructure problems.
+                            </p>
+
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-map-marked"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Location</h6>
+                                    <p>Berlin - Germany - World</p>
+                                </div>
+                            </div>
+                            <div class="widget_ab_item m-top-30">
+                                <div class="item_icon"><i class="fas fa-envelope"></i></div>
+                                <div class="widget_ab_item_text">
+                                    <h6 class="text-white">Email Address :</h6>
+                                    <p><a href="mailto:info@goetas.com" style="color: #797979">info@goetas.com</a></p>
+                                </div>
+                            </div>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_service sm-m-top-50">
+                            <h5 class="text-white">Latest Blog Posts
+                                &nbsp;<a href="/atom.xml" target="_blank" title="Blog feed"><i class="fas fa-rss-square"></i></a>
+                            </h5>
+                            <ul class="m-top-20">
+                                                                    <li class="m-top-20"><a href="/blog/why-javascript-deserves-dependency-injection/"><i class="fas fa-angle-right"></i>Why JavaScript Deserves Dependency Injection</a></li>
+                                                                    <li class="m-top-20"><a href="/blog/dependency-injection-why-it-matters-not-only-for-testing/"><i class="fas fa-angle-right"></i>Dependency Injection: Why it matters not only for testing</a></li>
+                                                                    <li class="m-top-20"><a href="/blog/multi-namespace-migrations-with-doctrinemigrations-30/"><i class="fas fa-angle-right"></i>Multi-namespace migrations with doctrine/migrations 3.0</a></li>
+                                                                    <li class="m-top-20"><a href="/blog/released-doctrinemigrations-30-alpha/"><i class="fas fa-angle-right"></i>Released doctrine/migrations 3.0-alpha</a></li>
+                                                            </ul>
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+
+                    <div class="col-md-3">
+                        <div class="widget_item widget_newsletter sm-m-top-50">
+                            <div class="widget_brand m-top-40">
+                                <a href="/" class="widget_brand-main-link text-uppercase">Asmir Mustafic</a>
+                                <p>
+                                    Lead Software Engineer and Manager
+                                    <br>
+                                    <a href="/credits/" style="color: #797979">Impressum</a>
+                                </p>
+                            </div>
+                            <ul class="list-inline m-top-20">
+                                <li><a target="_blank" href="https://twitter.com/goetas_asmir" title="Twitter - Asmir Mustafic"><i class="fab fa-twitter"></i></a></li>
+                                <li><a target="_blank" href="https://linkedin.com/in/goetas" title="LinkedIn - Asmir Mustafic"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://github.com/goetas" title="Github - Asmir Mustafic"><i class="fab fa-github"></i></a></li>
+                                <li><a target="_blank" href="https://keybase.io/goetas" title="keybase - Asmir Mustafic"><i class="fab fa-keybase"></i></a></li>
+
+                            </ul>
+
+                        </div><!-- End off widget item -->
+                    </div><!-- End off col-md-3 -->
+                </div>
+            </div>
+        </div>
+        <div class="main_footer fix bg-mega text-center p-top-40 p-bottom-30 m-top-80">
+            <div class="col-md-12">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Asmir Mustafic. All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+    
+<script src="/js/combined-89009af45ae96d51be4ea3b08dcbe284e02c8589.js"></script>
+
+    <script src="/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+    new LazyLoad({
+        elements_selector: ".lazy"
+    });
+</script>
+
+</body>
+</html>
